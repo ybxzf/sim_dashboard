@@ -1,4 +1,4 @@
-// import './assets/main.css'
+import './assets/base.less';
 import { createApp } from 'vue'
 
 // 安装pinia
