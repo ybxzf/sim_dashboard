@@ -37,4 +37,7 @@ export default defineConfig({
       ],
     },
   },
+  build: {
+    outDir: 'sim-dashboard' // 设置打包文件夹的名称为'sim-dashboard'
+  },
 });
