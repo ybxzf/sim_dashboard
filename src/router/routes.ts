@@ -3,7 +3,7 @@ import Home from "@/views/microPowerGrid/index.vue";
 export const routes: any = [
   {
     path: "/",
-    redirect: "/home",
+    redirect: "home",
   },
   {
     path: "/home",
