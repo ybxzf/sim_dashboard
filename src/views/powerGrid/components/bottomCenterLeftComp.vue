@@ -1,7 +1,7 @@
 <template>
     <div class="flex-item">
         <div>
-            bottom-left
+            bottom-center-left
         </div>
     </div>
 </template>
