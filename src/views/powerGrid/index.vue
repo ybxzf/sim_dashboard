@@ -31,17 +31,17 @@
             </el-col>
         </el-row>
         <el-row class="pg-bottom-ctn">
-            <el-col class="pg-bottom-left" :span="8">
+            <el-col class="pg-bottom-left" :span="6">
                 <bottomLeftComp />
-
             </el-col>
-            <el-col class="pg-bottom-center" :span="8">
-                <bottomCenterComp />
-
+            <el-col class="pg-bottom-center" :span="6">
+                <bottomCenterLeftComp />
             </el-col>
-            <el-col class="pg-bottom-right" :span="8">
+            <el-col class="pg-bottom-right" :span="6">
+                <bottomCenterRightComp />
+            </el-col>
+            <el-col class="pg-bottom-right" :span="6">
                 <bottomRightComp />
-
             </el-col>
         </el-row>
     </div>
@@ -55,7 +55,8 @@ import middleCenterComp from "./components/middleCenterComp.vue";
 import middleRightTopComp from "./components/middleRightTopComp.vue";
 import middleRightBottomComp from "./components/middleRightBottomComp.vue";
 import bottomLeftComp from "./components/bottomLeftComp.vue";
-import bottomCenterComp from "./components/bottomCenterComp.vue";
+import bottomCenterLeftComp from "./components/bottomCenterLeftComp.vue";
+import bottomCenterRightComp from "./components/bottomCenterRightComp.vue";
 import bottomRightComp from "./components/bottomRightComp.vue";
 
 onMounted(() => {
