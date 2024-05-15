@@ -19,7 +19,7 @@ export default defineConfig({
       },
     },
   },
-  // base: '/sim-dashboard',
+  base: '/sim-dashboard',
   resolve: {
     alias: {
       "@": fileURLToPath(new URL("./src", import.meta.url)),
