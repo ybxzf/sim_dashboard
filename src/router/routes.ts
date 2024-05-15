@@ -1,4 +1,4 @@
-import Home from "@/views/powerGrid/index.vue";
+import Home from "@/views/microPowerGrid/index.vue";
 
 export const routes: any = [
   {
