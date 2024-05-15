@@ -1,13 +1,13 @@
 <template>
-    <div class="home">开发主页
+    <div class="home">
+        <router-view />
     </div>
 </template>
 <script setup lang="ts">
+import { RouterView } from 'vue-router'
+import { onMounted, ref } from 'vue'
+
+
 </script>
 
-<style lang="less" scoped>
-.home {
-    height: 100%;
-    border: 1px solid red;
-}
-</style>
+<style lang="less" scoped></style>
