@@ -68,12 +68,12 @@ const init = async () => { };
 .pg-ctn {
     width: 120rem;
     height: 67.5rem;
-    background-image: url('../../assets/images/dashboard-new-1.1.png');
+    // background-image: url('../../assets/images/dashboard-new-1.1.png');
     background-size: 100% 100%;
     overflow-x: hidden !important;
 
     .pg-title-ctn {
-        height: 5.1923rem;
+        height: 5rem;
     }
 
     .pg-middle-ctn {
@@ -81,6 +81,10 @@ const init = async () => { };
 
         .pg-middle-left {
             height: 41.5385rem;
+
+            >* {
+                height: 20.7692rem;
+            }
         }
 
         .pg-middle-center {
@@ -89,6 +93,10 @@ const init = async () => { };
 
         .pg-middle-right {
             height: 41.5385rem;
+
+            >* {
+                height: 20.7692rem;
+            }
         }
     }
 
