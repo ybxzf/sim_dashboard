@@ -1,5 +1,5 @@
 <template>
-    <div class="flex-item">
+    <div class="flex-item-ctn">
         title
     </div>
 </template>
@@ -13,5 +13,5 @@ onMounted(() => {
 });
 </script>
 <style lang="less" scoped>
-.flex-item {}
+.flex-item-ctn {}
 </style>
