@@ -34,11 +34,13 @@
             <el-col class="pg-bottom-left" :span="6">
                 <bottomLeftComp />
             </el-col>
-            <el-col class="pg-bottom-center" :span="6">
-                <bottomCenterLeftComp />
-            </el-col>
-            <el-col class="pg-bottom-right" :span="6">
-                <bottomCenterRightComp />
+            <el-col class="pg-bottom-center" :span="12">
+                <div class="pg-bottom-center-left" :span="12">
+                    <bottomCenterLeftComp />
+                </div>
+                <div class="pg-bottom-center-right" :span="12">
+                    <bottomCenterRightComp />
+                </div>
             </el-col>
             <el-col class="pg-bottom-right" :span="6">
                 <bottomRightComp />
@@ -68,7 +70,7 @@ const init = async () => { };
 .pg-ctn {
     width: 120rem;
     height: 67.5rem;
-    // background-image: url('../../assets/images/dashboard-new-1.1.png');
+    background-image: url('../../assets/images/microPowerGrid/bg.png');
     background-size: 100% 100%;
     overflow-x: hidden !important;
 
@@ -102,6 +104,21 @@ const init = async () => { };
 
     .pg-bottom-ctn {
         height: 20.7692rem;
+
+        .pg-bottom-center {
+            height: 20.7692rem;
+            display: flex;
+            background-image: url('../../assets/images/microPowerGrid/item_border_2.png');
+            background-size: 97% 92%;
+            background-position: center;
+            /* 防止背景图片重复 */
+            background-repeat: no-repeat;
+
+            >* {
+                width: 30rem;
+            }
+
+        }
     }
 }
 </style>

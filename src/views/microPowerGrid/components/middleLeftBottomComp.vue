@@ -2,8 +2,11 @@
     <div class="flex-item-ctn">
         <div class="flex-item">
             <div class="item-title">
-                <span @click="init('day')">日发电量</span>
-                <span @click="init('week')">周发电量</span>
+                <span style="width: 13rem;">光伏发电情况</span>
+                <div class="chart-button">
+                    <span @click="init('day')">日发电量</span>
+                    <span @click="init('week')">周发电量</span>
+                </div>
             </div>
             <div ref="lineChart" class="item-chart"></div>
         </div>
@@ -12,6 +15,7 @@
 <script setup lang="ts">
 import { ref, reactive, watch, onMounted, onBeforeUnmount } from "vue";
 import * as echarts from 'echarts';
+import { split } from "postcss/lib/list";
 
 const lineChart = ref<any>();
 const xAxisData = ref<any>([]);
@@ -34,7 +38,7 @@ let option: any = {
         axisLabel: {
             interval: 0,//显示所有标签
             textStyle: {
-                color: '#000',
+                color: '#fff',
                 fontSize: '0.75rem',
             }
         },
@@ -42,10 +46,16 @@ let option: any = {
     },
     yAxis: {
         name: '单位：千瓦时',
+        nameTextStyle: {
+            color: '#fff' // 设置为红色
+        },
         type: 'value',
+        splitLine: {
+            show: false,    //横线显示
+        },
         axisLabel: {
             textStyle: {
-                color: '#000',
+                color: '#fff',
                 fontSize: '0.75rem',
             }
         },
@@ -74,7 +84,7 @@ let option: any = {
                     },
                     {
                         offset: 1,
-                        color: '#fff',
+                        color: 'rgba(255, 255, 255, 0)',
                     },
                 ],
                 global: false,
@@ -128,7 +138,7 @@ async function elecTotal(dateType: string) {
 .flex-item-ctn {
     display: block;
 
-    .item-title {
+    .chart-button {
         border: 1px solid #83eeb0;
         height: 2.7rem;
         font-size: 1rem;

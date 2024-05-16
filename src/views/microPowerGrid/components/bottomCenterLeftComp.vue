@@ -7,7 +7,7 @@
             <div class="item-content">
                 <div class="content-title">运行概况</div>
                 <div class="content-cnt">
-                    
+
                 </div>
             </div>
         </div>
@@ -26,6 +26,7 @@ const init = async () => { };
 .flex-item-ctn {
     display: block;
     font-size: 1rem;
+    background-image: url('');
 
     .flex-item {
         padding: 0 1rem 1rem 1rem;

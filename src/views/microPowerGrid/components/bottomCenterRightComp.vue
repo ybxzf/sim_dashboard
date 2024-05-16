@@ -122,6 +122,7 @@ const init = async () => {
 .flex-item-ctn {
     display: block;
     font-size: 1rem;
+    background-image: url('');
 
     .item-title {
         border: 1px solid #53ff5b;
