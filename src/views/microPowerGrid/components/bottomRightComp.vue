@@ -1,5 +1,5 @@
 <template>
-    <div class="flex-item">
+    <div class="flex-item-ctn">
         <div>
             bottom-right
         </div>
