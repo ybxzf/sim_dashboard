@@ -2,6 +2,7 @@
     <div class="flex-item-ctn">
         <div class="flex-item">
             <div class="item-title">
+                <img src="../../../assets//images//microPowerGrid/mini_title.png">
                 <span>实时功率</span>
             </div>
             <div>
@@ -27,10 +28,14 @@ let option: any = {
             label: {
                 backgroundColor: '#6a7985'
             }
-        }
+        },
+        formatter: '{a} <br/>{b}: {c}KW',
     },
     legend: {
-        data: ['总功率', '室内温度',]
+        data: ['总功率', '室内温度',],
+        textStyle: {
+            color: '#fff',
+        },
     },
     xAxis: {
         type: 'category',
@@ -38,7 +43,7 @@ let option: any = {
         axisLabel: {
             interval: 0,//显示所有标签
             textStyle: {
-                color: '#000',
+                color: '#fff',
                 fontSize: '0.75rem',
             }
         },
@@ -46,10 +51,16 @@ let option: any = {
     },
     yAxis: {
         name: '单位：KW',
+        nameTextStyle: {
+            color: '#fff' // 设置为白色
+        },
         type: 'value',
+        splitLine: {
+            show: false,    //横线显示
+        },
         axisLabel: {
             textStyle: {
-                color: '#000',
+                color: '#fff',
                 fontSize: '0.75rem',
             }
         },
@@ -78,17 +89,18 @@ const init = async () => {
         {
             name: '总功率',
             data: [820, 932, 901, 934, 890, 1330, 1320, 820, 932, 901, 934, 1290, 1330],
-            color: '#53ff5b',
+            color: 'rgb(131, 238, 176, 0.5)',
         },
         {
             name: '室内温度',
             data: [800, 902, 781, 834, 1090, 1130, 1020, 800, 732, 801, 834, 1200, 1200],
-            color: '#65d3ff',
+            color: 'rgb(101, 211, 255, 0.5)',
         },
     ];
     option.xAxis.data = xAxisData.value;
     option.series = seriesData.value.map((item: any) => {
         item.type = 'line';
+        item.smooth = true; //平滑
         item.areaStyle = {
             color: {
                 type: 'linear',
@@ -125,18 +137,25 @@ const init = async () => {
     background-image: url('');
 
     .item-title {
-        border: 1px solid #53ff5b;
+        // border: 1px solid #53ff5b;
         height: 1.7rem;
         // font-size: 1rem;
         display: flex;
         align-items: center;
         margin-top: 2rem;
+        position: relative;
+
+        img {
+            position: absolute;
+            width: 20rem;
+            left: 1.2rem;
+        }
     }
 
     .item-chart {
         width: 100%;
         height: 15rem;
-        border: 1px solid red;
+        // border: 1px solid red;
     }
 }
 </style>
