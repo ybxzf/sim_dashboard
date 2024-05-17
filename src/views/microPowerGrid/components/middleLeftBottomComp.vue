@@ -2,10 +2,24 @@
     <div class="flex-item-ctn">
         <div class="flex-item">
             <div class="item-title">
-                <span style="width: 13rem;">光伏发电情况</span>
-                <div class="chart-button">
-                    <span @click="init('day')">日发电量</span>
-                    <span @click="init('week')">周发电量</span>
+                <span style="width: 10rem;">光伏发电情况</span>
+                <div class="chart-button-ctn">
+                    <div>
+                        <span class="chart-button-img-1" @click="init('day')">
+                            <img v-if="typeSelected === 'day'"
+                                src="../../../assets/images/microPowerGrid/button_2_click.png">
+                            <img v-else src="../../../assets/images/microPowerGrid/button_2_not_click.png">
+                        </span>
+                        <span>日发电量</span>
+                    </div>
+                    <div>
+                        <span class="chart-button-img-2" @click="init('week')">
+                            <img v-if="typeSelected === 'week'"
+                                src="../../../assets/images/microPowerGrid/button_2_click.png">
+                            <img v-else src="../../../assets/images/microPowerGrid/button_2_not_click.png">
+                        </span>
+                        <span>周发电量</span>
+                    </div>
                 </div>
             </div>
             <div ref="lineChart" class="item-chart"></div>
@@ -15,11 +29,11 @@
 <script setup lang="ts">
 import { ref, reactive, watch, onMounted, onBeforeUnmount } from "vue";
 import * as echarts from 'echarts';
-import { split } from "postcss/lib/list";
 
 const lineChart = ref<any>();
 const xAxisData = ref<any>([]);
 const seriesData = ref<any>([]);
+const typeSelected = ref<string>('day');
 
 let myChart: any = null;
 let option: any = {
@@ -30,7 +44,8 @@ let option: any = {
             label: {
                 backgroundColor: '#6a7985'
             }
-        }
+        },
+        formatter: '{a} <br/>{b}: {c}KW',
     },
     xAxis: {
         type: 'category',
@@ -47,7 +62,7 @@ let option: any = {
     yAxis: {
         name: '单位：千瓦时',
         nameTextStyle: {
-            color: '#fff' // 设置为红色
+            color: '#fff' // 设置为白色
         },
         type: 'value',
         splitLine: {
@@ -62,7 +77,7 @@ let option: any = {
     },
     grid: {
         show: false,
-        top: '15%',    // 一下数值可为百分比也可为具体像素值
+        top: '16%',    // 一下数值可为百分比也可为具体像素值
         right: '5%',
         bottom: '13%',
         left: '14%'
@@ -70,6 +85,7 @@ let option: any = {
     series: [{
         data: [],
         type: 'line',
+        smooth: true, //平滑
         areaStyle: {
             color: {
                 type: 'linear',
@@ -80,7 +96,7 @@ let option: any = {
                 colorStops: [  // 渐变颜色
                     {
                         offset: 0,
-                        color: '#83eeb0',
+                        color: 'rgb(165, 252, 184, 0.5)',
                     },
                     {
                         offset: 1,
@@ -93,11 +109,15 @@ let option: any = {
         itemStyle: {
             // 设置线条上点的颜色（和图例的颜色）
             normal: {
-                color: '#83eeb0',
+                color: 'rgb(131, 238, 176, 0.5)',
             },
         },
     }]
 };
+watch(() => typeSelected.value,
+    (_nv: string) => {
+        console.log('xx', _nv);
+    });
 onMounted(() => {
     myChart = echarts.init(lineChart.value);
     init();
@@ -106,6 +126,7 @@ onMounted(() => {
     });
 });
 const init = async (dateType: string = 'day') => {
+    typeSelected.value = dateType;
     //默认日发电量请求API
     const elecData: any = await elecTotal(dateType);
     // xAxisData.value = ['0时', '2时', '4时', '6时', '8时', '10时', '12时', '14时', '16时', '18时', '20时', '22时', '24时'];
@@ -138,28 +159,52 @@ async function elecTotal(dateType: string) {
 .flex-item-ctn {
     display: block;
 
-    .chart-button {
-        border: 1px solid #83eeb0;
-        height: 2.7rem;
-        font-size: 1rem;
-        display: flex;
-        align-items: center;
-        justify-content: end;
+    .item-title {
+        // border: 1px solid rgb(165, 252, 184);
 
-        >* {
-            margin-right: 1rem;
-            cursor: pointer;
-            border: 1px solid #83eeb0;
-            border-radius: 0.5rem;
-            padding: 0.2rem;
+        position: relative;
 
+        .chart-button-ctn {
+            // border: 1px solid #fff382;
+            width: 16rem;
+            font-size: 1rem;
+            display: flex;
+
+            >* {
+                flex: 1 1;
+                display: flex;
+                justify-content: center;
+                // border: 1px solid #83eeb0;
+                padding: 0.2rem;
+
+            }
+
+            .chart-button-img-1 {
+                >* {
+                    width: 6rem;
+                    position: absolute;
+                    right: 8.8rem;
+                    top: 0.1rem;
+                    cursor: pointer;
+                }
+            }
+
+            .chart-button-img-2 {
+                >* {
+                    width: 6rem;
+                    position: absolute;
+                    right: 1.1rem;
+                    top: 0.1rem;
+                    cursor: pointer;
+                }
+            }
         }
     }
 
     .item-chart {
         width: 100%;
         height: 16rem;
-        border: 1px solid red;
+        // border: 1px solid red;
     }
 }
 </style>
