@@ -49,7 +49,7 @@ let option: any = {
         {
             name: '电量',
             type: 'pie',
-            radius: ['40%', '47%'],
+            radius: ['40%', '45%'],
             avoidLabelOverlap: false,
             startAngle: 180,//  起始角度
             label: {
