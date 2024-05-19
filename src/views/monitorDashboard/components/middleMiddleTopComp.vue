@@ -3,7 +3,7 @@
         <div class="flex-item">
             <!-- <img src="../../../assets/images/monitorDashboard/laboratory.png"> -->
             <div class="item-ctn" :style="{
-                backgroundImage: `url('${baseURL}/public/images/monitorDashboard/laboratory.png')`,
+                backgroundImage: `url('${baseURL}images/monitorDashboard/laboratory.png')`,
             }"></div>
         </div>
     </div>

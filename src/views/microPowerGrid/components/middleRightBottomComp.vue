@@ -27,8 +27,8 @@
             <div v-if="typeSelected === 'REAL_TIME'" class="item-chart">
                 <realTimeData :content="contentData">
                     <div class="item-slot">
-                        <img :src="`${baseURL}/public/images/microPowerGrid/photovoltaic_click.png`">
-                        <img :src="`${baseURL}/public/images/microPowerGrid/city_elec_not_click.png`">
+                        <img :src="`${baseURL}images/microPowerGrid/photovoltaic_click.png`">
+                        <img :src="`${baseURL}images/microPowerGrid/city_elec_not_click.png`">
                     </div>
                 </realTimeData>
             </div>

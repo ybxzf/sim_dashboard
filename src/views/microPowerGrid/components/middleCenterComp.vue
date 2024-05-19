@@ -3,14 +3,14 @@
         <div class="flex-item">
             <div class="item-title">
                 <img class="button-img-1" @click="init('FLAT')"
-                    :src="`${baseURL}/public/images/microPowerGrid/${typeSelected === 'FLAT' ? 'button_1_click' : 'button_1_not_click'}.png`">
+                    :src="`${baseURL}images/microPowerGrid/${typeSelected === 'FLAT' ? 'button_1_click' : 'button_1_not_click'}.png`">
                 <div class="title-button">楼顶平面图</div>
                 <img class="button-img-2" @click="init('SIM')"
-                    :src="`${baseURL}/public/images/microPowerGrid/${typeSelected === 'SIM' ? 'button_1_click' : 'button_1_not_click'}.png`">
+                    :src="`${baseURL}images/microPowerGrid/${typeSelected === 'SIM' ? 'button_1_click' : 'button_1_not_click'}.png`">
                 <div class="title-button">仿真场景</div>
             </div>
             <div class="item-ctn" :style="{
-                backgroundImage: `url('${baseURL}/public/images/microPowerGrid/${typeSelected === 'SIM' ? 'middle_sim' : 'middle_flat'}.png')`,
+                backgroundImage: `url('${baseURL}images/microPowerGrid/${typeSelected === 'SIM' ? 'middle_sim' : 'middle_flat'}.png')`,
             }">
                 <div class="button-switch-scene" v-if="typeSelected === 'SIM'" @click="switchScene()"></div>
             </div>

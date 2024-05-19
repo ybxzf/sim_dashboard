@@ -9,21 +9,21 @@
             <div style="height: 19rem;">
                 <div style="height: 3rem;position: relative;">
                     <!-- <div>电磁炉</div> -->
-                    <img style="width: 9rem" :src="`${baseURL}/public/images/monitorDashboard/induction_cooker.png`">
+                    <img style="width: 9rem" :src="`${baseURL}images/monitorDashboard/induction_cooker.png`">
                 </div>
                 <div ref="lineChartRef1" class="item-chart"></div>
             </div>
             <div style="height: 19rem;">
                 <div style="height: 3rem;position: relative;">
                     <!-- <div>微波炉</div> -->
-                    <img style="width: 9rem" :src="`${baseURL}/public/images/monitorDashboard/micro-wave_cooker.png`">
+                    <img style="width: 9rem" :src="`${baseURL}images/monitorDashboard/micro-wave_cooker.png`">
                 </div>
                 <div ref="lineChartRef2" class="item-chart"></div>
             </div>
             <div style="height: 19rem;">
                 <div style="height: 3rem;position: relative;">
                     <!-- <div>洗衣机</div> -->
-                    <img style="width: 9rem" :src="`${baseURL}/public/images/monitorDashboard/wash_machine.png`">
+                    <img style="width: 9rem" :src="`${baseURL}images/monitorDashboard/wash_machine.png`">
                 </div>
                 <div ref="lineChartRef3" class="item-chart"></div>
             </div>

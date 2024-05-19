@@ -12,7 +12,7 @@
                 <div class="content-cnt">
                     <div class="content-cnt-item" v-for="(it, i) in runningData" :key="i">
                         <div class="content-cnt-item-left">
-                            <img :src="`${baseURL}/public/images/microPowerGrid/${it.imgName}.png`">
+                            <img :src="`${baseURL}images/microPowerGrid/${it.imgName}.png`">
                         </div>
                         <div class="content-cnt-item-right">
                             <div class="item-right-top">

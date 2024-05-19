@@ -1,18 +1,18 @@
 <template>
     <div class="device-ctn">
         <div class="device-left-ctn">
-            <img class="left-img-title" :src="`${baseURL}/public/images/microPowerGrid/device_label.png`">
+            <img class="left-img-title" :src="`${baseURL}images/microPowerGrid/device_label.png`">
             <div class="left-title">
                 {{ props.content?.title }}
             </div>
             <slot></slot>
             <img class="left-img-device"
-                :src="`${baseURL}/public/images/microPowerGrid/${props.content?.deviceImg}.png`">
+                :src="`${baseURL}images/microPowerGrid/${props.content?.deviceImg}.png`">
         </div>
         <div class="device-right-ctn" style="">
             <div class="right-item" v-for="(it, i) in props.content?.cont_data" :key="i">
                 <div class="item-left">
-                    <img :src="`${baseURL}/public/images/microPowerGrid/${it.iconName}.png`">
+                    <img :src="`${baseURL}images/microPowerGrid/${it.iconName}.png`">
                 </div>
                 <div class="item-right">
                     <div class="item-right-top">
