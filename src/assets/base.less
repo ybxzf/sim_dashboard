@@ -18,6 +18,20 @@
 body {
   font-size: 2rem;
   letter-spacing: 0.1rem; //字体间隔
+
+  * {
+    /* 包括 padding 和 border */
+    box-sizing: border-box;
+  }
+}
+
+//el-tooltip公共样式
+.el-popper.is-customized {
+  padding: 1rem;
+  font-size: 2rem;
+  color: #fff;
+  border: 1px solid rgb(32, 147, 255);
+  background: rgba(97, 178, 255, 0.5);
 }
 
 .flex-item-ctn {
@@ -27,7 +41,7 @@ body {
   align-items: center;
   justify-content: center;
   // border: 1px solid #cc2727;
-  background-image: url('../assets/images/microPowerGrid/item_border_1.png');
+  background-image: url('../assets/images/base/item_border_1.png');
   background-size: 94% 92%;
   background-position: center;
   /* 防止背景图片重复 */
@@ -48,7 +62,43 @@ body {
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
       display: flex;
+
       // padding-right: 1rem;
+      .chart-button-ctn {
+        // border: 1px solid #fff382;
+        width: 16rem;
+        font-size: 0.9rem;
+        display: flex;
+
+        >* {
+          flex: 1 1;
+          display: flex;
+          justify-content: center;
+          // border: 1px solid #83eeb0;
+          padding: 0.25rem;
+        }
+
+        .chart-button-img-1 {
+          >* {
+            width: 6rem;
+            position: absolute;
+            right: 8.8rem;
+            top: 0;
+            cursor: pointer;
+          }
+        }
+
+        .chart-button-img-2 {
+          >* {
+            width: 6rem;
+            position: absolute;
+            right: 1.1rem;
+            top: 0;
+            cursor: pointer;
+          }
+        }
+      }
     }
   }
+
 }

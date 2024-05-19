@@ -70,7 +70,7 @@ const init = async () => { };
 .pg-ctn {
     width: 120rem;
     height: 67.5rem;
-    background-image: url('../../assets/images/microPowerGrid/bg.png');
+    background-image: url('../../assets/images/base/bg.png');
     background-size: 100% 100%;
     overflow-x: hidden !important;
 

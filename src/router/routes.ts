@@ -1,5 +1,5 @@
 import Home from "@/views/microPowerGrid/index.vue";
-import Dashboard from "@/views/dashboard/index.vue";
+import monitorDashboard from "@/views/monitorDashboard/index.vue";
 
 export const routes: any = [
   {
@@ -12,8 +12,9 @@ export const routes: any = [
     component: Home,
   },
   {
-    path: "/dashboard",
-    name: "dashboard",
-    component: Dashboard,
+    path: "/monitorDashboard",
+    name: "monitorDashboard",
+    component: monitorDashboard,
+    // component: () => import('@/views/monitorDashboard/index.vue'),
   },
 ];

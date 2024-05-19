@@ -8,7 +8,7 @@
                 <div>{{ item.name }}</div>
                 <div :style="{ color: item.itemStyle.color }" class="item-value">{{ item.value }}</div>
             </div>
-            <div ref="lineChart" class="item-chart"></div>
+            <div ref="lineChartRef" class="item-chart"></div>
         </div>
     </div>
 </template>
@@ -16,15 +16,12 @@
 import { ref, reactive, watch, onMounted, onBeforeUnmount } from "vue";
 import * as echarts from 'echarts';
 
-const lineChart = ref<any>();
+const lineChartRef = ref<any>();
 const seriesData = ref<any>([]);
 
 let myChart: any = null;
 let option: any = {
     title: {
-        // 图形标题(如果想要换行则使用ES6 `` 模板字符串)
-        // 例如： `示例
-        //   这里的文字会变为第二行(因为会保留格式)
         text: '电量',
         left: "center",//对齐方式居中
         top: "center",//距离顶部
@@ -37,6 +34,13 @@ let option: any = {
     tooltip: {
         position: 'right',
         trigger: 'item',
+        borderColor: 'transparent',
+        backgroundColor: 'rgb(101, 211, 255, 0.5)',
+        borderRadius: '2',
+        textStyle: {
+            color: "#fff", // 文字的颜色
+            border: 'none',
+        },
         formatter: '{a} <br/>{b}: {c}kw/h ({d}%)'
     },
     legend: {
@@ -72,7 +76,7 @@ let option: any = {
     ]
 };
 onMounted(() => {
-    myChart = echarts.init(lineChart.value);
+    myChart = echarts.init(lineChartRef.value);
     init();
     window.addEventListener('resize', () => {
         myChart.resize();

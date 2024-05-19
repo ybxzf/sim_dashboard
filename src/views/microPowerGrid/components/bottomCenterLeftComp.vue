@@ -6,25 +6,28 @@
             </div>
             <div class="item-content">
                 <div class="content-title">
-                    <img src="../../../assets//images//microPowerGrid/mini_title.png">
+                    <img src="../../../assets/images/microPowerGrid/mini_title.png">
                     <span>运行概况</span>
                 </div>
                 <div class="content-cnt">
-                    <div class="content-cnt-item">
-                        <div style="flex:1">1.1</div>
-                        <div style="flex:2">1.2</div>
-                    </div>
-                    <div class="content-cnt-item">
-                        <div style="flex:1">1.1</div>
-                        <div style="flex:2">1.2</div>
-                    </div>
-                    <div class="content-cnt-item">
-                        <div style="flex:1">1.1</div>
-                        <div style="flex:2">1.2</div>
-                    </div>
-                    <div class="content-cnt-item">
-                        <div style="flex:1">1.1</div>
-                        <div style="flex:2">1.2</div>
+                    <div class="content-cnt-item" v-for="(it, i) in runningData" :key="i">
+                        <div class="content-cnt-item-left">
+                            <img :src="`${baseURL}/public/images/microPowerGrid/${it.imgName}.png`">
+                        </div>
+                        <div class="content-cnt-item-right">
+                            <div class="item-right-top">
+                                <img src="../../../assets/images/microPowerGrid/running_bg.png">
+                                <span>{{ it.title }}</span>
+                            </div>
+                            <div class="item-right-bottom">
+                                <div class="bottom-data">
+                                    <span>{{ it.data }}</span>
+                                </div>
+                                <div class="bottom-unit">
+                                    <span>{{ it.unit }}</span>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -34,11 +37,36 @@
 <script setup lang="ts">
 import { ref, reactive, watch, onMounted, onBeforeUnmount } from "vue";
 
-
+const baseURL: any = import.meta.env.BASE_URL;
+const runningData = ref<any>([]);
 onMounted(() => {
     init();
 });
-const init = async () => { };
+const init = async () => {
+    runningData.value = [
+        {
+            imgName: 'room_temp',
+            title: '室内温度',
+            data: '25',
+            unit: '℃',
+        }, {
+            imgName: 'outdoor_temp',
+            title: '室外温度',
+            data: '25',
+            unit: '℃',
+        }, {
+            imgName: 'daily_power_consume',
+            title: '日耗电量',
+            data: '25',
+            unit: 'kW/h',
+        }, {
+            imgName: 'monthly_power_consume',
+            title: '月耗电量',
+            data: '2205',
+            unit: 'kW/h',
+        },
+    ]
+};
 </script>
 <style lang="less" scoped>
 .flex-item-ctn {
@@ -83,23 +111,72 @@ const init = async () => { };
 
             .content-cnt {
                 // border: 1px solid #fff;
-                background-color: #fff;
-
+                // background-color: #fff;
+                color: #fff;
+                font-weight: 400;
                 height: 15rem;
                 display: flex;
                 flex-wrap: wrap;
                 justify-content: center;
 
                 .content-cnt-item {
-                    border: 1px solid;
+                    // border: 1px solid rgb(199, 239, 255);
                     flex-basis: 13rem;
+                    /* 包括 padding 和 border */
+                    box-sizing: border-box;
                     display: flex;
                     flex-wrap: wrap;
                     justify-content: center;
 
-                    >* {
-                        border: 1px solid;
-                        // flex-basis: 6rem;
+                    .content-cnt-item-left {
+                        flex: 1.5;
+                        display: flex;
+                        justify-content: center;
+                        align-items: center;
+
+                        img {
+                            width: 4rem;
+                        }
+                    }
+
+                    .content-cnt-item-right {
+                        flex: 2;
+
+                        // background-color: #ff5353;
+                        .item-right-top {
+                            height: 4rem;
+                            display: flex;
+                            align-items: center;
+                            position: relative;
+                            padding-left: 0.5rem;
+
+                            img {
+                                position: absolute;
+                                width: 8rem;
+                                left: 0;
+                            }
+
+                            span {
+                                z-index: 1;
+                            }
+                        }
+
+                        .item-right-bottom {
+                            height: 2.5rem;
+                            display: flex;
+                            align-items: end;
+                            color: rgb(199, 239, 255);
+
+                            .bottom-data {
+                                flex: 1;
+                                font-size: 2rem;
+                                font-weight: bolder;
+                            }
+
+                            .bottom-unit {
+                                flex: 1
+                            }
+                        }
                     }
                 }
             }
