@@ -142,7 +142,8 @@ let option: any = {
         },
     }]
 };
-const myChartList: any = [{}, {}, {}]
+// const myChartList: any = [{}, {}, {}];
+const myChartList = reactive<any>([{}, {}, {}]);
 
 onMounted(() => {
     init();
@@ -150,6 +151,10 @@ onMounted(() => {
     //     console.log('更新数据');
     //     init();
     // }, 5000)
+    window.addEventListener('resize', () => {
+        console.log('窗口变化')
+        init();
+    });
 });
 const init = () => {
 
@@ -164,7 +169,7 @@ const init = () => {
             lineColor: 'rgb(241, 193, 0, 1)',
         });
 
-        myChartList[i].myChart = null;
+        myChartList[i].myChart = myChartList[i].myChart ? myChartList[i].myChart : null;
         myChartList[i].option = option;
     }
     setOptionList(
@@ -198,7 +203,7 @@ const init = () => {
     //  chartData.value = await CURVE_API();
     // const chartData: any = {};
 
-    console.log('chartData.value', chartData.value);
+    // console.log('chartData.value', chartData.value);
 
 
 
@@ -221,6 +226,7 @@ const setOptionList = async (myChart: any, chartRef: any, data: any, option: any
 
     myChart = echarts.init(chartRef);
     myChart.setOption(option);
+    myChart.resize();
     // })
 }
 
