@@ -22,15 +22,20 @@
                     </div>
                 </div>
             </div>
-            <div style="display: flex;height: 1rem;">
-                <el-date-picker v-if="typeSelected === 'DAY'" v-model="date" type="date" placeholder="选择日期" size="small"
-                    format="YYYY-MM-DD" value-format="YYYY-MM-DD" />
-                <el-date-picker v-else v-model="month" type="date" placeholder="选择月份" size="small" format="YYYY-MM"
-                    value-format="YYYY-MM" />
+            <div class="item-date-picker">
+                <el-date-picker class="el-date-picker" v-if="typeSelected === 'DAY'" v-model="date" type="date"
+                    placeholder="选择日期" size="small" format="YYYY-MM-DD" value-format="YYYY-MM-DD" :clearable="false" />
+                <el-date-picker class="el-date-picker" v-else v-model="month" type="date" placeholder="选择月份" size="small"
+                    format="YYYY-MM" value-format="YYYY-MM" :clearable="false" />
             </div>
             <!-- <img style="width: 100%; height : 16rem;" src="../../../assets/images/monitorDashboard/middleLeftMiddle.png"> -->
             <div ref="chart3DRef" class="item-chart"></div>
-            <!-- <div ref="lineChartRef" class="item-chart"></div> -->
+            <div class="item-chart-title">
+                <div v-for="(it, i) in optionsData" :key="i">
+                    <div class="title-icon" :style="{ backgroundColor: it.itemStyle.iuconColor }" />
+                    {{ it.name }}
+                </div>
+            </div>
         </div>
     </div>
 </template>
@@ -46,7 +51,7 @@ const date = ref<string>(formatterDate(new Date()));
 const month = ref<string>(formatterMonth(new Date()));
 const chart3DRef = ref<any>();
 // 传入数据生成 option
-const optionsData = ref<any>([]);
+const optionsData = ref<any>();
 
 let myChart: any = null;
 
@@ -66,25 +71,29 @@ onMounted(() => {
 const init = async (dateType: string = 'DAY') => {
     console.log(date.value, month.value);
     typeSelected.value = dateType;
-    let elecData: any = {};
     //请求API
     if (dateType === 'DAY') {
-        elecData = await getElectric(date.value);
+        optionsData.value = await getElectric(date.value);
     } else {
-        elecData = await getElectric(month.value);
+        optionsData.value = await getElectric(month.value);
     }
-    const series = getPie3D(elecData, 0.8);
+    const series: any = getPie3D(optionsData.value, 0);
     series.push({
         name: 'pie2d',
         type: 'pie',
         label: {
             opacity: 1,
-            lineHeight: 20,
+            // lineHeight: 20,
             textStyle: {
                 fontSize: '1rem',
                 color: '#fff',
             },
-            formatter: '{d}%',
+            // formatter: `{b}\n{d}%`,
+            formatter: (params: any) => {
+                const total: number = option.series.reduce((acc: any, cur: number) => acc.pieD + cur, 0);
+                console.log(params, 'xxxx', option.series);
+                return ``
+            },
         },
         labelLine: {
             length: '10rem',
@@ -92,8 +101,8 @@ const init = async (dateType: string = 'DAY') => {
         },
         startAngle: -30, //起始角度，支持范围[0, 360]。
         clockwise: false, //饼图的扇区是否是顺时针排布。上述这两项配置主要是为了对齐3d的样式
-        radius: ['40%', '60%'],
-        center: ['50%', '35%'],
+        radius: ['20%', '45%'],
+        center: ['50%', '38%'],
         data: optionsData.value,
         itemStyle: {
             opacity: 0,
@@ -133,13 +142,12 @@ const init = async (dateType: string = 'DAY') => {
                     params.seriesName !== 'mouseoutSeries' &&
                     params.seriesName !== 'pie2d'
                 ) {
-                    console.log(params);
 
                     return `${params.seriesName}<br/>
-                    <span style="display:inline-block;margin-right:5px;border-radius:10px;width:10px;height:10px;background-color:${params.color};">
-                    </span>
-                    ${option.series[params.seriesIndex].pieData.value}
-                    kW.h
+                        <span style="display:inline-block;margin-right:5px;border-radius:10px;width:10px;height:10px;background-color:${params.color};">
+                        </span>
+                        ${option.series[params.seriesIndex].pieData.value}
+                        kW.h
                     `
                 }
             },
@@ -188,9 +196,11 @@ const init = async (dateType: string = 'DAY') => {
         },
         grid3D: {
             show: false,
-            boxHeight: 0.015,
+            boxWidth: 50,    //3D图宽
+            boxDepth: 50,    //3D图长
+            boxHeight: 0.015,    //3D图高
             top: -15,
-            left: '2%',
+            // left: '2%',
             // bottom: '60%',
             // environment: "rgba(255,255,255,0)",
             viewControl: {
@@ -208,54 +218,187 @@ const init = async (dateType: string = 'DAY') => {
 
 async function getElectric(date: string) {
     // const res: any = await DATE_API();
-    console.log('根据时间请求API', date);
-    let elecData: any = [
-        {
-            name: '储能',
-            value: 4256,
-            itemStyle: {
-                //   opacity: 0.5,
-                color: 'rgb(0, 136, 255, 0.4)',
-                iuconColor: 'rgb(0, 136, 255, 0.4)',
+    console.log('根据时间请求API', date.split('-'));
+    let elecData: any = [];
+    if (date.split('-').length === 2) {
+        elecData = [
+            {
+                name: '洗衣机',
+                value: 2018,
+                itemStyle: {
+                    //   opacity: 0.5,
+                    color: 'rgb(214,60,243, 1)',
+                    iuconColor: 'rgb(214,60,243)',
+                },
             },
-        },
 
-        {
-            name: '充电桩',
-            value: 2356,
-            itemStyle: {
-                //   opacity: 0.5,
-                color: 'rgb(255, 166, 0, 0.4)',
-                iuconColor: 'rgb(255, 166, 0)',
+            {
+                name: '冰箱',
+                value: 2018,
+                itemStyle: {
+                    //   opacity: 0.5,
+                    color: 'RGB(225,200,54,1)',
+                    iuconColor: 'RGB(225,200,54)',
+                },
             },
-        },
-        {
-            name: '家用负荷',
-            value: 2018,
-            itemStyle: {
-                //   opacity: 0.5,
-                color: 'rgb(255, 255, 255, 0.4)',
-                iuconColor: 'rgb(255, 255, 255)',
+            {
+                name: '微波炉',
+                value: 2018,
+                itemStyle: {
+                    //   opacity: 0.5,
+                    color: 'RGB(87,237,196,1)',
+                    iuconColor: 'RGB(87,237,196)',
+                },
+            }, {
+                name: '其他',
+                value: 2018,
+                itemStyle: {
+                    //   opacity: 0.5,
+                    color: 'RGB(102,65,243,1)',
+                    iuconColor: 'RGB(102,65,243)',
+                },
+            }, {
+                name: '电磁炉',
+                value: 2018,
+                itemStyle: {
+                    //   opacity: 0.5,
+                    color: 'RGB(37,75,243,1)',
+                    iuconColor: 'RGB(37,75,243)',
+                },
+            }, {
+                name: '空调',
+                value: 2018,
+                itemStyle: {
+                    //   opacity: 0.5,
+                    color: 'RGB(109,205,230,1)',
+                    iuconColor: 'RGB(109,205,230)',
+                },
             },
-        },
-    ]
+        ]
+    } else {
+        elecData = [
+            {
+                name: '洗衣机',
+                value: 3018,
+                itemStyle: {
+                    //   opacity: 0.5,
+                    color: 'rgb(214,60,243, 1)',
+                    iuconColor: 'rgb(214,60,243)',
+                },
+            },
+
+            {
+                name: '冰箱',
+                value: 1018,
+                itemStyle: {
+                    //   opacity: 0.5,
+                    color: 'RGB(225,200,54,1)',
+                    iuconColor: 'RGB(225,200,54)',
+                },
+            },
+            {
+                name: '微波炉',
+                value: 2018,
+                itemStyle: {
+                    //   opacity: 0.5,
+                    color: 'RGB(87,237,196,1)',
+                    iuconColor: 'RGB(87,237,196)',
+                },
+            }, {
+                name: '其他',
+                value: 2018,
+                itemStyle: {
+                    //   opacity: 0.5,
+                    color: 'RGB(102,65,243,1)',
+                    iuconColor: 'RGB(102,65,243)',
+                },
+            }, {
+                name: '电磁炉',
+                value: 2018,
+                itemStyle: {
+                    //   opacity: 0.5,
+                    color: 'RGB(37,75,243,1)',
+                    iuconColor: 'RGB(37,75,243)',
+                },
+            }, {
+                name: '空调',
+                value: 2018,
+                itemStyle: {
+                    //   opacity: 0.5,
+                    color: 'RGB(109,205,230,1)',
+                    iuconColor: 'RGB(109,205,230)',
+                },
+            },
+        ]
+    }
     return elecData;
 
 }
+
 </script>
 <style lang="less" scoped>
 .flex-item-ctn {
     display: block;
+    font-size: 1rem;
+    position: relative;
 
     .item-title {
         // border: 1px solid rgb(165, 252, 184);
         position: relative;
     }
 
+    .item-date-picker {
+        display: flex;
+        height: 1rem;
+    }
+
     .item-chart {
         width: 100%;
         height: 16rem;
-        border: 1px solid red;
+        // border: 1px solid red;
+        // z-index: 999;
     }
+
+    .item-chart-title {
+        // background-color: #ee4545;
+        color: #c2c2c2;
+        font-size: 0.8rem;
+        position: absolute;
+        left: 2.5rem;
+        bottom: 1.5rem;
+        width: 30rem;
+        display: flex;
+
+        >* {
+            width: 4.5rem;
+            display: flex;
+            // justify-content: center;
+            align-items: center;
+        }
+
+        .title-icon {
+            width: 0.6rem;
+            height: 0.6rem;
+            margin-right: 0.3rem;
+            border-radius: 50%;
+        }
+    }
+}
+</style>
+
+<style scoped>
+:deep(.el-date-picker) {
+    width: 7rem !important;
+    margin-left: 1rem;
+}
+
+:deep(.el-input__wrapper) {
+    background: transparent !important;
+    border-radius: 0.3rem;
+    border: 1px solid RGB(37, 75, 243, 0.5);
+}
+
+:deep(.el-input__inner) {
+    color: rgb(255, 255, 255);
 }
 </style>
