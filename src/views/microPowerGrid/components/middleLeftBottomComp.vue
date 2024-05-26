@@ -52,12 +52,13 @@ let option: any = {
             color: "#fff", // 文字的颜色
             border: 'none',
         },
-        formatter: '{b}: {c}kW.h',
+        formatter: '{b}: {c}kWh',
     },
     xAxis: {
         type: 'category',
         boundaryGap: false,
         axisLabel: {
+            rotate: 45, // 设置文字倾斜的角度
             interval: 0,//显示所有标签
             textStyle: {
                 color: '#fff',
@@ -67,7 +68,7 @@ let option: any = {
         data: [],
     },
     yAxis: {
-        name: '单位：千瓦时',
+        name: '单位：kWh',
         nameTextStyle: {
             color: '#fff' // 设置为白色
         },
@@ -86,7 +87,7 @@ let option: any = {
         show: false,
         top: '16%',    // 一下数值可为百分比也可为具体像素值
         right: '5%',
-        bottom: '13%',
+        bottom: '16%',
         left: '14%'
     },
     series: [{
@@ -136,7 +137,7 @@ const init = async (dateType: string = 'DAY') => {
     typeSelected.value = dateType;
     //默认日发电量请求API
     const elecData: any = await elecTotal(dateType);
-    // xAxisData.value = ['0时', '2时', '4时', '6时', '8时', '10时', '12时', '14时', '16时', '18时', '20时', '22时', '24时'];
+    // xAxisData.value = ['00:00', '02:00', '04:00', '06:00', '08:00', '10:00', '12:00', '14:00', '16:00', '18:00', '20:00', '22:00', '24:00'];
     // seriesData.value = [820, 932, 901, 934, 1290, 1330, 1320, 820, 932, 901, 934, 1290, 1330];
     option.xAxis.data = elecData.xAxisData;
     option.series[0].data = elecData.seriesData;
@@ -147,7 +148,7 @@ const init = async (dateType: string = 'DAY') => {
 async function elecTotal(dateType: string) {
     const elecData: any = {};
     if (dateType == 'DAY') {
-        elecData.xAxisData = ['0时', '2时', '4时', '6时', '8时', '10时', '12时', '14时', '16时', '18时', '20时', '22时', '24时'];
+        elecData.xAxisData = ['00:00', '02:00', '04:00', '06:00', '08:00', '10:00', '12:00', '14:00', '16:00', '18:00', '20:00', '22:00', '24:00'];
         // const res: any = await DAY_API();
         elecData.seriesData = [820, 932, 901, 934, 1290, 1330, 1320, 820, 932, 901, 934, 1290, 1330];
     } else {

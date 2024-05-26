@@ -33,6 +33,7 @@
 <script setup lang="ts">
 import { ref, reactive, watch, onMounted, onBeforeUnmount } from "vue";
 import * as echarts from 'echarts';
+import { formatterDate } from "@/utils/base";
 
 const baseURL: any = import.meta.env.BASE_URL;
 const chartData = ref<any>({});
@@ -61,7 +62,7 @@ let option: any = {
             return `
             <div>
                 Pz: ${params[0]['data']} w <br/>
-                时间: ${params[0]['name']}
+                时间: ${formatterDate(new Date())} ${params[0]['name']}
             </div>
             `
         },
@@ -160,7 +161,7 @@ const init = () => {
 
     for (let i = 0; i < myChartList.length; i++) {
         myChartList[i].data = {};
-        myChartList[i].data.xAxisData = ['0时', '2时', '4时', '6时', '8时', '10时', '12时', '14时', '16时', '18时', '20时', '22时', '24时'];
+        myChartList[i].data.xAxisData = ['00:00', '02:00', '04:00', '06:00', '08:00', '10:00', '12:00', '14:00', '16:00', '18:00', '20:00', '22:00', '24:00'];
         myChartList[i].data.seriesData = [820, 932, 901, 934, 890, 1330, 1320, 820, 932,];
         Object.assign(myChartList[i].data, {
             yAxisUnit: '单位：w',
@@ -226,6 +227,21 @@ const setOptionList = async (myChart: any, chartRef: any, data: any, option: any
 
     myChart = echarts.init(chartRef);
     myChart.setOption(option);
+    setTimeout(() => {
+        myChart.dispatchAction({
+            type: 'showTip',
+            seriesIndex: 0,
+            dataIndex: data?.seriesData.length - 1 || 0
+        });
+    }, 1000);
+    // 默认显示最新数据的tooltip
+    setInterval(() => {
+        myChart.dispatchAction({
+            type: 'showTip',
+            seriesIndex: 0,
+            dataIndex: data?.seriesData.length - 1 || 0
+        });
+    }, 5000)
     myChart.resize();
     // })
 }

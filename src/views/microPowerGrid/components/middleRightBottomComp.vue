@@ -91,22 +91,22 @@ const init = async (dateType: string = 'REAL_TIME') => {
                     iconName: 'charge_total',
                     dataName: '总充电量',
                     realData: 50,
-                    unit: 'kW.h'
+                    unit: 'kWh'
                 }, {
                     iconName: 'discharge_total',
                     dataName: '总放电量',
                     realData: 2001,
-                    unit: 'kW.h'
+                    unit: 'kWh'
                 }, {
                     iconName: 'daily_charge',
                     dataName: '今日充电量',
                     realData: 10,
-                    unit: 'kW.h'
+                    unit: 'kWh'
                 }, {
                     iconName: 'daily_discharge',
                     dataName: '今日放电量',
                     realData: 20,
-                    unit: 'kW.h'
+                    unit: 'kWh'
                 },
             ],
         }

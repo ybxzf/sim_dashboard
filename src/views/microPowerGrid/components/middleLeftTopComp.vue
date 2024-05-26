@@ -4,6 +4,7 @@
             <div class="item-title">
                 <span>昨日电量统计</span>
             </div>
+            <div class="pie-item-unit">单位：kWh</div>
             <div class="pie-item" :class="`pie-item-${index + 1}`" v-for="(item, index) in seriesData" :key="index">
                 <div>{{ item.name }}</div>
                 <div :style="{ color: item.itemStyle.color }" class="item-value">{{ item.value }}</div>
@@ -15,6 +16,7 @@
 <script setup lang="ts">
 import { ref, reactive, watch, onMounted, onBeforeUnmount } from "vue";
 import * as echarts from 'echarts';
+import { getYesterdayElectricity } from '@/utils/api/microPowerGridServer'
 
 const lineChartRef = ref<any>();
 const seriesData = ref<any>([]);
@@ -78,6 +80,10 @@ let option: any = {
 onMounted(() => {
     myChart = echarts.init(lineChartRef.value);
     init();
+    setInterval(() => {
+        console.log('更新数据：昨日电量统计');
+        init();
+    }, 5000)
     window.addEventListener('resize', () => {
         myChart.resize();
     });
@@ -87,13 +93,36 @@ const init = async () => {
     // const res: any = await API();
     // option.legend.data = ['光伏发电量', '储能总充电量', '充电桩耗电量', '储能总放电量', '搜索引擎'];
     seriesData.value = [
-        { value: 8975, name: '光伏发电量', itemStyle: { color: 'skyblue' } },
+        { value: 8975, name: '光伏发电量', itemStyle: { color: 'skyblue' }, },
         { value: 12594, name: '储能总充电量', itemStyle: { color: 'green' }, },
-        { value: 12594, name: '储能总放电量', itemStyle: { color: 'orange' } },
-        {
-            value: 12594, name: '充电桩耗电量', itemStyle: { color: 'red' },
-        },
+        { value: 12594, name: '储能总放电量', itemStyle: { color: 'orange' }, },
+        { value: 12594, name: '充电桩耗电量', itemStyle: { color: 'red' }, },
     ];
+    try {
+        const res: any = await getYesterdayElectricity();
+        console.log(res);
+        if (res.data.code === 0) {
+            res.data.data.map((it: any) => {
+                if (it.typeCode === '光伏') {
+                    seriesData.value[0] = Number(it.quantity);
+                } else if (it.typeCode === '储能充') {
+                    seriesData.value[1] = Number(it.quantity);
+                } else if (it.typeCode === '储能放') {
+                    seriesData.value[2] = Number(it.quantity);
+                } else {
+                    seriesData.value[3] = Number(it.quantity);
+                }
+            })
+        } else {
+            new Error('失败');
+        }
+
+    } catch (error) {
+        console.log('error：昨日电量统计数据获取失败!');
+    }
+
+
+
     option.series[0].data = seriesData.value;
     myChart.setOption(option);
     myChart.resize();
@@ -107,7 +136,13 @@ const init = async () => {
     font-size: 1rem;
     font-weight: bolder;
 
-
+    .pie-item-unit {
+        position: absolute;
+        left: 11.5rem;
+        top: 4.5rem;
+        color: #fff;
+        font-size: 1.2rem;
+    }
 
     .pie-item {
         position: absolute;

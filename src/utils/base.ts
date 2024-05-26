@@ -98,7 +98,7 @@ export function getParametricEquation(
  * @returns
  */
 export function getPie3D(pieData: any, internalDiameterRatio: number) {
-  const series: any = [];
+  const series: any[] = [];
   let sumValue = 0;
   let startValue = 0;
   let endValue = 0;
@@ -147,7 +147,6 @@ export function getPie3D(pieData: any, internalDiameterRatio: number) {
   // 向每个 series-surface 传入不同的参数方程 series-surface.parametricEquation，也就是实现每一个扇形。
   for (let i = 0; i < series.length; i++) {
     endValue = startValue + series[i].pieData.value;
-    console.log(series[i]);
     series[i].pieData.startRatio = startValue / sumValue;
     series[i].pieData.endRatio = endValue / sumValue;
     series[i].parametricEquation = getParametricEquation(

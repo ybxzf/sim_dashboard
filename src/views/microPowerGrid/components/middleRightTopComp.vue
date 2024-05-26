@@ -87,22 +87,17 @@ const init = async (dateType: string = 'REAL_TIME') => {
                     iconName: 'output_power_total',
                     dataName: '累计输出电量',
                     realData: 5,
-                    unit: 'kW'
+                    unit: 'kWh'
                 }, {
                     iconName: 'output_power',
                     dataName: '输出功率',
                     realData: 2001,
-                    unit: 'kW.h'
+                    unit: 'kWh'
                 }, {
                     iconName: 'daily_power_generate',
                     dataName: '日发电量',
                     realData: 10,
-                    unit: 'kW.h'
-                }, {
-                    iconName: 'output_current',
-                    dataName: '输出电流',
-                    realData: 2,
-                    unit: 'A'
+                    unit: 'kWh'
                 },
             ],
         }

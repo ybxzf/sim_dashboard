@@ -5,6 +5,14 @@
 </template>
 <script setup lang="ts">
 import { RouterLink, RouterView } from 'vue-router'
+import { onMounted } from "vue";
+
+onMounted(() => {
+  //30分钟刷新一次页面
+  setInterval(() => {
+    window.location.reload();
+  }, 1000 * 60 * 30)
+});
 </script>
 
 <style lang="less" scoped>
@@ -29,5 +37,4 @@ body {
 //   top: 0;
 //   bottom: 0;
 //   margin: 0 auto;
-// }
-</style>
+// }</style>

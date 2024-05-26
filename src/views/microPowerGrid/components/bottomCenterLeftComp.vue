@@ -19,9 +19,14 @@
                                 <img src="../../../assets/images/microPowerGrid/running_bg.png">
                                 <span>{{ it.title }}</span>
                             </div>
+
                             <div class="item-right-bottom">
                                 <div class="bottom-data">
-                                    <span>{{ it.data }}</span>
+                                    <span v-if="String(it.data).length < 4">{{ it.data }}</span>
+                                    <el-tooltip v-else class="item-right-bottom" effect="customized"
+                                        :content="`${it.data}${it.unit}`" placement="top">
+                                        <span>{{ String(it.data).slice(0, 2) }}...</span>
+                                    </el-tooltip>
                                 </div>
                                 <div class="bottom-unit">
                                     <span>{{ it.unit }}</span>
@@ -47,23 +52,23 @@ const init = async () => {
         {
             imgName: 'room_temp',
             title: '室内温度',
-            data: '25',
+            data: '22',
             unit: '℃',
         }, {
             imgName: 'outdoor_temp',
             title: '室外温度',
-            data: '25',
+            data: '22',
             unit: '℃',
         }, {
             imgName: 'daily_power_consume',
             title: '日耗电量',
             data: '25',
-            unit: 'kW/h',
+            unit: 'kWh',
         }, {
             imgName: 'monthly_power_consume',
             title: '月耗电量',
             data: '2205',
-            unit: 'kW/h',
+            unit: 'kWh',
         },
     ]
 };
@@ -169,7 +174,7 @@ const init = async () => {
 
                             .bottom-data {
                                 flex: 1;
-                                font-size: 2rem;
+                                font-size: 1.8rem;
                                 font-weight: bolder;
                             }
 

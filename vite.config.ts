@@ -11,15 +11,15 @@ export default defineConfig({
     host: "0.0.0.0",
     port: 8080,
     proxy: {
-      "/api": "http://47.108.165.207:20088/ ",
-      "/alm_framework": {
-        target: "http://47.108.165.207:20088/api",
+      "/api/bigScreen": {
+        target: "http://47.108.165.207:80/",
         timeout: 20 * 60 * 1000,
         changeOrigin: true,
       },
     },
   },
   base: '/sim-dashboard/',
+  // base: '/',
   resolve: {
     alias: {
       "@": fileURLToPath(new URL("./src", import.meta.url)),

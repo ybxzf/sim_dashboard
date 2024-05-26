@@ -14,6 +14,7 @@
 <script setup lang="ts">
 import { ref, reactive, watch, onMounted, onBeforeUnmount } from "vue";
 import * as echarts from 'echarts';
+import { formatterDate } from "@/utils/base";
 
 const lineChartRef = ref<any>();
 const xAxisData = ref<any>([]);
@@ -36,7 +37,17 @@ let option: any = {
             color: "#fff", // 文字的颜色
             border: 'none',
         },
-        formatter: '{a} <br/>{b}: {c}KW',
+        // formatter: '{a} <br/>{b}: {c}KW',
+        formatter: (params: any) => {
+            // console.log(params[0],params[1]);
+            return `
+            <div>
+                Pz: ${params[0]['data']} kW <br/>
+                时间: ${formatterDate(new Date())} ${params[0]['name']} <br/>
+                温度: ${params[1]['data']} ℃
+            </div>
+            `
+        },
     },
     legend: {
         data: ['总功率', '室内温度',],
@@ -49,6 +60,7 @@ let option: any = {
         type: 'category',
         boundaryGap: false,
         axisLabel: {
+            rotate: 45, // 设置文字倾斜的角度
             interval: 0,//显示所有标签
             textStyle: {
                 color: '#fff',
@@ -58,7 +70,7 @@ let option: any = {
         data: [],
     },
     yAxis: [{
-        name: '单位：KW',
+        name: '单位：kW',
         type: 'value',
         nameTextStyle: {
             color: '#fff', // 设置为白色
@@ -95,8 +107,8 @@ let option: any = {
     grid: {
         show: false,
         top: '20%',    // 一下数值可为百分比也可为具体像素值
-        right: '14%',
-        bottom: '13%',
+        right: '12%',
+        bottom: '16%',
         left: '14%'
     },
     series: [],
@@ -109,19 +121,19 @@ onMounted(() => {
     });
 });
 const init = async () => {
-    xAxisData.value = ['0时', '2时', '4时', '6时', '8时', '10时', '12时', '14时', '16时', '18时', '20时', '22时', '24时'];
+    xAxisData.value = ['00:00', '02:00', '04:00', '06:00', '08:00', '10:00', '12:00', '14:00', '16:00', '18:00', '20:00', '22:00', '24:00'];
     //请求API
     // const res: any = await API();
     seriesData.value = [
         {
             name: '总功率',
-            data: [820, 932, 901, 934, 890, 1330, 1320, 820, 932, 901, 934, 1290, 1330],
+            data: [820, 932, 901, 934, 890, 1330, 820, 1320],
             color: 'rgb(131, 238, 176, 0.5)',
             yAxisIndex: 0,
         },
         {
             name: '室内温度',
-            data: [800, 902, 781, 834, 1090, 1130, 1020, 800, 732, 801, 834, 1200, 1200],
+            data: [32, 30, 33, 29, 26, 27, 30, 22],
             color: 'rgb(101, 211, 255, 0.5)',
             yAxisIndex: 1,
         },
@@ -155,6 +167,21 @@ const init = async () => {
 
     console.log(option)
     myChart.setOption(option);
+    setTimeout(() => {
+        myChart.dispatchAction({
+            type: 'showTip',
+            seriesIndex: 0,
+            dataIndex: seriesData.value[0]?.data.length - 1 || 0
+        });
+    }, 1000);
+    // 默认显示最新数据的tooltip
+    setInterval(() => {
+        myChart.dispatchAction({
+            type: 'showTip',
+            seriesIndex: 0,
+            dataIndex: seriesData.value[0]?.data.length - 1 || 0
+        });
+    }, 5000)
     myChart.resize();
 };
 

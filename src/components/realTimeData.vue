@@ -95,7 +95,7 @@ const init = async () => {
         flex: 2.5;
         display: flex;
         flex-wrap: wrap;
-        justify-content: center;
+        // justify-content: center;
 
         .right-item {
             height: 5rem;

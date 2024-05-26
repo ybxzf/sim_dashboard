@@ -24,9 +24,10 @@
             </div>
             <div class="item-date-picker">
                 <el-date-picker class="el-date-picker" v-if="typeSelected === 'DAY'" v-model="date" type="date"
-                    placeholder="选择日期" size="small" format="YYYY-MM-DD" value-format="YYYY-MM-DD" :clearable="false" />
-                <el-date-picker class="el-date-picker" v-else v-model="month" type="date" placeholder="选择月份" size="small"
-                    format="YYYY-MM" value-format="YYYY-MM" :clearable="false" />
+                    @calendar-change="calendarChange" placeholder="选择日期" size="small" format="YYYY-MM-DD"
+                    value-format="YYYY-MM-DD" :clearable="false" />
+                <el-date-picker class="el-date-picker" v-else v-model="month" type="date" placeholder="选择月份"
+                    size="small" format="YYYY-MM" value-format="YYYY-MM" :clearable="false" />
             </div>
             <!-- <img style="width: 100%; height : 16rem;" src="../../../assets/images/monitorDashboard/middleLeftMiddle.png"> -->
             <div ref="chart3DRef" class="item-chart"></div>
@@ -56,9 +57,9 @@ const optionsData = ref<any>();
 let myChart: any = null;
 
 
-watch([date.value, date.value,],
+watch(() => [date.value, month.value,],
     (_nv: any) => {
-        console.log('日期改变', _nv);
+        console.log('日期改变', _nv, typeSelected.value);
         init(typeSelected.value);
     });
 onMounted(() => {
@@ -77,7 +78,7 @@ const init = async (dateType: string = 'DAY') => {
     } else {
         optionsData.value = await getElectric(month.value);
     }
-    const series: any = getPie3D(optionsData.value, 0);
+    const series: any[] = getPie3D(optionsData.value, 0);
     series.push({
         name: 'pie2d',
         type: 'pie',
@@ -85,14 +86,27 @@ const init = async (dateType: string = 'DAY') => {
             opacity: 1,
             // lineHeight: 20,
             textStyle: {
-                fontSize: '1rem',
+                fontSize: '0.8rem',
                 color: '#fff',
             },
-            // formatter: `{b}\n{d}%`,
-            formatter: (params: any) => {
-                const total: number = option.series.reduce((acc: any, cur: number) => acc.pieD + cur, 0);
-                console.log(params, 'xxxx', option.series);
-                return ``
+            formatter: `{b}\n{d}%`,
+            // formatter: (params: any) => {
+            //     let total: number = 0;
+            //     for (let i = 0; i < option.series.length; i++) {
+            //         const element = option.series[i];
+            //         // console.log(element, element.pieData?.value);
+
+            //         total += element.name === 'pie2d' ? 0 : element.pieData?.value;
+            //     }
+            //     console.log('total', total);
+
+            //     // console.log(params, 'xxxx', option.series);
+            //     return `<div></div>`
+            // },
+            rich: {
+                elecApp: {
+                    color: 'red'
+                },
             },
         },
         labelLine: {
@@ -102,7 +116,7 @@ const init = async (dateType: string = 'DAY') => {
         startAngle: -30, //起始角度，支持范围[0, 360]。
         clockwise: false, //饼图的扇区是否是顺时针排布。上述这两项配置主要是为了对齐3d的样式
         radius: ['20%', '45%'],
-        center: ['50%', '38%'],
+        center: ['50%', '50%'],
         data: optionsData.value,
         itemStyle: {
             opacity: 0,
@@ -147,7 +161,7 @@ const init = async (dateType: string = 'DAY') => {
                         <span style="display:inline-block;margin-right:5px;border-radius:10px;width:10px;height:10px;background-color:${params.color};">
                         </span>
                         ${option.series[params.seriesIndex].pieData.value}
-                        kW.h
+                        kWh
                     `
                 }
             },
@@ -199,9 +213,9 @@ const init = async (dateType: string = 'DAY') => {
             boxWidth: 50,    //3D图宽
             boxDepth: 50,    //3D图长
             boxHeight: 0.015,    //3D图高
-            top: -15,
+            // top: -15,
             // left: '2%',
-            // bottom: '60%',
+            // bottom: '40%',
             // environment: "rgba(255,255,255,0)",
             viewControl: {
                 distance: 180,
@@ -332,6 +346,10 @@ async function getElectric(date: string) {
         ]
     }
     return elecData;
+}
+
+const calendarChange = (_val: any) => {
+    console.log('_val', _val);
 
 }
 

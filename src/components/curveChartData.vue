@@ -4,6 +4,7 @@
 <script setup lang="ts">
 import { ref, reactive, watch, onMounted, onBeforeUnmount } from "vue";
 import * as echarts from 'echarts';
+import { formatterDate } from "@/utils/base";
 
 const props = defineProps(['chartData'])
 const lineChartRef = ref<any>(null);
@@ -30,7 +31,7 @@ let option: any = {
             return `
             <div>
                 Pz: ${params[0]['data']} kW <br/>
-                时间: ${params[0]['name']}
+                时间: ${formatterDate(new Date())} ${params[0]['name']}
             </div>
             `
         },
@@ -136,6 +137,21 @@ const init = () => {
         // nextTick(() => {
         myChart = echarts.init(lineChartRef.value);
         myChart.setOption(option);
+        setTimeout(() => {
+            myChart.dispatchAction({
+                type: 'showTip',
+                seriesIndex: 0,
+                dataIndex: props.chartData?.seriesData.length - 1 || 0
+            });
+        }, 1000);
+        // 默认显示最新数据的tooltip
+        setInterval(() => {
+            myChart.dispatchAction({
+                type: 'showTip',
+                seriesIndex: 0,
+                dataIndex: props.chartData?.seriesData.length - 1 || 0
+            });
+        }, 5000)
         // })
     }
 }
