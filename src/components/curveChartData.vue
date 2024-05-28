@@ -9,6 +9,10 @@ import { formatterDate } from "@/utils/base";
 const props = defineProps(['chartData'])
 const lineChartRef = ref<any>(null);
 
+let timer: any = null; //定时器
+let interval: any = null; //循环器
+
+
 let myChart: any = null;
 let option: any = {
     tooltip: {
@@ -48,7 +52,7 @@ let option: any = {
         type: 'category',
         boundaryGap: false,
         axisLabel: {
-            interval: 1,//显示所有标签
+            // interval: 1,//显示x轴标签间隔
             textStyle: {
                 color: '#fff',
                 fontSize: '0.75rem',
@@ -112,6 +116,14 @@ let option: any = {
         },
     }]
 };
+
+watch(() => props.chartData,
+    (_nv: any) => {
+        // console.log('数据改变', _nv);
+        init();
+    }, {
+    deep: true
+})
 onMounted(() => {
     init();
     window.addEventListener('resize', () => {
@@ -119,7 +131,6 @@ onMounted(() => {
     });
 });
 const init = () => {
-    console.log('props.chartData', props.chartData);
     if (props.chartData) {
         //设置颜色
         option.tooltip.backgroundColor = props.chartData?.lineColorT;
@@ -137,7 +148,7 @@ const init = () => {
         // nextTick(() => {
         myChart = echarts.init(lineChartRef.value);
         myChart.setOption(option);
-        setTimeout(() => {
+        timer = setTimeout(() => {
             myChart.dispatchAction({
                 type: 'showTip',
                 seriesIndex: 0,
@@ -145,7 +156,7 @@ const init = () => {
             });
         }, 1000);
         // 默认显示最新数据的tooltip
-        setInterval(() => {
+        interval = setInterval(() => {
             myChart.dispatchAction({
                 type: 'showTip',
                 seriesIndex: 0,
@@ -159,6 +170,8 @@ const init = () => {
 onBeforeUnmount(() => {
     console.log('关闭');
     myChart.clear();
+    clearTimeout(timer);
+    clearInterval(interval);
 })
 </script>
 <style lang="less" scoped>

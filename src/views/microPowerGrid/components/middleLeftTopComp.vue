@@ -81,7 +81,7 @@ onMounted(() => {
     myChart = echarts.init(lineChartRef.value);
     init();
     setInterval(() => {
-        console.log('更新数据：昨日电量统计');
+        // console.log('更新数据：昨日电量统计');
         init();
     }, 5000)
     window.addEventListener('resize', () => {
@@ -100,9 +100,9 @@ const init = async () => {
     ];
     try {
         const res: any = await getYesterdayElectricity();
-        console.log(res);
-        if (res.data.code === 0) {
-            res.data.data.map((it: any) => {
+        // console.log(res);
+        if (res.code === 0) {
+            res?.data.map((it: any) => {
                 if (it.typeCode === '光伏') {
                     seriesData.value[0] = Number(it.quantity);
                 } else if (it.typeCode === '储能充') {
@@ -116,9 +116,8 @@ const init = async () => {
         } else {
             new Error('失败');
         }
-
     } catch (error) {
-        console.log('error：昨日电量统计数据获取失败!');
+        // console.log('error：昨日电量统计数据获取失败!');
     }
 
 

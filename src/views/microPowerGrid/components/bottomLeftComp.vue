@@ -125,7 +125,7 @@ const init = async () => {
                     params.seriesName !== 'mouseoutSeries' &&
                     params.seriesName !== 'pie2d'
                 ) {
-                    console.log(params);
+                    // console.log(params);
 
                     return `${params.seriesName}<br/>
                     <span style="display:inline-block;margin-right:5px;border-radius:10px;width:10px;height:10px;background-color:${params.color};">
@@ -336,7 +336,7 @@ function getPie3D(pieData: any, internalDiameterRatio: any) {
     // 向每个 series-surface 传入不同的参数方程 series-surface.parametricEquation，也就是实现每一个扇形。
     for (let i = 0; i < series.length; i++) {
         endValue = startValue + series[i].pieData.value
-        console.log(series[i])
+        // console.log(series[i])
         series[i].pieData.startRatio = startValue / sumValue
         series[i].pieData.endRatio = endValue / sumValue
         series[i].parametricEquation = getParametricEquation(

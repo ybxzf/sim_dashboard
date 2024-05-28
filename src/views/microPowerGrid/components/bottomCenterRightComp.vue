@@ -165,7 +165,7 @@ const init = async () => {
         return item;
     });
 
-    console.log(option)
+    // console.log(option)
     myChart.setOption(option);
     setTimeout(() => {
         myChart.dispatchAction({
