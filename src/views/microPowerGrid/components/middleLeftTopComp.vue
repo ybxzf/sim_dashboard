@@ -7,7 +7,13 @@
             <div class="pie-item-unit">单位：kWh</div>
             <div class="pie-item" :class="`pie-item-${index + 1}`" v-for="(item, index) in seriesData" :key="index">
                 <div>{{ item.name }}</div>
-                <div :style="{ color: item.itemStyle.color }" class="item-value">{{ item.value }}</div>
+                <div v-if="String(item.value).length < 7" :style="{ color: item.itemStyle?.color }" class="item-value">
+                    {{ item.value }}</div>
+                <el-tooltip v-else effect="customized" :content="`${item.value}`" placement="top">
+                    <div :style="{ color: item.itemStyle?.color }" class="item-value">{{ String(item.value).slice(0, 3)
+                        }}...
+                    </div>
+                </el-tooltip>
             </div>
             <div ref="lineChartRef" class="item-chart"></div>
         </div>
@@ -19,7 +25,12 @@ import * as echarts from 'echarts';
 import { getYesterdayElectricity } from '@/utils/api/microPowerGridServer'
 
 const lineChartRef = ref<any>();
-const seriesData = ref<any>([]);
+const seriesData = ref<any[]>([
+    { value: 0, name: '光伏发电量', itemStyle: { color: 'skyblue' }, },
+    { value: 0, name: '储能总充电量', itemStyle: { color: 'green' }, },
+    { value: 0, name: '储能总放电量', itemStyle: { color: 'orange' }, },
+    { value: 0, name: '充电桩耗电量', itemStyle: { color: 'red' }, },
+]);
 
 let myChart: any = null;
 let option: any = {
@@ -77,10 +88,12 @@ let option: any = {
         }
     ]
 };
+let interval: any = null; //循环器
+
 onMounted(() => {
     myChart = echarts.init(lineChartRef.value);
     init();
-    setInterval(() => {
+    interval = setInterval(() => {
         // console.log('更新数据：昨日电量统计');
         init();
     }, 5000)
@@ -88,37 +101,29 @@ onMounted(() => {
         myChart.resize();
     });
 });
-const init = async () => {
-    //默认日发电量请求API
-    // const res: any = await API();
-    // option.legend.data = ['光伏发电量', '储能总充电量', '充电桩耗电量', '储能总放电量', '搜索引擎'];
-    seriesData.value = [
-        { value: 8975, name: '光伏发电量', itemStyle: { color: 'skyblue' }, },
-        { value: 12594, name: '储能总充电量', itemStyle: { color: 'green' }, },
-        { value: 12594, name: '储能总放电量', itemStyle: { color: 'orange' }, },
-        { value: 12594, name: '充电桩耗电量', itemStyle: { color: 'red' }, },
-    ];
-    try {
-        const res: any = await getYesterdayElectricity();
+const init = () => {
+    //请求API
+    getYesterdayElectricity().then((res: any) => {
         // console.log(res);
         if (res.code === 0) {
-            res?.data.map((it: any) => {
-                if (it.typeCode === '光伏') {
-                    seriesData.value[0] = Number(it.quantity);
-                } else if (it.typeCode === '储能充') {
-                    seriesData.value[1] = Number(it.quantity);
-                } else if (it.typeCode === '储能放') {
-                    seriesData.value[2] = Number(it.quantity);
-                } else {
-                    seriesData.value[3] = Number(it.quantity);
-                }
-            })
+            if (Object.prototype.hasOwnProperty.call(res, 'data')) {
+                res.data.map((item: any) => {
+                    if (item.typeCode === '光伏') {
+                        seriesData.value[0].value = Number(item.quantity);
+                    } else if (item.typeCode === '储能充') {
+                        seriesData.value[1].value = Number(item.quantity);
+                    } else if (item.typeCode === '储能放') {
+                        seriesData.value[2].value = Number(item.quantity);
+                    } else {
+                        seriesData.value[3].value = Number(item.quantity);
+                    }
+                })
+            }
         } else {
-            new Error('失败');
+            new Error('yesterdayElectricity失败');
         }
-    } catch (error) {
-        // console.log('error：昨日电量统计数据获取失败!');
-    }
+
+    });
 
 
 
@@ -126,6 +131,12 @@ const init = async () => {
     myChart.setOption(option);
     myChart.resize();
 };
+
+onBeforeUnmount(() => {
+    // console.log('关闭');
+    myChart.clear();
+    clearInterval(interval);
+})
 
 </script>
 <style lang="less" scoped>
@@ -146,15 +157,23 @@ const init = async () => {
     .pie-item {
         position: absolute;
         color: #b3b3b3;
+        z-index: 2;
 
         >* {
             display: flex;
             justify-content: center;
         }
 
-        .item-value {
-            font-size: 1.5rem;
+        .item-right-bottom {
+            height: 2.5rem;
+            display: flex;
+            align-items: end;
+            color: rgb(199, 239, 255);
         }
+    }
+
+    .item-value {
+        font-size: 1.5rem;
     }
 
     .pie-item-1 {
@@ -181,6 +200,7 @@ const init = async () => {
         width: 100%;
         height: 16rem;
         // border: 1px solid red;
+        // background-color: rgba(255, 255, 255, 0.5);
     }
 }
 </style>

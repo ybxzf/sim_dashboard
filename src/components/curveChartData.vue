@@ -168,7 +168,7 @@ const init = () => {
 }
 
 onBeforeUnmount(() => {
-    console.log('关闭');
+    // console.log('关闭');
     myChart.clear();
     clearTimeout(timer);
     clearInterval(interval);

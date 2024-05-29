@@ -62,7 +62,7 @@ let option: any = {
             border: 'none',
         },
         formatter: (params: any) => {
-            console.log(params[0]);
+            // console.log(params[0]);
             return `
             <div>
                 Pz: ${params[0]['data']} w <br/>
@@ -269,7 +269,7 @@ const setOptionList = (myChart: any, chartRef: any, data: any, option: any) => {
         option.series[0].nowSecond = data?.nowSecond;
     }
 
-    console.log(option)
+    // console.log(option)
     // nextTick(() => {
 
     myChart = echarts.init(chartRef);
