@@ -28,6 +28,7 @@
 </template>
 <script setup lang="ts">
 import { ref, reactive, watch, onMounted, onBeforeUnmount } from "vue";
+import { getSsPhotovoltaicPower, getSsPhotovoltaicPowerWeek } from '@/utils/api/microPowerGridServer';
 import * as echarts from 'echarts';
 
 const lineChartRef = ref<any>();
@@ -59,7 +60,7 @@ let option: any = {
         boundaryGap: false,
         axisLabel: {
             rotate: 45, // 设置文字倾斜的角度
-            interval: 0,//显示所有标签
+            // interval: 0,//显示所有标签
             textStyle: {
                 color: '#fff',
                 fontSize: '0.75rem',
@@ -122,6 +123,9 @@ let option: any = {
         },
     }]
 };
+
+let interval: any = null; //循环器
+
 watch(() => typeSelected.value,
     (_nv: string) => {
         console.log('xx', _nv);
@@ -129,36 +133,121 @@ watch(() => typeSelected.value,
 onMounted(() => {
     myChart = echarts.init(lineChartRef.value);
     init();
+    interval = setInterval(() => {
+        init(typeSelected.value);
+    }, 5000)
     window.addEventListener('resize', () => {
         myChart.resize();
     });
 });
-const init = async (dateType: string = 'DAY') => {
+const init = (dateType: string = 'DAY') => {
     typeSelected.value = dateType;
     //默认日发电量请求API
-    const elecData: any = await elecTotal(dateType);
-    // xAxisData.value = ['00:00', '02:00', '04:00', '06:00', '08:00', '10:00', '12:00', '14:00', '16:00', '18:00', '20:00', '22:00', '24:00'];
-    // seriesData.value = [820, 932, 901, 934, 1290, 1330, 1320, 820, 932, 901, 934, 1290, 1330];
-    option.xAxis.data = elecData.xAxisData;
-    option.series[0].data = elecData.seriesData;
-    myChart.setOption(option);
-    myChart.resize();
+    const elecData: any = {
+        xAxisData: [],
+        seriesData: [],
+        nowDate: '',
+        nowSecond: '',
+    };
+    if (dateType == 'DAY') {
+        getSsPhotovoltaicPower().then((res: any) => {
+            if (res.code === 0) {
+                res.data.map((item: any) => {
+                    const dataDate: any = item.dataDate.split(' ');
+                    const nowDate: string = dataDate[0];
+                    const nowTime: string = dataDate[1].slice(0, 5);
+                    // const nowSecond: string = dataDate[1].slice(-2);
+                    elecData.nowDate = nowDate;
+                    elecData.xAxisData.push(nowTime);
+                    if (Object.prototype.hasOwnProperty.call(item, 'zxygz')) {
+                        elecData.seriesData.push(item.zxygz);
+                        elecData.nowSecond = item.dataDate;
+                    }
+                })
+                setChart(elecData);
+                // option.xAxis.data = elecData.xAxisData || [];
+                // option.series[0].data = elecData.seriesData || [];
+                // option.series[0].nowDate = elecData.nowDate || '';
+                // option.series[0].nowSecond = elecData.nowSecond || '';
+                // myChart.setOption(option);
+                // myChart.resize();
+            }
+        })
+        // elecData.xAxisData = ['00:00', '02:00', '04:00', '06:00', '08:00', '10:00', '12:00', '14:00', '16:00', '18:00', '20:00', '22:00', '24:00'];
+        // elecData.seriesData = [820, 932, 901, 934, 1290, 1330, 1320, 820, 932, 901, 934, 1290, 1330];
+        // option.xAxis.data = elecData.xAxisData || [];
+        // option.series[0].data = elecData.seriesData || [];
+        // option.series[0].nowDate = elecData.nowDate || '';
+        // option.series[0].nowSecond = elecData.nowSecond || '';
+        // myChart.setOption(option);
+        // myChart.resize();
+    } else {
+        getSsPhotovoltaicPowerWeek().then((res: any) => {
+            if (res.code === 0) {
+                res.data.map((item: any) => {
+                    const nowDate: string = item.tjDate.slice(-4);
+                    elecData.nowDate = item.tjDate;
+                    elecData.xAxisData.push(nowDate);
+                    if (Object.prototype.hasOwnProperty.call(item, 'num')) {
+                        elecData.seriesData.push(item.num);
+                        elecData.nowSecond = item.tjDate;
+                    }
+                })
+                setChart(elecData);
+                // option.xAxis.data = elecData.xAxisData || [];
+                // option.series[0].data = elecData.seriesData || [];
+                // option.series[0].nowDate = elecData.nowDate || '';
+                // option.series[0].nowSecond = elecData.nowSecond || '';
+                // myChart.setOption(option);
+                // myChart.resize();
+            }
+        })
+        // elecData.xAxisData = ['周一', '周二', '周三', '周四', '周五', '周六', '周日'];
+        // // const res: any = await WEEK_API();
+        // elecData.seriesData = [1330, 1320, 820, 932, 901, 934, 1290];
+        // myChart.resize();
+    }
+
+
+    // const elecData: any = elecTotal(dateType);
+
+    // option.xAxis.data = elecData.xAxisData || [];
+    // option.series[0].data = elecData.seriesData || [];
+    // option.series[0].nowDate = elecData.nowDate || '';
+    // option.series[0].nowSecond = elecData.nowSecond || '';
+    // myChart.setOption(option);
+    // myChart.resize();
 };
 
-async function elecTotal(dateType: string) {
-    const elecData: any = {};
-    if (dateType == 'DAY') {
-        elecData.xAxisData = ['00:00', '02:00', '04:00', '06:00', '08:00', '10:00', '12:00', '14:00', '16:00', '18:00', '20:00', '22:00', '24:00'];
-        // const res: any = await DAY_API();
-        elecData.seriesData = [820, 932, 901, 934, 1290, 1330, 1320, 820, 932, 901, 934, 1290, 1330];
-    } else {
-        elecData.xAxisData = ['周一', '周二', '周三', '周四', '周五', '周六', '周日'];
-        // const res: any = await WEEK_API();
-        elecData.seriesData = [1330, 1320, 820, 932, 901, 934, 1290];
-    }
-    return elecData;
+// function elecTotal(dateType: string) {
+//     const elecData: any = {};
+//     if (dateType == 'DAY') {
+//         elecData.xAxisData = ['00:00', '02:00', '04:00', '06:00', '08:00', '10:00', '12:00', '14:00', '16:00', '18:00', '20:00', '22:00', '24:00'];
+//         // const res: any = await DAY_API();
+//         elecData.seriesData = [820, 932, 901, 934, 1290, 1330, 1320, 820, 932, 901, 934, 1290, 1330];
+//     } else {
+//         elecData.xAxisData = ['周一', '周二', '周三', '周四', '周五', '周六', '周日'];
+//         // const res: any = await WEEK_API();
+//         elecData.seriesData = [1330, 1320, 820, 932, 901, 934, 1290];
+//     }
+//     return elecData;
+// }
 
+function setChart(elecData: any) {
+    option.xAxis.data = elecData.xAxisData || [];
+    option.series[0].data = elecData.seriesData || [];
+    option.series[0].nowDate = elecData.nowDate || '';
+    option.series[0].nowSecond = elecData.nowSecond || '';
+    myChart.setOption(option);
+    myChart.resize();
 }
+
+onBeforeUnmount(() => {
+    // console.log('光伏发电情况关闭');
+    myChart.clear();
+    clearInterval(interval);
+})
+
 </script>
 <style lang="less" scoped>
 .flex-item-ctn {
