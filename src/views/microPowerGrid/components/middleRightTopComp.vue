@@ -126,7 +126,7 @@ const init = async (dateType: string = 'REAL_TIME') => {
         //     lineColor: 'rgb(131, 238, 176, 1)',
         // })
         getSsGvTj().then((res: any) => {
-            console.log(res);
+            // console.log(res);
             if (res.code === 0) {
                 const seriesData: number[] = [];
                 const xAxisData: string[] = [];
@@ -147,6 +147,7 @@ const init = async (dateType: string = 'REAL_TIME') => {
                 })
                 chartData.value.seriesData = seriesData;
                 chartData.value.xAxisData = xAxisData;
+                // console.log(chartData.value);
             }
         });
     }

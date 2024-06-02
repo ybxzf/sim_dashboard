@@ -25,7 +25,7 @@ const chart3DRef = ref<any>();
 // 传入数据生成 option
 const optionsData = ref<any>([
     {
-        name: '储能充',
+        name: '储能',
         value: 10,
         itemStyle: {
             //   opacity: 0.5,
@@ -74,9 +74,9 @@ const init = () => {
         if (res.code === 0) {
             if (Object.prototype.hasOwnProperty.call(res, 'data')) {
                 res.data.map((item: any) => {
-                    if (item.NAME === '储能充') {
+                    if (item.name === '储能充') {
                         optionsData.value[0].value = Number(item.num);
-                    } else if (item.NAME === '充电桩') {
+                    } else if (item.name === '充电桩') {
                         optionsData.value[1].value = Number(item.num);
                     } else {
                         optionsData.value[2].value = Number(item.num);
@@ -85,7 +85,7 @@ const init = () => {
                 const maxValue: number = (optionsData.value.reduce((max: any, current: any) => {
                     return current.value > max.value ? current : max;
                 }, optionsData.value[0])).value;
-                const series = getPie3D(optionsData.value, 0.8);
+                const series: any[] = getPie3D(optionsData.value, 0.8);
                 series.push({
                     name: 'pie2d',
                     type: 'pie',
@@ -112,7 +112,7 @@ const init = () => {
                     },
                 })
                 // 准备待返回的配置项，把准备好的 legendData、series 传入。
-                let option = {
+                let option: any = {
                     // legend: {
                     //     show: true,
                     //     tooltip: {
@@ -200,8 +200,7 @@ const init = () => {
                     },
                     grid3D: {
                         show: false,
-                        boxHeight:
-                            90 / maxValue,
+                        boxHeight: 90 / maxValue,
                         // 9 * Math.pow(0.1, (String(maxValue.toFixed()).length) - 1),
                         top: -15,
                         left: '2%',

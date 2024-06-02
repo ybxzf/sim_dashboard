@@ -22,7 +22,7 @@
 <script setup lang="ts">
 import { ref, reactive, watch, onMounted, onBeforeUnmount } from "vue";
 import * as echarts from 'echarts';
-import { getYesterdayElectricity } from '@/utils/api/microPowerGridServer'
+import { getYesterdayElectricity } from '@/utils/api/microPowerGridServer';
 
 const lineChartRef = ref<any>();
 const seriesData = ref<any[]>([

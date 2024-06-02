@@ -144,7 +144,7 @@ const init = () => {
         option.xAxis.data = props.chartData?.xAxisData;
         option.series[0].data = props.chartData?.seriesData;
 
-        console.log(option)
+        // console.log(option)
         // nextTick(() => {
         myChart = echarts.init(lineChartRef.value);
         myChart.setOption(option);

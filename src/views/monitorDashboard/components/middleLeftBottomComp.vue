@@ -2,7 +2,7 @@
     <div class="flex-item-ctn">
         <div class="flex-item">
             <div class="item-title">
-                <span>时间信息</span>
+                <span>事件信息</span>
             </div>
             <!-- <img style="width: 100%; height : 16rem;"
                 src="../../../assets/images/monitorDashboard/middleLeftBottom.png"> -->
@@ -30,26 +30,40 @@
 </template>
 <script setup lang="ts">
 import { ref, reactive, watch, onMounted, onBeforeUnmount } from "vue";
+import { getDayEventInfo } from "@/utils/api/monitorDashboardServer";
 
 const baseURL: any = import.meta.env.BASE_URL;
 const informList = ref<any[]>([]);
 
+let interval: any = null; //循环器
 
 onMounted(() => {
     init();
-
+    interval = setInterval(() => {
+        init();
+    }, 5000)
 });
 const init = async () => {
     //请求api
-    informList.value = [
-        { useDevice: '冰箱、空调、洗衣机', useDate: '2023-11-11 14:00' },
-        { useDevice: '冰箱、空调', useDate: '2023-11-11 14:00' },
-        { useDevice: '冰箱、空调', useDate: '2023-11-11 14:00' },
-        { useDevice: '冰箱、空调', useDate: '2023-11-11 14:00' },
-        { useDevice: '冰箱、空调', useDate: '2023-11-11 14:00' },
-        { useDevice: '冰箱、空调', useDate: '2023-11-11 14:00' },
-    ];
+    getDayEventInfo().then((res: any) => {
+        if (res.code === 0) {
+            informList.value = res.data;
+        }
+    })
+    // informList.value = [
+    //     { useDevice: '冰箱、空调、洗衣机', useDate: '2023-11-11 14:00' },
+    //     { useDevice: '冰箱、空调', useDate: '2023-11-11 14:00' },
+    //     { useDevice: '冰箱、空调', useDate: '2023-11-11 14:00' },
+    //     { useDevice: '冰箱、空调', useDate: '2023-11-11 14:00' },
+    //     { useDevice: '冰箱、空调', useDate: '2023-11-11 14:00' },
+    //     { useDevice: '冰箱、空调', useDate: '2023-11-11 14:00' },
+    // ];
 };
+
+onBeforeUnmount(() => {
+    // console.log('事件信息关闭');
+    clearInterval(interval);
+})
 
 </script>
 <style lang="less" scoped>

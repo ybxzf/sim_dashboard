@@ -153,11 +153,11 @@ let interval: any = {}; //循环器
 onMounted(() => {
     init();
     interval.inter1 = setInterval(() => {
-        console.log('更新数据');
+        // console.log('更新数据');
         init();
     }, 5000)
     window.addEventListener('resize', () => {
-        console.log('窗口变化')
+        // console.log('窗口变化')
         init();
     });
 });
@@ -294,7 +294,7 @@ const setOptionList = (myChart: any, chartRef: any, data: any, option: any) => {
 };
 
 onBeforeUnmount(() => {
-    // console.log('关闭');
+    // console.log('家用电器实时功率关闭');
     clearTimeout(timer);
     for (const key in interval) {
         if (Object.prototype.hasOwnProperty.call(interval, key)) {

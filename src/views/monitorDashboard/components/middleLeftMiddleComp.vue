@@ -31,9 +31,9 @@
             </div>
             <!-- <img style="width: 100%; height : 16rem;" src="../../../assets/images/monitorDashboard/middleLeftMiddle.png"> -->
             <div ref="chart3DRef" class="item-chart"></div>
-            <div class="item-chart-title">
+            <div v-if="optionsData.length > 0" class="item-chart-title">
                 <div v-for="(it, i) in optionsData" :key="i">
-                    <div class="title-icon" :style="{ backgroundColor: it.itemStyle.iuconColor }" />
+                    <div class="title-icon" :style="{ backgroundColor: it.itemStyle.iconColor }" />
                     {{ it.name }}
                 </div>
             </div>
@@ -44,41 +44,131 @@
 import { ref, reactive, watch, onMounted, onBeforeUnmount } from "vue";
 import 'dayjs/locale/zh-cn';
 import { getPie3D, formatterDate, formatterMonth } from "@/utils/base";
+import { getDlfj, getDlfjMonth } from "@/utils/api/monitorDashboardServer";
 import * as echarts from 'echarts';
 import "echarts-gl";
 
 const typeSelected = ref<string>('DAY');
 const date = ref<string>(formatterDate(new Date()));
 const month = ref<string>(formatterMonth(new Date()));
+const elecBreakDownData = ref<any>([
+    {
+        name: '洗衣机',
+        value: 2018,
+        itemStyle: {
+            //   opacity: 0.5,
+            color: 'rgb(214,60,243, 1)',
+            iconColor: 'rgb(214,60,243)',
+        },
+    },
+    {
+        name: '冰箱',
+        value: 2018,
+        itemStyle: {
+            //   opacity: 0.5,
+            color: 'RGB(225,200,54,1)',
+            iconColor: 'RGB(225,200,54)',
+        },
+    },
+    {
+        name: '微波炉',
+        value: 2018,
+        itemStyle: {
+            //   opacity: 0.5,
+            color: 'RGB(87,237,196,1)',
+            iconColor: 'RGB(87,237,196)',
+        },
+    }, {
+        name: '电视机',
+        value: 2018,
+        itemStyle: {
+            //   opacity: 0.5,
+            color: 'RGB(102,65,243,1)',
+            iconColor: 'RGB(102,65,243)',
+        },
+    }, {
+        name: '电磁炉',
+        value: 2018,
+        itemStyle: {
+            //   opacity: 0.5,
+            color: 'RGB(37,75,243,1)',
+            iconColor: 'RGB(37,75,243)',
+        },
+    }, {
+        name: '室内空调',
+        value: 2018,
+        itemStyle: {
+            //   opacity: 0.5,
+            color: 'RGB(109,205,230,1)',
+            iconColor: 'RGB(109,205,230)',
+        },
+    },
+])
 const chart3DRef = ref<any>();
 // 传入数据生成 option
-const optionsData = ref<any>();
+const optionsData = ref<any[]>([]);
 
 let myChart: any = null;
+let interval: any = null; //循环器
 
 
 watch(() => [date.value, month.value,],
     (_nv: any) => {
-        console.log('日期改变', _nv, typeSelected.value);
+        // console.log('日期改变', _nv, typeSelected.value);
         init(typeSelected.value);
     });
 onMounted(() => {
     myChart = echarts.init(chart3DRef.value);
     init();
+    interval = setInterval(() => {
+        init(typeSelected.value);
+    }, 5000)
     window.addEventListener('resize', () => {
         myChart.resize();
     });
 });
 const init = async (dateType: string = 'DAY') => {
-    console.log(date.value, month.value);
+    // console.log(date.value, month.value);
     typeSelected.value = dateType;
+    optionsData.value.length = 0;
     //请求API
     if (dateType === 'DAY') {
-        optionsData.value = await getElectric(date.value);
+        // console.log('传入', date.value);
+        getDlfj(date.value).then((res: any) => {
+            if (res.code === 0) {
+                res.data.map((item: any) => {
+                    for (let i = 0; i < elecBreakDownData.value.length; i++) {
+                        if (item.field01 === elecBreakDownData.value[i].name) {
+                            optionsData.value.push(Object.assign(elecBreakDownData.value[i], {
+                                value: item.num
+                            }))
+                        }
+                    }
+                })
+                setChart(optionsData.value);
+            }
+        })
     } else {
-        optionsData.value = await getElectric(month.value);
+        // console.log('传入', month.value);
+        getDlfjMonth(month.value).then((res: any) => {
+            if (res.code === 0) {
+                res.data.map((item: any) => {
+                    for (let i = 0; i < elecBreakDownData.value.length; i++) {
+                        if (item.field01 === elecBreakDownData.value[i].name) {
+                            optionsData.value.push(Object.assign(elecBreakDownData.value[i], {
+                                value: item.num
+                            }))
+                        }
+                    }
+                })
+                setChart(optionsData.value);
+            }
+        })
     }
-    const series: any[] = getPie3D(optionsData.value, 0);
+};
+
+function setChart(optionsData: any) {
+    const series: any[] = getPie3D(optionsData, 0);
     series.push({
         name: 'pie2d',
         type: 'pie',
@@ -117,13 +207,16 @@ const init = async (dateType: string = 'DAY') => {
         clockwise: false, //饼图的扇区是否是顺时针排布。上述这两项配置主要是为了对齐3d的样式
         radius: ['20%', '45%'],
         center: ['50%', '50%'],
-        data: optionsData.value,
+        data: optionsData,
         itemStyle: {
             opacity: 0,
         },
     })
+    const maxValue: number = (optionsData.reduce((max: any, current: any) => {
+        return current.value > max.value ? current : max;
+    }, optionsData[0])).value;
     // 准备待返回的配置项，把准备好的 legendData、series 传入。
-    let option = {
+    let option: any = {
         // legend: {
         //     show: true,
         //     tooltip: {
@@ -160,7 +253,7 @@ const init = async (dateType: string = 'DAY') => {
                     return `${params.seriesName}<br/>
                         <span style="display:inline-block;margin-right:5px;border-radius:10px;width:10px;height:10px;background-color:${params.color};">
                         </span>
-                        ${option.series[params.seriesIndex].pieData.value}
+                        ${option.series[params.seriesIndex]?.pieData.value}
                         kWh
                     `
                 }
@@ -212,7 +305,7 @@ const init = async (dateType: string = 'DAY') => {
             show: false,
             boxWidth: 50,    //3D图宽
             boxDepth: 50,    //3D图长
-            boxHeight: 0.015,    //3D图高
+            boxHeight: 60 / maxValue,    //3D图高
             // top: -15,
             // left: '2%',
             // bottom: '40%',
@@ -227,131 +320,19 @@ const init = async (dateType: string = 'DAY') => {
         series: series,
     }
     // 使用刚指定的配置项和数据显示图表。
+    myChart.clear();
     myChart.setOption(option);
-};
-
-async function getElectric(date: string) {
-    // const res: any = await DATE_API();
-    console.log('根据时间请求API', date.split('-'));
-    let elecData: any = [];
-    if (date.split('-').length === 2) {
-        elecData = [
-            {
-                name: '洗衣机',
-                value: 2018,
-                itemStyle: {
-                    //   opacity: 0.5,
-                    color: 'rgb(214,60,243, 1)',
-                    iuconColor: 'rgb(214,60,243)',
-                },
-            },
-
-            {
-                name: '冰箱',
-                value: 2018,
-                itemStyle: {
-                    //   opacity: 0.5,
-                    color: 'RGB(225,200,54,1)',
-                    iuconColor: 'RGB(225,200,54)',
-                },
-            },
-            {
-                name: '微波炉',
-                value: 2018,
-                itemStyle: {
-                    //   opacity: 0.5,
-                    color: 'RGB(87,237,196,1)',
-                    iuconColor: 'RGB(87,237,196)',
-                },
-            }, {
-                name: '其他',
-                value: 2018,
-                itemStyle: {
-                    //   opacity: 0.5,
-                    color: 'RGB(102,65,243,1)',
-                    iuconColor: 'RGB(102,65,243)',
-                },
-            }, {
-                name: '电磁炉',
-                value: 2018,
-                itemStyle: {
-                    //   opacity: 0.5,
-                    color: 'RGB(37,75,243,1)',
-                    iuconColor: 'RGB(37,75,243)',
-                },
-            }, {
-                name: '空调',
-                value: 2018,
-                itemStyle: {
-                    //   opacity: 0.5,
-                    color: 'RGB(109,205,230,1)',
-                    iuconColor: 'RGB(109,205,230)',
-                },
-            },
-        ]
-    } else {
-        elecData = [
-            {
-                name: '洗衣机',
-                value: 3018,
-                itemStyle: {
-                    //   opacity: 0.5,
-                    color: 'rgb(214,60,243, 1)',
-                    iuconColor: 'rgb(214,60,243)',
-                },
-            },
-
-            {
-                name: '冰箱',
-                value: 1018,
-                itemStyle: {
-                    //   opacity: 0.5,
-                    color: 'RGB(225,200,54,1)',
-                    iuconColor: 'RGB(225,200,54)',
-                },
-            },
-            {
-                name: '微波炉',
-                value: 2018,
-                itemStyle: {
-                    //   opacity: 0.5,
-                    color: 'RGB(87,237,196,1)',
-                    iuconColor: 'RGB(87,237,196)',
-                },
-            }, {
-                name: '其他',
-                value: 2018,
-                itemStyle: {
-                    //   opacity: 0.5,
-                    color: 'RGB(102,65,243,1)',
-                    iuconColor: 'RGB(102,65,243)',
-                },
-            }, {
-                name: '电磁炉',
-                value: 2018,
-                itemStyle: {
-                    //   opacity: 0.5,
-                    color: 'RGB(37,75,243,1)',
-                    iuconColor: 'RGB(37,75,243)',
-                },
-            }, {
-                name: '空调',
-                value: 2018,
-                itemStyle: {
-                    //   opacity: 0.5,
-                    color: 'RGB(109,205,230,1)',
-                    iuconColor: 'RGB(109,205,230)',
-                },
-            },
-        ]
-    }
-    return elecData;
 }
 
 const calendarChange = (_val: any) => {
     console.log('_val', _val);
-
 }
+
+onBeforeUnmount(() => {
+    // console.log('电量分解关闭');
+    myChart.clear();
+    clearInterval(interval);
+})
 
 </script>
 <style lang="less" scoped>
@@ -382,15 +363,16 @@ const calendarChange = (_val: any) => {
         color: #c2c2c2;
         font-size: 0.8rem;
         position: absolute;
-        left: 2.5rem;
         bottom: 1.5rem;
-        width: 30rem;
+        width: 28rem;
         display: flex;
+        justify-content: center;
 
         >* {
             width: 4.5rem;
             display: flex;
             // justify-content: center;
+            // border: 1px solid;
             align-items: center;
         }
 

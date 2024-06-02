@@ -41,37 +41,51 @@
 </template>
 <script setup lang="ts">
 import { ref, reactive, watch, onMounted, onBeforeUnmount } from "vue";
+import { getYesyterdayJyfhTj } from "@/utils/api/monitorDashboardServer";
 
 const baseURL: any = import.meta.env.BASE_URL;
-const runningData = ref<any[]>();
+const runningData = ref<any[]>([
+    {
+        imgName: 'real-time_power_total',
+        title: '实时总功率',
+        data: 0,
+        unit: 'kW',
+    }, {
+        imgName: 'daily_power_total',
+        title: '日总电量',
+        data: 0,
+        unit: 'kWh',
+    }, {
+        imgName: 'month_power_total',
+        title: '总电量',
+        data: 0,
+        unit: 'kWh',
+    },
+]);
 
+let interval: any = null; //循环器
 
 onMounted(() => {
     init();
-
+    interval = setInterval(() => {
+        init();
+    }, 5000)
 });
 const init = async () => {
     //请求API
-    runningData.value = [
-        {
-            imgName: 'real-time_power_total',
-            title: '实时总功率',
-            data: '23412',
-            unit: 'kW',
-        }, {
-            imgName: 'daily_power_total',
-            title: '日总电量',
-            data: '2342',
-            unit: 'kWh',
-        }, {
-            imgName: 'month_power_total',
-            title: '总电量',
-            data: '2342',
-            unit: 'kWh',
-        },
-    ]
+    getYesyterdayJyfhTj().then((res: any) => {
+        if (res.code === 0) {
+            runningData.value[0].data = res.data.allpz;
+            runningData.value[1].data = res.data.daydl;
+            runningData.value[2].data = res.data.monthdl;
+        }
+    })
 };
 
+onBeforeUnmount(() => {
+    // console.log('昨日电量统计关闭');
+    clearInterval(interval);
+})
 </script>
 <style lang="less" scoped>
 .flex-item-ctn {

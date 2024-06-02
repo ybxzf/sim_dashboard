@@ -41,36 +41,72 @@
 </template>
 <script setup lang="ts">
 import { ref, reactive, watch, onMounted, onBeforeUnmount } from "vue";
+import { getNowDltj, getSelectMonthDlsyqk } from "@/utils/api/microPowerGridServer";
+import { informStore } from "@/stores/inform";
 
+const inStore = informStore();
 const baseURL: any = import.meta.env.BASE_URL;
-const runningData = ref<any>([]);
+const runningData = ref<any>([
+    {
+        imgName: 'room_temp',
+        title: '室内温度',
+        data: inStore.runningSummary.indoorTemp,
+        unit: '℃',
+    }, {
+        imgName: 'outdoor_temp',
+        title: '室外温度',
+        data: inStore.runningSummary.outdoorTemp,
+        unit: '℃',
+    }, {
+        imgName: 'daily_power_consume',
+        title: '日耗电量',
+        data: '0',
+        unit: 'kWh',
+    }, {
+        imgName: 'monthly_power_consume',
+        title: '月耗电量',
+        data: '0',
+        unit: 'kWh',
+    },
+]);
+
+let interval: any = {}; //循环器
+watch(() => inStore.runningSummary,
+    () => {
+        runningData.value[0].data = inStore.runningSummary.indoorTemp;
+        runningData.value[1].data = inStore.runningSummary.outdoorTemp;
+    }, {
+    deep: true,
+}
+)
+
 onMounted(() => {
     init();
+    interval.inter1 = setInterval(() => {
+        // console.log('更新数据');
+        init();
+    }, 5000)
 });
 const init = async () => {
-    runningData.value = [
-        {
-            imgName: 'room_temp',
-            title: '室内温度',
-            data: '22',
-            unit: '℃',
-        }, {
-            imgName: 'outdoor_temp',
-            title: '室外温度',
-            data: '22',
-            unit: '℃',
-        }, {
-            imgName: 'daily_power_consume',
-            title: '日耗电量',
-            data: '25',
-            unit: 'kWh',
-        }, {
-            imgName: 'monthly_power_consume',
-            title: '月耗电量',
-            data: '2205',
-            unit: 'kWh',
-        },
-    ]
+    getNowDltj().then((res: any) => {
+        if (res.code === 0) {
+            res.data.map((item: any) => {
+                if (item.typeCode == '中央空调') {
+                    runningData.value[2].data = item.quantity;
+                }
+            })
+        }
+    });
+    getSelectMonthDlsyqk().then((res: any) => {
+        if (res.code === 0) {
+            res.data.map((item: any) => {
+                if (item.name == '中央空调') {
+                    runningData.value[3].data = item.num;
+                }
+            })
+        }
+    });
+
 };
 </script>
 <style lang="less" scoped>
