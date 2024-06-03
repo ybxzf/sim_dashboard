@@ -39,12 +39,14 @@
     </div>
 </template>
 <script setup lang="ts">
-import { ref, reactive, watch, onMounted, onBeforeUnmount, nextTick } from "vue";
+import { ref, computed, reactive, watch, onMounted, onBeforeUnmount, nextTick } from "vue";
 import realTimeData from "@/components/realTimeData.vue";
 import curveChartData from "@/components/curveChartData.vue";
 import { getSsGvTj } from "@/utils/api/microPowerGridServer";
 import type { PROP_CONT } from "@/assets/interface";
+import { realTimeDataStore } from "@/stores/realTimeData";
 
+const realStore: any = realTimeDataStore();
 const baseURL: any = import.meta.env.BASE_URL;
 const chartData = ref<any>({
     yAxisUnit: '单位：kW',
@@ -57,7 +59,35 @@ const chartData = ref<any>({
     seriesData: [],
 });
 const typeSelected = ref<string>('REAL_TIME');
-const contentData = ref<PROP_CONT>();
+const contentData = computed(() => {
+    return {
+        title: '充电桩1号',
+        deviceImg: 'charge_pile',
+        cont_data: [
+            {
+                iconName: 'real-time_output_volt',
+                dataName: '实时输出电压',
+                realData: realStore.realTimeData.chargePileUa,
+                unit: 'V'
+            }, {
+                iconName: 'output_current',
+                dataName: '输出电流',
+                realData: realStore.realTimeData.chargePileIa,
+                unit: 'A'
+            }, {
+                iconName: 'output_power_total',
+                dataName: '累计输出电量',
+                realData: realStore.realTimeData.chargePileTotal,
+                unit: 'kWh'
+            }, {
+                iconName: 'output_power',
+                dataName: '输出功率',
+                realData: realStore.realTimeData.chargePilePz,
+                unit: 'kWh'
+            },
+        ],
+    }
+})
 
 let interval: any = null; //循环器
 
@@ -85,33 +115,6 @@ const init = async (dateType: string = 'REAL_TIME') => {
     typeSelected.value = dateType;
     if (dateType === 'REAL_TIME') {
         // const res:any = await REAL_TIME_API();
-        contentData.value = {
-            title: '充电桩1号',
-            deviceImg: 'charge_pile',
-            cont_data: [
-                {
-                    iconName: 'real-time_output_volt',
-                    dataName: '实时输出电压',
-                    realData: 3.5,
-                    unit: 'V'
-                }, {
-                    iconName: 'output_current',
-                    dataName: '输出电流',
-                    realData: 2,
-                    unit: 'A'
-                }, {
-                    iconName: 'output_power_total',
-                    dataName: '累计输出电量',
-                    realData: 5,
-                    unit: 'kWh'
-                }, {
-                    iconName: 'output_power',
-                    dataName: '输出功率',
-                    realData: 2001,
-                    unit: 'kWh'
-                },
-            ],
-        }
     } else {
         // chartData.value.xAxisData = ['00:00', '01:30', '03:00', '04:30', '06:00', '07:30', '09:00', '10:30', '12:00', '13:30', '15:00', '16:30', '18:00', '19:30', '21:00', '22:30', '24:00'];
         // chartData.value.seriesData = [820, 932, 901, 934, 1290, 1330, 1320, 820, 932, 901, 934, 1290];

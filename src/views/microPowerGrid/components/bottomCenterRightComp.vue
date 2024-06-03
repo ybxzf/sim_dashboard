@@ -18,7 +18,7 @@ import { getSsGvTj, getTemperatureInfo } from "@/utils/api/microPowerGridServer"
 import { formatterDate } from "@/utils/base";
 import { informStore } from "@/stores/inform";
 
-const inStore = informStore();
+const inStore: any = informStore();
 const lineChartRef = ref<any>();
 const xAxisData = ref<any>([]);
 const seriesData = ref<any>([
@@ -182,7 +182,7 @@ const init = async () => {
                     if (Object.prototype.hasOwnProperty.call(centerTemp[i], 'snTemperature')) {
                         seriesData.value[1].data.push(centerTemp[i].snTemperature);
                         seriesData.value[1].nowSecond = centerTemp[i].dataDate;
-                            inStore.updateInfo({
+                        inStore.updateInfo({
                             indoorTemp: centerTemp[i].snTemperature,
                             outdoorTemp: centerTemp[i].swTemperature,
                         })

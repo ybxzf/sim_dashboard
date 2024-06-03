@@ -60,11 +60,99 @@ import bottomLeftComp from "./components/bottomLeftComp.vue";
 import bottomCenterLeftComp from "./components/bottomCenterLeftComp.vue";
 import bottomCenterRightComp from "./components/bottomCenterRightComp.vue";
 import bottomRightComp from "./components/bottomRightComp.vue";
+import { getAllPzUaIak, getNowDltj, getSelectDlsyqk } from "@/utils/api/microPowerGridServer";
+import { realTimeDataStore } from "@/stores/realTimeData";
+
+const realStore: any = realTimeDataStore();
+let interval: any = null; //循环器
 
 onMounted(() => {
     init();
+    interval = setInterval(() => {
+        // console.log('更新数据', typeSelected.value);
+        init();
+    }, 5000)
 });
-const init = async () => { };
+const init = async () => {
+    getAllPzUaIak().then((res: any) => {
+        if (res.code === 0) {
+            res.data.map((item: any) => {
+                if (item.type_code == '01') {
+                    realStore.updateData({
+                        photovoltaicUa: item.ua,
+                        photovoltaicIa: item.ia,
+                        photovoltaicPz: item.pz,
+                    })
+                }
+                if (item.type_code == '02') {
+                    realStore.updateData({
+                        energyPz: item.pz,
+                    })
+                }
+                if (item.type_code == '03') {
+                    realStore.updateData({
+                        chargePileUa: item.ua,
+                        chargePileIa: item.ia,
+                        chargePilePz: item.pz,
+                    })
+                }
+            })
+        }
+    })
+    getNowDltj().then((res: any) => {
+        if (res.code === 0) {
+            res.data.map((item: any) => {
+                if (item.typeCode == '光伏') {
+                    realStore.updateData({
+                        photovoltaiDaily: item.quantity,
+                    })
+                }
+                if (item.typeCode == '储能充') {
+                    realStore.updateData({
+                        energyInPower: item.quantity,
+                    })
+                }
+                if (item.typeCode == '储能放') {
+                    realStore.updateData({
+                        energyOutPower: item.quantity,
+                    })
+                }
+            })
+        }
+    })
+    getSelectDlsyqk().then((res: any) => {
+        if (res.code === 0) {
+            res.data.map((item: any) => {
+                if (item.name == '光伏') {
+                    realStore.updateData({
+                        photovoltaicTotal: item.num,
+                    })
+                }
+                if (item.name == '储能充') {
+                    realStore.updateData({
+                        energyTotalIn: item.num,
+                    })
+                }
+                if (item.name == '储能放') {
+                    realStore.updateData({
+                        energyTotalOut: item.num,
+                    })
+                }
+                if (item.name == '充电桩') {
+                    realStore.updateData({
+                        chargePileTotal: item.num,
+                    })
+                }
+            })
+        }
+    })
+
+
+};
+
+onBeforeUnmount(() => {
+    clearInterval(interval);
+});
 </script>
 <style lang="less" scoped>
 .pg-ctn {

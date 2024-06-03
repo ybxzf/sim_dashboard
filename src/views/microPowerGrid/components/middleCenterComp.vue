@@ -33,11 +33,11 @@
                     <img :style="{ width: switchObj['k1'] ? '1.4rem' : '1.45rem' }"
                         :src="`${baseURL}images/microPowerGrid/${switchObj['k1'] ? 'line_on' : 'line_off1'}.png`">
                 </div>
-                <div class="item-switch" v-if="typeSelected === 'SIM'" style="top: 16rem;left: 1.33rem;">
+                <!-- <div class="item-switch" v-if="typeSelected === 'SIM'" style="top: 16rem;left: 1.33rem;">
                     <span>k2</span>
                     <img :style="{ width: switchObj['k2'] ? '1.4rem' : '1.5rem' }"
                         :src="`${baseURL}images/microPowerGrid/${switchObj['k2'] ? 'line_on_new' : 'line_off_new'}.png`">
-                </div>
+                </div> -->
                 <div class="item-switch" v-if="typeSelected === 'SIM'" style="top: 18.1rem;left: 17.37rem;">
                     <span>k3</span>
                     <img :style="{ width: switchObj['k3'] ? '1.4rem' : '1.5rem' }"
@@ -71,7 +71,7 @@
             </div>
         </div>
     </div>
-    <el-dialog v-model="dialogVisible" width="70rem" :before-close="handleClose">
+    <el-dialog v-model="dialogVisible" width="75rem" :before-close="handleClose">
         <template #title>
             <span style="font-size: 2rem">场景切换</span>
         </template>
@@ -111,23 +111,27 @@ const sceneList = ref<any[]>([
     {
         label: '场景一',
         value: '1',
-        describe: 'K1、K7断开，K2、K3、K5、K8闭合，实现光伏给负载供电',
+        describe: 'K6、K7断开，K1、K3、K4、K5、K8闭合,可实现市电给储能电池充电，同时实现储能电池给负载供电的场景',
     }, {
         label: '场景二',
         value: '2',
-        describe: 'K1、K7、K5、K8断开，K2、K3闭合，实现光伏发电剩余电量到储能',
+        describe: 'K3、K4、K5、K7断开,K1、K6、K8闭合，可实现市电给负载供电的场景',
     }, {
         label: '场景三',
         value: '3',
-        describe: 'K1、K2、K7断开，K3、K5、K8闭合，实现储能给负载供电',
+        describe: 'K8断开,K7闭合，可实现市电给充电桩供电的场景(充电供电常用场景，不涉及光伏系统)',
     }, {
         label: '场景四',
         value: '4',
-        describe: 'K2、K3、K5、K7断开，KI、K4、K6、K8闭合，实现市电给负载供电，并给储能电池充电',
+        describe: 'K1、K7断开,K3、K5、K8闭合，可实现光伏给负载供电的场景',
     }, {
         label: '场景五',
         value: '5',
-        describe: 'K1、K8断开，K7闭合，实现市电给充电桩供电',
+        describe: 'K1、K7断开,K3、K5、K8闭合,可实现光伏发电剩余电量到储能的场景',
+    }, {
+        label: '场景六',
+        value: '6',
+        describe: 'K1、K7断开，K3、K5、K8闭合,可实现储能给负载供电的场景',
     },
 ]);
 
@@ -353,10 +357,10 @@ const handleClose = (done: () => void) => {
 const getSwitchObj = (scenario: string) => {
     if (scenario == '1') {
         switchObj.value = {
-            k1: false,
+            k1: true,
             k2: true,
             k3: true,
-            k4: false,
+            k4: true,
             k5: true,
             k6: false,
             k7: false,
@@ -364,38 +368,16 @@ const getSwitchObj = (scenario: string) => {
         }
     } else if (scenario == '2') {
         switchObj.value = {
-            k1: false,
-            k2: true,
-            k3: true,
-            k4: false,
-            k5: false,
-            k6: false,
-            k7: false,
-            k8: false,
-        }
-    } else if (scenario == '3') {
-        switchObj.value = {
-            k1: false,
-            k2: false,
-            k3: true,
-            k4: false,
-            k5: true,
-            k6: false,
-            k7: false,
-            k8: true,
-        }
-    } else if (scenario == '4') {
-        switchObj.value = {
             k1: true,
-            k2: false,
+            k2: true,
             k3: false,
-            k4: true,
+            k4: false,
             k5: false,
             k6: true,
             k7: false,
             k8: true,
         }
-    } else {
+    } else if (scenario == '3') {
         switchObj.value = {
             k1: false,
             k2: false,
@@ -405,6 +387,39 @@ const getSwitchObj = (scenario: string) => {
             k6: false,
             k7: true,
             k8: false,
+        }
+    } else if (scenario == '4') {
+        switchObj.value = {
+            k1: false,
+            k2: true,
+            k3: true,
+            k4: false,
+            k5: true,
+            k6: false,
+            k7: false,
+            k8: true,
+        }
+    } else if (scenario == '5') {
+        switchObj.value = {
+            k1: false,
+            k2: true,
+            k3: true,
+            k4: false,
+            k5: true,
+            k6: false,
+            k7: false,
+            k8: true,
+        }
+    } else if (scenario == '6') {
+        switchObj.value = {
+            k1: false,
+            k2: true,
+            k3: true,
+            k4: false,
+            k5: true,
+            k6: false,
+            k7: false,
+            k8: true,
         }
     }
 }
@@ -419,6 +434,7 @@ const getSwitchObj = (scenario: string) => {
     background-color: rgba(0, 67, 122, 0.7) !important;
     border: 1px solid rgb(0, 67, 122);
     box-shadow: inset 0 0 5px rgba(0, 67, 122, 0.8);
+
     >* {
         color: #ffffff;
     }

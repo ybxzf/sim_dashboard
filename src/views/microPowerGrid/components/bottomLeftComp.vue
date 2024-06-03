@@ -78,7 +78,7 @@ const init = () => {
                         optionsData.value[0].value = Number(item.num);
                     } else if (item.name === '充电桩') {
                         optionsData.value[1].value = Number(item.num);
-                    } else {
+                    } else if (item.name === '家用负荷总') {
                         optionsData.value[2].value = Number(item.num);
                     }
                 })

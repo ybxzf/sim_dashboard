@@ -42,8 +42,8 @@ export function getYesterdayElectricity() {
  */
 export function getSelectScene(type: string) {
   // return $axios({
-  //     method: 'get',
-  //     url: '/api/bigScreen/selectScene?type=1',
+  //   method: 'get',
+  //   url: `/api/bigScreen/selectScene?type=${type}`,
   // })
   return new Promise<any>((resolve, reject) => {
     setTimeout(() => {
@@ -590,7 +590,17 @@ export function getSelectDlsyqk() {
         {
           // "num": 1001,
           num: Number((Math.random() * 1000).toFixed(1)),
+          name: "光伏",
+        },
+        {
+          // "num": 1001,
+          num: Number((Math.random() * 1000).toFixed(1)),
           name: "储能充",
+        },
+        {
+          // "num": 1001,
+          num: Number((Math.random() * 1000).toFixed(1)),
+          name: "储能放",
         },
         {
           // "num": 9,
@@ -600,7 +610,7 @@ export function getSelectDlsyqk() {
         {
           // "num": 9,
           num: Number((Math.random() * 1000).toFixed(1)),
-          name: "家用负荷",
+          name: "家用负荷总",
         }, {
           "num": 128.4,
           "NAME": "中央空调"   //中央空调这里的数据，放到首页下面的中央空调总电量这里。
@@ -1413,6 +1423,41 @@ export function getSelectMonthDlsyqk() {
           "num": (Math.random() * 3000).toFixed(2)
         }
       ]
+    })
+  })
+}
+
+/**
+ * 获取实时电压电流功率信息（光储充 实时数据）数据
+ * @returns 月电量，中央空调和光储充实时数据里的当月电量（主要是中央空调 当月耗电）数据
+ */
+export function getAllPzUaIak() {
+  // return $axios({
+  //   method: "get",
+  //   url: "/api/bigScreen/getAllPzUaIa",
+  // });
+  return new Promise<any>((resolve, reject) => {
+    resolve({
+      "msg": "操作成功",
+      "code": 0,
+      "data": [{
+        "type_code": "01",  // 01 光伏 02 储能 03 充电桩
+        "pz": (Math.random() * 3000).toFixed(2),  // 功率
+        "ua": (Math.random() * 1000).toFixed(),  //电压
+        "ia": (Math.random() * 100).toFixed()  // 电流
+      },
+      {
+        "type_code": "02",
+        "pz": (Math.random() * 3000).toFixed(2),
+        "ua": (Math.random() * 1000).toFixed(),
+        "ia": (Math.random() * 100).toFixed()
+      },
+      {
+        "type_code": "03",
+        "pz": (Math.random() * 3000).toFixed(2),
+        "ua": (Math.random() * 1000).toFixed(),
+        "ia": (Math.random() * 100).toFixed()
+      }]
     })
   })
 }
