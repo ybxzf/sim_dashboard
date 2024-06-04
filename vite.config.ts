@@ -12,7 +12,7 @@ export default defineConfig({
     port: 8080,
     proxy: {
       "/api/bigScreen": {
-        target: "http://47.108.165.207:80/",
+        target: "http://192.168.1.99:18088/",
         timeout: 20 * 60 * 1000,
         changeOrigin: true,
       },
