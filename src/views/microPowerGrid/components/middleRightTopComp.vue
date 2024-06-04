@@ -3,7 +3,7 @@
         <div class="flex-item">
             <div class="item-title">
                 <span class="title-name">
-                    {{ typeSelected === 'REAL_TIME' ? '光伏发电实时数据' : '光伏发电功率监测' }}
+                    {{ typeSelected === 'REAL_TIME' ? '光伏发电监测' : '光伏发电功率监测' }}
                 </span>
                 <div class="chart-button-ctn">
                     <div>
@@ -57,7 +57,7 @@ const chartData = ref<any>({
 const typeSelected = ref<string>('REAL_TIME');
 const contentData = computed(() => {
     return {
-        title: '家庭光伏',
+        title: '光伏发电',
         deviceImg: 'photovoltaic_device',
         cont_data: [
             {

@@ -1,5 +1,4 @@
 import $axios from "@/utils/interceptor";
-import { BASE_URL } from "@/assets/config";
 
 /**
  * 获取昨日电量统计数据
@@ -8,7 +7,7 @@ import { BASE_URL } from "@/assets/config";
 export function getYesterdayElectricity() {
   return $axios({
     method: "get",
-    url: BASE_URL+"/api/bigScreen/yesterdayElectricity",
+    url: "/api/bigScreen/yesterdayElectricity",
   });
   // return new Promise<any>((resolve, reject) => {
   //   resolve({
@@ -44,7 +43,7 @@ export function getYesterdayElectricity() {
 export function getSelectScene(type: string) {
   return $axios({
     method: "get",
-    url:  BASE_URL+`/api/bigScreen/selectScene?type=${type}`,
+    url: `/api/bigScreen/selectScene?type=${type}`,
   });
   // return new Promise<any>((resolve, reject) => {
   //   setTimeout(() => {
@@ -64,7 +63,7 @@ export function getSelectScene(type: string) {
 export function getSsPhotovoltaicPower() {
   return $axios({
     method: "get",
-    url:  BASE_URL+"/api/bigScreen/ssPhotovoltaicPower",
+    url: "/api/bigScreen/ssPhotovoltaicPower",
   });
   // return new Promise<any>((resolve, reject) => {
   //   resolve({
@@ -520,7 +519,7 @@ export function getSsPhotovoltaicPower() {
 export function getSsPhotovoltaicPowerWeek() {
   return $axios({
     method: "get",
-    url:  BASE_URL+"/api/bigScreen/ssPhotovoltaicPowerWeek",
+    url: "/api/bigScreen/ssPhotovoltaicPowerWeek",
   });
   // return new Promise<any>((resolve, reject) => {
   //   resolve({
@@ -581,7 +580,7 @@ export function getSsPhotovoltaicPowerWeek() {
 export function getSelectDlsyqk() {
   return $axios({
     method: "get",
-    url:  BASE_URL+"/api/bigScreen/selectDlsyqk",
+    url: "/api/bigScreen/selectDlsyqk",
   });
   // return new Promise<any>((resolve, reject) => {
   //   resolve({
@@ -629,7 +628,7 @@ export function getSelectDlsyqk() {
 export function getSsGvTj() {
   return $axios({
     method: "get",
-    url:  BASE_URL+"/api/bigScreen/ssGvTj",
+    url: "/api/bigScreen/ssGvTj",
   });
   // return new Promise((resolve, reject) => {
   //   const data: any = {
@@ -1151,7 +1150,7 @@ export function getSsGvTj() {
 export function getTemperatureInfo() {
   return $axios({
     method: "get",
-    url:  BASE_URL+`/api/bigScreen/temperatureInfo`,
+    url: `/api/bigScreen/temperatureInfo`,
   });
   // return new Promise<any>((resolve, reject) => {
   //   // const data: any = [
@@ -1368,7 +1367,7 @@ export function getTemperatureInfo() {
 export function getNowDltj() {
   return $axios({
     method: "get",
-    url:  BASE_URL+"/api/bigScreen/nowDltj",
+    url: "/api/bigScreen/nowDltj",
   });
   // return new Promise<any>((resolve, reject) => {
   //   resolve({
@@ -1407,7 +1406,7 @@ export function getNowDltj() {
 export function getSelectMonthDlsyqk() {
   return $axios({
     method: "get",
-    url:  BASE_URL+"/api/bigScreen/selectMonthDlsyqk",
+    url: "/api/bigScreen/selectMonthDlsyqk",
   });
   // return new Promise<any>((resolve, reject) => {
   //   resolve({
@@ -1434,7 +1433,7 @@ export function getSelectMonthDlsyqk() {
 export function getAllPzUaIak() {
   return $axios({
     method: "get",
-    url:  BASE_URL+"/api/bigScreen/getAllPzUaIa",
+    url: "/api/bigScreen/getAllPzUaIa",
   });
   // return new Promise<any>((resolve, reject) => {
   //   resolve({

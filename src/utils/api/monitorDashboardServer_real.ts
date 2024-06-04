@@ -1,5 +1,4 @@
 import $axios from "@/utils/interceptor";
-import { BASE_URL } from "@/assets/config";
 
 /**
  * 获取昨日电量统计数据
@@ -8,7 +7,7 @@ import { BASE_URL } from "@/assets/config";
 export function getYesyterdayJyfhTj() {
   return $axios({
     method: "get",
-    url:  BASE_URL+`/api/bigScreen/getYesyterdayJyfhTj`,
+    url: `/api/bigScreen/getYesyterdayJyfhTj`,
   });
   // return new Promise<any>((resolve, reject) => {
   //   resolve({
@@ -30,7 +29,7 @@ export function getYesyterdayJyfhTj() {
 export function getSsJyfhGvTj() {
   return $axios({
       method: 'get',
-      url:  BASE_URL+'/api/bigScreen/ssJyfhGvTj',
+      url: '/api/bigScreen/ssJyfhGvTj',
   })
   // return new Promise((resolve, reject) => {
   //   resolve({
@@ -872,7 +871,7 @@ export function getSsJyfhGvTj() {
 export function getDlfjMonth(month: string) {
     return $axios({
       method: "get",
-      url:  BASE_URL+`/api/bigScreen/dlfjMonth?date=${month}`,
+      url: `/api/bigScreen/dlfjMonth?date=${month}`,
     });
   // return new Promise<any>((resolve, reject) => {
   //   resolve({
@@ -920,7 +919,7 @@ export function getDlfjMonth(month: string) {
 export function getDlfj(date: string) {
     return $axios({
       method: "get",
-      url:  BASE_URL+`/api/bigScreen/dlfj?date=${date}`,
+      url: `/api/bigScreen/dlfj?date=${date}`,
     });
   // return new Promise<any>((resolve, reject) => {
   //   resolve({
@@ -966,7 +965,7 @@ export function getDlfj(date: string) {
 export function getDayEventInfo() {
   return $axios({
     method: "get",
-    url:  BASE_URL+`/api/bigScreen/dayEventInfo`,
+    url: `/api/bigScreen/dayEventInfo`,
   });
   // return new Promise<any>((resolve, reject) => {
   //   resolve({
@@ -992,7 +991,7 @@ export function getDayEventInfo() {
 export function getTemperatureInfo() {
   return $axios({
     method: "get",
-    url:  BASE_URL+`/api/bigScreen/temperatureInfo`,
+    url: `/api/bigScreen/temperatureInfo`,
   });
   // return new Promise<any>((resolve, reject) => {
   //   // const data: any = [

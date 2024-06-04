@@ -3,7 +3,7 @@
         <div class="flex-item">
             <div class="item-title">
                 <span class="title-name">
-                    {{ typeSelected === 'REAL_TIME' ? '充电桩实时数据' : '充电桩功率监测' }}
+                    {{ typeSelected === 'REAL_TIME' ? '充电桩监测' : '充电桩功率监测' }}
                 </span>
                 <div class="chart-button-ctn">
                     <div>
@@ -45,6 +45,7 @@ import curveChartData from "@/components/curveChartData.vue";
 import { getSsGvTj } from "@/utils/api/microPowerGridServer";
 import type { PROP_CONT } from "@/assets/interface";
 import { realTimeDataStore } from "@/stores/realTimeData";
+import axios from "axios";
 
 const realStore: any = realTimeDataStore();
 const baseURL: any = import.meta.env.BASE_URL;
