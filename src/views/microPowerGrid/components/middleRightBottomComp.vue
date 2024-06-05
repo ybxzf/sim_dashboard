@@ -33,7 +33,14 @@
                 </realTimeData>
             </div>
             <div v-else>
-                <curveChartData :chartData="chartData"></curveChartData>
+                <div class="item-tooltip" v-if="!mouseIn && mouseInSetTime" :style="{
+                    backgroundColor: chartData.lineColorT,
+                }">
+                    Pz: {{ chartData?.seriesData[chartData?.seriesData.length - 1 || 0] }} w <br />
+                    时间: {{ chartData.nowSecond }}
+                </div>
+                <curveChartData @mouseover="handleMouseOver" @mouseleave="handleMouseLeave" :chartData="chartData">
+                </curveChartData>
             </div>
         </div>
     </div>
@@ -47,9 +54,11 @@ import type { PROP_CONT } from "@/assets/interface";
 import { realTimeDataStore } from "@/stores/realTimeData";
 
 const realStore: any = realTimeDataStore();
+const mouseIn = ref<boolean>(false);
+const mouseInSetTime = ref<boolean>(false);
 const baseURL: any = import.meta.env.BASE_URL;
 const chartData = ref<any>({
-    yAxisUnit: '单位：kW',
+    yAxisUnit: '单位：w',
     legendDataName: '储能功率',
     lineColorT: 'rgb(0, 186, 255, 0.5)',
     lineColor: 'rgb(0, 186, 255, 1)',
@@ -73,7 +82,7 @@ const contentData = computed(() => {
                 iconName: 'DC_power',
                 dataName: '直流功率',
                 realData: realStore.realTimeData.energyPz,
-                unit: 'kW'
+                unit: 'w'
             }, {
                 iconName: 'charge_total',
                 dataName: '总充电量',
@@ -99,6 +108,7 @@ const contentData = computed(() => {
     }
 })
 
+let timer: any = null; //定时器
 let interval: any = null; //循环器
 
 watch(() => typeSelected.value,
@@ -124,18 +134,20 @@ onMounted(() => {
 const init = async (dateType: string = 'REAL_TIME') => {
     typeSelected.value = dateType;
     if (dateType === 'REAL_TIME') {
+        clearTimeout(timer);
+        mouseInSetTime.value = false;
         // const res:any = await REAL_TIME_API();
     } else {
         // chartData.value.xAxisData = ['00:00', '01:30', '03:00', '04:30', '06:00', '07:30', '09:00', '10:30', '12:00', '13:30', '15:00', '16:30', '18:00', '19:30', '21:00', '22:30', '24:00'];
         // chartData.value.seriesData = [820, 932, 901, 934, 1290, 1330, 1320, 820, 932, 901, 934, 1290];
         // Object.assign(chartData.value, {
-        //     yAxisUnit: '单位：kW',
+        //     yAxisUnit: '单位：w',
         //     legendDataName: '储能功率',
         //     lineColorT: 'rgb(0, 186, 255, 0.5)',
         //     lineColor: 'rgb(0, 186, 255, 1)',
         // })
         getSsGvTj().then((res: any) => {
-            console.log(res);
+            // console.log(res);
             if (res.code === 0) {
                 const seriesData: number[] = [];
                 const xAxisData: string[] = [];
@@ -156,6 +168,9 @@ const init = async (dateType: string = 'REAL_TIME') => {
                 })
                 chartData.value.seriesData = seriesData;
                 chartData.value.xAxisData = xAxisData;
+                timer = setTimeout(() => {
+                    mouseInSetTime.value = true;
+                }, 1000);
             }
         });
 
@@ -163,7 +178,19 @@ const init = async (dateType: string = 'REAL_TIME') => {
 
 };
 
+const handleMouseOver = () => {
+    mouseIn.value = true;
+
+}
+const handleMouseLeave = () => {
+    timer = setTimeout(() => {
+        mouseIn.value = false;
+    }, 200);
+}
+
 onBeforeUnmount(() => {
+    mouseInSetTime.value = false;
+    clearTimeout(timer);
     clearInterval(interval);
 });
 </script>
@@ -197,6 +224,19 @@ onBeforeUnmount(() => {
                 width: 4rem;
             }
         }
+    }
+
+    .item-tooltip {
+        width: 18rem;
+        height: 5rem;
+        position: absolute;
+        left: 30%;
+        top: 40%;
+        border-radius: 0.1rem;
+        box-shadow: inset 0 0 5px rgba(0, 0, 0, 0.2);
+        padding: 0.5rem;
+        font-size: 1.1rem;
+        color: #fff;
     }
 }
 </style>

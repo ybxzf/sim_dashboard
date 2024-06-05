@@ -6,7 +6,15 @@
                 <span>实时功率</span>
             </div>
             <div>
-                <div ref="lineChartRef" class="item-chart"></div>
+                <div class="item-tooltip" v-if="!mouseIn && mouseInSetTime" :style="{
+                    backgroundColor: 'rgb(101, 211, 255, 0.5)',
+                }">
+                    Pz： {{ seriesData[0]?.data[seriesData[0]?.data.length - 1] }} w <br />
+                    温度：{{ seriesData[1]?.data[seriesData[1]?.data.length - 1] }} ℃<br />
+                    时间：{{ seriesData[0]?.nowSecond }}
+                </div>
+                <div ref="lineChartRef" @mouseover="handleMouseOver" @mouseleave="handleMouseLeave" class="item-chart">
+                </div>
             </div>
         </div>
     </div>
@@ -19,6 +27,8 @@ import { formatterDate } from "@/utils/base";
 import { informStore } from "@/stores/inform";
 
 const inStore: any = informStore();
+const mouseIn = ref<boolean>(false);
+const mouseInSetTime = ref<boolean>(false);
 const lineChartRef = ref<any>();
 const xAxisData = ref<any>([]);
 const seriesData = ref<any>([
@@ -57,20 +67,20 @@ let option: any = {
             color: "#fff", // 文字的颜色
             border: 'none',
         },
-        // formatter: '{a} <br/>{b}: {c}KW',
+        // formatter: '{a} <br/>{b}: {c}w',
         formatter: (params: any) => {
             // console.log(params[0],params[1]);
             if (params.length === 2) {
                 return `
                 <div>
-                    Pz: ${params[0]['data']} kW <br/>
-                    时间: ${formatterDate(new Date())} ${params[0]['name']} <br/>
-                    温度: ${params[1]['data']} ℃
+                    Pz: ${params[0]['data']} w <br/>
+                    温度: ${params[1]['data']} ℃ <br/>
+                    时间: ${formatterDate(new Date())} ${params[0]['name']}
                 </div> `
             } else if (params[0].seriesName === "总功率") {
                 return `
                 <div>
-                    Pz: ${params[0]['data']} kW <br/>
+                    Pz: ${params[0]['data']} w <br/>
                     时间: ${formatterDate(new Date())} ${params[0]['name']} <br/>
                 </div> `
             } else {
@@ -103,7 +113,7 @@ let option: any = {
         data: [],
     },
     yAxis: [{
-        name: '单位：kW',
+        name: '单位：w',
         type: 'value',
         nameTextStyle: {
             color: '#fff', // 设置为白色
@@ -226,28 +236,40 @@ const init = async () => {
                 // console.log(option)
                 myChart.setOption(option);
                 timer = setTimeout(() => {
-                    myChart.dispatchAction({
-                        type: 'showTip',
-                        seriesIndex: 0,
-                        dataIndex: seriesData.value[0]?.data.length - 1 || 0
-                    });
+                    mouseInSetTime.value = true;
                 }, 1000);
-                // 默认显示最新数据的tooltip
-                interval.inter2 = setInterval(() => {
-                    myChart.dispatchAction({
-                        type: 'showTip',
-                        seriesIndex: 0,
-                        dataIndex: seriesData.value[0]?.data.length - 1 || 0
-                    });
-                }, 5000)
+                // timer = setTimeout(() => {
+                //     myChart.dispatchAction({
+                //         type: 'showTip',
+                //         seriesIndex: 0,
+                //         dataIndex: seriesData.value[0]?.data.length - 1 || 0
+                //     });
+                // }, 1000);
+                // // 默认显示最新数据的tooltip
+                // interval.inter2 = setInterval(() => {
+                //     myChart.dispatchAction({
+                //         type: 'showTip',
+                //         seriesIndex: 0,
+                //         dataIndex: seriesData.value[0]?.data.length - 1 || 0
+                //     });
+                // }, 5000)
                 myChart.resize();
             })
         }
     });
 };
 
+const handleMouseOver = () => {
+    mouseIn.value = true;
+
+}
+const handleMouseLeave = () => {
+    mouseIn.value = false;
+}
+
 onBeforeUnmount(() => {
     // console.log('家用电器实时功率关闭');
+    mouseInSetTime.value = false;
     clearTimeout(timer);
     for (const key in interval) {
         if (Object.prototype.hasOwnProperty.call(interval, key)) {
@@ -284,6 +306,19 @@ onBeforeUnmount(() => {
         width: 100%;
         height: 15rem;
         // border: 1px solid red;
+    }
+
+    .item-tooltip {
+        width: 15rem;
+        // height: 5rem;
+        position: absolute;
+        left: 20%;
+        top: 45%;
+        border-radius: 0.1rem;
+        box-shadow: inset 0 0 5px rgba(0, 0, 0, 0.2);
+        padding: 0.5rem;
+        font-size: 0.8rem;
+        color: #fff;
     }
 }
 </style>

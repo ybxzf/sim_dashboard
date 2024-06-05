@@ -75,11 +75,14 @@ const init = () => {
             if (Object.prototype.hasOwnProperty.call(res, 'data')) {
                 res.data.map((item: any) => {
                     if (item.name === '储能充') {
-                        optionsData.value[0].value = Number(item.num);
+                        optionsData.value[0].value = Number(item.num) * 100;
+                        optionsData.value[0].realValue = Number(item.num);
                     } else if (item.name === '充电桩') {
-                        optionsData.value[1].value = Number(item.num);
+                        optionsData.value[1].value = Number(item.num) * 100;
+                        optionsData.value[1].realValue = Number(item.num);
                     } else if (item.name === '家用负荷总') {
-                        optionsData.value[2].value = Number(item.num);
+                        optionsData.value[2].value = Number(item.num) * 100;
+                        optionsData.value[2].realValue = Number(item.num);
                     }
                 })
                 const maxValue: number = (optionsData.value.reduce((max: any, current: any) => {
@@ -146,13 +149,15 @@ const init = () => {
                                 params.seriesName !== 'pie2d'
                             ) {
                                 // console.log(params);
-
+                                const value: any = option.series[params.seriesIndex]?.pieData.realValue ?
+                                    option.series[params.seriesIndex]?.pieData.realValue :
+                                    option.series[params.seriesIndex]?.pieData.value
                                 return `${params.seriesName}<br/>
-                    <span style="display:inline-block;margin-right:5px;border-radius:10px;width:10px;height:10px;background-color:${params.color};">
-                    </span>
-                    ${option.series[params.seriesIndex].pieData.value}
-                    kWh
-                    `
+                                    <span style="display:inline-block;margin-right:5px;border-radius:10px;width:10px;height:10px;background-color:${params.color};">
+                                    </span>
+                                    ${value}
+                                    kWh
+                                `
                             }
                         },
                     },
@@ -200,14 +205,14 @@ const init = () => {
                     },
                     grid3D: {
                         show: false,
-                        boxHeight: 90 / maxValue,
+                        boxHeight: maxValue > 1 ? (90 / maxValue) : 90,    //3D图高
                         // 9 * Math.pow(0.1, (String(maxValue.toFixed()).length) - 1),
                         top: -15,
                         left: '2%',
                         // bottom: '60%',
                         // environment: "rgba(255,255,255,0)",
                         viewControl: {
-                            distance: 180,
+                            distance: 200,
                             alpha: 25,
                             beta: 30,
                             autoRotate: false, // 自动旋转

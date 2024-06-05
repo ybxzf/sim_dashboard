@@ -34,12 +34,12 @@ let option: any = {
             // console.log(params[0]);
             return `
             <div>
-                Pz: ${params[0]['data']} kW <br/>
+                Pz: ${params[0]['data']} w <br/>
                 时间: ${formatterDate(new Date())} ${params[0]['name']}
             </div>
             `
         },
-        // formatter: `<div>Pz: {c} kW <br/>时间: {b}</div>`,
+        // formatter: `<div>Pz: {c} w <br/>时间: {b}</div>`,
     },
     legend: {
         data: [''],
@@ -148,21 +148,21 @@ const init = () => {
         // nextTick(() => {
         myChart = echarts.init(lineChartRef.value);
         myChart.setOption(option);
-        timer = setTimeout(() => {
-            myChart.dispatchAction({
-                type: 'showTip',
-                seriesIndex: 0,
-                dataIndex: props.chartData?.seriesData.length - 1 || 0
-            });
-        }, 1000);
-        // 默认显示最新数据的tooltip
-        interval = setInterval(() => {
-            myChart.dispatchAction({
-                type: 'showTip',
-                seriesIndex: 0,
-                dataIndex: props.chartData?.seriesData.length - 1 || 0
-            });
-        }, 5000)
+        // timer = setTimeout(() => {
+        //     myChart.dispatchAction({
+        //         type: 'showTip',
+        //         seriesIndex: 0,
+        //         dataIndex: props.chartData?.seriesData.length - 1 || 0
+        //     });
+        // }, 1500);
+        // // 默认显示最新数据的tooltip
+        // interval = setInterval(() => {
+        //     myChart.dispatchAction({
+        //         type: 'showTip',
+        //         seriesIndex: 0,
+        //         dataIndex: props.chartData?.seriesData.length - 1 || 1
+        //     });
+        // }, 5000)
         // })
     }
 }

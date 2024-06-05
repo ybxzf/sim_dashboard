@@ -18,7 +18,17 @@
                     <span class="item-temp-value">{{ newTemp.swTemperature }} ℃</span>
                 </div>
             </div>
-            <div ref="lineChartRef" class="item-chart"></div>
+            <div>
+                <div class="item-tooltip" v-if="!mouseIn && mouseInSetTime" :style="{
+                    backgroundColor: 'rgb(101, 211, 255, 0.5)',
+                }">
+                    Pz： {{ seriesData[0]?.data[seriesData[0]?.data.length - 1] }} w <br />
+                    温度：{{ seriesData[1]?.data[seriesData[1]?.data.length - 1] }} ℃<br />
+                    时间：{{ seriesData[0]?.nowSecond }}
+                </div>
+                <div ref="lineChartRef" @mouseover="handleMouseOver" @mouseleave="handleMouseLeave" class="item-chart">
+                </div>
+            </div>
         </div>
     </div>
 </template>
@@ -28,6 +38,8 @@ import * as echarts from 'echarts';
 import { getTemperatureInfo, getSsJyfhGvTj } from "@/utils/api/monitorDashboardServer";
 import { formatterDate } from "@/utils/base";
 
+const mouseIn = ref<boolean>(false);
+const mouseInSetTime = ref<boolean>(false);
 const lineChartRef = ref<any>();
 const xAxisData = ref<any[]>([]);
 const newTemp = ref<any>({
@@ -76,15 +88,15 @@ let option: any = {
             if (params.length === 2) {
                 return `
                 <div>
-                    Pz: ${params[0]['data']} kW <br/>
+                    Pz: ${params[0]['data']} w <br/>
+                    温度: ${params[1]['data']} ℃ <br/>
                     时间: ${formatterDate(new Date())} ${params[0]['name']} <br/>
-                    温度: ${params[1]['data']} ℃
                 </div>
                 `
             } else if (params[0].seriesName === "总功率") {
                 return `
                 <div>
-                    Pz: ${params[0]['data']} kW <br/>
+                    Pz: ${params[0]['data']} w <br/>
                     时间: ${formatterDate(new Date())} ${params[0]['name']} <br/>
                 </div>
                 `
@@ -239,20 +251,23 @@ const init = async () => {
                     // console.log(option)
                     myChart.setOption(option);
                     timer = setTimeout(() => {
-                        myChart.dispatchAction({
-                            type: 'showTip',
-                            seriesIndex: 0,
-                            dataIndex: seriesData.value[0]?.data.length - 1 || 0
-                        });
+                        mouseInSetTime.value = true;
                     }, 1000);
-                    // 默认显示最新数据的tooltip
-                    interval.inter2 = setInterval(() => {
-                        myChart.dispatchAction({
-                            type: 'showTip',
-                            seriesIndex: 0,
-                            dataIndex: seriesData.value[0]?.data.length - 1 || 0
-                        });
-                    }, 5000)
+                    // timer = setTimeout(() => {
+                    //     myChart.dispatchAction({
+                    //         type: 'showTip',
+                    //         seriesIndex: 0,
+                    //         dataIndex: seriesData.value[0]?.data.length - 1 || 0
+                    //     });
+                    // }, 1000);
+                    // // 默认显示最新数据的tooltip
+                    // interval.inter2 = setInterval(() => {
+                    //     myChart.dispatchAction({
+                    //         type: 'showTip',
+                    //         seriesIndex: 0,
+                    //         dataIndex: seriesData.value[0]?.data.length - 1 || 0
+                    //     });
+                    // }, 5000)
                     myChart.resize();
                 }
             })
@@ -260,8 +275,17 @@ const init = async () => {
     })
 };
 
+const handleMouseOver = () => {
+    mouseIn.value = true;
+
+}
+const handleMouseLeave = () => {
+    mouseIn.value = false;
+}
+
 onBeforeUnmount(() => {
     // console.log('家用电器实时功率关闭');
+    mouseInSetTime.value = false;
     clearTimeout(timer);
     for (const key in interval) {
         if (Object.prototype.hasOwnProperty.call(interval, key)) {
@@ -303,9 +327,9 @@ onBeforeUnmount(() => {
             font-size: 1.2rem;
             // border: 1px solid;
             position: absolute;
-            width: 25rem;
+            width: 30rem;
             height: 2rem;
-            right: 1.5rem;
+            right: 1rem;
             top: 1rem;
             color: #fff;
 
@@ -321,7 +345,7 @@ onBeforeUnmount(() => {
             }
 
             .item-temp-value {
-                font-size: 1.5rem;
+                font-size: 1.2rem;
                 margin-left: 0.5rem;
                 color: #00eeff;
 
@@ -332,6 +356,19 @@ onBeforeUnmount(() => {
             width: 100%;
             height: 21rem;
             margin-top: 1rem;
+        }
+
+        .item-tooltip {
+            width: 20rem;
+            // height: 5rem;
+            position: absolute;
+            left: 50%;
+            top: 40%;
+            border-radius: 0.1rem;
+            box-shadow: inset 0 0 5px rgba(0, 0, 0, 0.2);
+            padding: 0.5rem;
+            font-size: 1.2rem;
+            color: #fff;
         }
     }
 }

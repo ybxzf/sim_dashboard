@@ -117,12 +117,20 @@ watch(() => [date.value, month.value,],
         // console.log('日期改变', _nv, typeSelected.value);
         init(typeSelected.value);
     });
+
+watch(() => typeSelected.value,
+    () => {
+        myChart.clear();
+    }, {
+    deep: true,
+});
+
 onMounted(() => {
     myChart = echarts.init(chart3DRef.value);
     init();
     interval = setInterval(() => {
         init(typeSelected.value);
-    }, 5000)
+    }, 1000 * 30)
     window.addEventListener('resize', () => {
         myChart.resize();
     });
@@ -140,7 +148,8 @@ const init = async (dateType: string = 'DAY') => {
                     for (let i = 0; i < elecBreakDownData.value.length; i++) {
                         if (item.field01 === elecBreakDownData.value[i].name) {
                             optionsData.value.push(Object.assign(elecBreakDownData.value[i], {
-                                value: item.num
+                                value: item.num * 100,
+                                realValue: item.num,
                             }))
                         }
                     }
@@ -249,11 +258,14 @@ function setChart(optionsData: any) {
                     params.seriesName !== 'mouseoutSeries' &&
                     params.seriesName !== 'pie2d'
                 ) {
+                    const value: any = option.series[params.seriesIndex]?.pieData.realValue ?
+                        option.series[params.seriesIndex]?.pieData.realValue :
+                        option.series[params.seriesIndex]?.pieData.value
 
                     return `${params.seriesName}<br/>
                         <span style="display:inline-block;margin-right:5px;border-radius:10px;width:10px;height:10px;background-color:${params.color};">
                         </span>
-                        ${option.series[params.seriesIndex]?.pieData.value}
+                        ${value}
                         kWh
                     `
                 }
@@ -305,7 +317,7 @@ function setChart(optionsData: any) {
             show: false,
             boxWidth: 50,    //3D图宽
             boxDepth: 50,    //3D图长
-            boxHeight: 60 / maxValue,    //3D图高
+            boxHeight: maxValue > 1 ? (60 / maxValue) : 60,    //3D图高
             // top: -15,
             // left: '2%',
             // bottom: '40%',
@@ -320,7 +332,7 @@ function setChart(optionsData: any) {
         series: series,
     }
     // 使用刚指定的配置项和数据显示图表。
-    myChart.clear();
+    // myChart.clear();
     myChart.setOption(option);
 }
 

@@ -6,8 +6,7 @@
                 {{ props.content?.title }}
             </div>
             <slot></slot>
-            <img class="left-img-device"
-                :src="`${baseURL}images/microPowerGrid/${props.content?.deviceImg}.png`">
+            <img class="left-img-device" :src="`${baseURL}images/microPowerGrid/${props.content?.deviceImg}.png`">
         </div>
         <div class="device-right-ctn" style="">
             <div class="right-item" v-for="(it, i) in props.content?.cont_data" :key="i">
@@ -20,12 +19,15 @@
                     </div>
                     <div class="item-right-bottom">
                         <div class="bottom-data">
-                            <span v-if="String(it.realData).length < 4">
+                            <span v-if="String(it.realData).length < 7">
+                                {{ it.realData }}
+                            </span>
+                            <span v-else-if="String(it.realData).length >= 7 && String(it.realData).length < 9" style="font-size: 0.8rem;">
                                 {{ it.realData }}
                             </span>
                             <el-tooltip v-else effect="customized" :content="`${it.realData} ${it.unit}`"
                                 placement="top">
-                                {{ String(it.realData).slice(0, 2) }}..
+                                {{ String(it.realData).slice(0, 4) }}..
                             </el-tooltip>
                         </div>
                         <div class="bottom-unit">
@@ -141,7 +143,7 @@ const init = async () => {
                         // background-color: #000000;
                         flex: 3;
                         font-weight: bolder;
-                        font-size: 1.5rem;
+                        font-size: 1rem;
                     }
 
                     .bottom-unit {

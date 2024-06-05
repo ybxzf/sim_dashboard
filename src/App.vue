@@ -8,10 +8,10 @@ import { RouterLink, RouterView } from 'vue-router'
 import { onMounted } from "vue";
 
 onMounted(() => {
-  //30分钟刷新一次页面
+  //10分钟刷新一次页面
   setInterval(() => {
     window.location.reload();
-  }, 1000 * 60 * 30)
+  }, 1000 * 60 * 10)
 });
 </script>
 

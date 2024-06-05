@@ -7,9 +7,9 @@
             <div class="pie-item-unit">单位：kWh</div>
             <div class="pie-item" :class="`pie-item-${index + 1}`" v-for="(item, index) in seriesData" :key="index">
                 <div>{{ item.name }}</div>
-                <div v-if="String(item.value).length < 7" :style="{ color: item.itemStyle?.color }" class="item-value">
+                <div v-if="String(item.value).length < 9" :style="{ color: item.itemStyle?.color }" class="item-value">
                     {{ item.value }}</div>
-                <el-tooltip v-else effect="customized" :content="`${item.value}`" placement="top">
+                <el-tooltip v-else effect="customized" :content="`${item.value} kWh`" placement="top">
                     <div :style="{ color: item.itemStyle?.color }" class="item-value">{{ String(item.value).slice(0, 3)
                         }}...
                     </div>
@@ -54,7 +54,7 @@ let option: any = {
             color: "#fff", // 文字的颜色
             border: 'none',
         },
-        formatter: '{a} <br/>{b}: {c}kw/h ({d}%)'
+        formatter: '{a} <br/>{b}: {c}w/h ({d}%)'
     },
     legend: {
         // show: false,
@@ -173,7 +173,7 @@ onBeforeUnmount(() => {
     }
 
     .item-value {
-        font-size: 1.5rem;
+        font-size: 1.3rem;
     }
 
     .pie-item-1 {

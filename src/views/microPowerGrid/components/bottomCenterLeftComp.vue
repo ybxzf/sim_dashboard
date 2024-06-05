@@ -22,7 +22,9 @@
 
                             <div class="item-right-bottom">
                                 <div class="bottom-data">
-                                    <span v-if="String(it.data).length < 4">{{ it.data }}</span>
+                                    <span v-if="String(it.data).length < 7">{{ it.data }}</span>
+                                    <span v-else-if="String(it.data).length >= 7 && String(it.data).length < 9" style="font-size: 0.9rem;">{{
+                                        it.data }}</span>
                                     <el-tooltip v-else class="item-right-bottom" effect="customized"
                                         :content="`${it.data}${it.unit}`" placement="top">
                                         <span>{{ String(it.data).slice(0, 2) }}...</span>
@@ -210,7 +212,7 @@ const init = async () => {
 
                             .bottom-data {
                                 flex: 1;
-                                font-size: 1.8rem;
+                                font-size: 1.2rem;
                                 font-weight: bolder;
                             }
 

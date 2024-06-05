@@ -11,21 +11,45 @@
                     <!-- <div>电磁炉</div> -->
                     <img style="width: 9rem" :src="`${baseURL}images/monitorDashboard/induction_cooker.png`">
                 </div>
-                <div ref="lineChartRef1" class="item-chart"></div>
+                <div class="item-tooltip" v-if="!myChartList[0].mouseIn && myChartList[0].mouseInSetTime" :style="{
+                    backgroundColor: myChartList[0]?.data.lineColorT,
+                    top: '15%',
+                }">
+                    Pz：{{ myChartList[0]?.data.seriesData[myChartList[0]?.data.seriesData.length - 1] || 0 }} w <br />
+                    时间：{{ myChartList[0]?.data.nowSecond }}
+                </div>
+                <div ref="lineChartRef1" @mouseover="handleMouseOver(0)" @mouseleave="handleMouseLeave(0)"
+                    class="item-chart"></div>
             </div>
             <div style="height: 19rem;">
                 <div style="height: 3rem;position: relative;">
                     <!-- <div>微波炉</div> -->
                     <img style="width: 9rem" :src="`${baseURL}images/monitorDashboard/micro-wave_cooker.png`">
                 </div>
-                <div ref="lineChartRef2" class="item-chart"></div>
+                <div class="item-tooltip" v-if="!myChartList[1].mouseIn && myChartList[1].mouseInSetTime" :style="{
+                    backgroundColor: myChartList[1]?.data.lineColorT,
+                    top: '46%',
+                }">
+                    Pz：{{ myChartList[1]?.data.seriesData[myChartList[1]?.data.seriesData.length - 1] || 0 }} w <br />
+                    时间：{{ myChartList[1]?.data.nowSecond }}
+                </div>
+                <div ref="lineChartRef2" @mouseover="handleMouseOver(1)" @mouseleave="handleMouseLeave(1)"
+                    class="item-chart"></div>
             </div>
             <div style="height: 19rem;">
                 <div style="height: 3rem;position: relative;">
                     <!-- <div>洗衣机</div> -->
                     <img style="width: 9rem" :src="`${baseURL}images/monitorDashboard/wash_machine.png`">
                 </div>
-                <div ref="lineChartRef3" class="item-chart"></div>
+                <div class="item-tooltip" v-if="!myChartList[2].mouseIn && myChartList[2].mouseInSetTime" :style="{
+                    backgroundColor: myChartList[2]?.data.lineColorT,
+                    top: '77%',
+                }">
+                    Pz：{{ myChartList[2]?.data.seriesData[myChartList[2]?.data.seriesData.length - 1] || 0 }} w <br />
+                    时间：{{ myChartList[2]?.data.nowSecond }}
+                </div>
+                <div ref="lineChartRef3" @mouseover="handleMouseOver(2)" @mouseleave="handleMouseLeave(2)"
+                    class="item-chart"></div>
             </div>
         </div>
     </div>
@@ -43,7 +67,16 @@ const lineChartRef2 = ref<any>();
 const lineChartRef3 = ref<any>();
 
 // const myChartList: any = [{}, {}, {}];
-const myChartList = reactive<any>([{}, {}, {}]);
+const myChartList = reactive<any>([{
+    mouseIn: false,
+    mouseInSetTime: false,
+}, {
+    mouseIn: false,
+    mouseInSetTime: false,
+}, {
+    mouseIn: false,
+    mouseInSetTime: false,
+}]);
 
 let option: any = {
     tooltip: {
@@ -70,7 +103,7 @@ let option: any = {
             </div>
             `
         },
-        // formatter: `<div>Pz: {c} kW <br/>时间: {b}</div>`,
+        // formatter: `<div>Pz: {c} w <br/>时间: {b}</div>`,
     },
     legend: {
         data: [''],
@@ -155,7 +188,7 @@ onMounted(() => {
     interval.inter1 = setInterval(() => {
         // console.log('更新数据');
         init();
-    }, 5000)
+    }, 1000 * 30)
     window.addEventListener('resize', () => {
         // console.log('窗口变化')
         init();
@@ -215,6 +248,8 @@ const init = () => {
                     }
                 }
             })
+            // console.log(myChartList);
+
             setOptionList(
                 myChartList[0].myChart,
                 lineChartRef1.value,
@@ -222,7 +257,8 @@ const init = () => {
                     lineColorT: 'rgb(0, 83, 18, 0.5)',
                     lineColor: 'rgb(0, 83, 18, 1)',
                 }),
-                myChartList[0].option
+                myChartList[0].option,
+                0
             );
             setOptionList(
                 myChartList[1].myChart,
@@ -231,7 +267,8 @@ const init = () => {
                     lineColorT: 'rgb(161, 151, 0, 0.5)',
                     lineColor: 'rgb(161, 151, 0, 1)',
                 }),
-                myChartList[1].option
+                myChartList[1].option,
+                1
             );
             setOptionList(
                 myChartList[2].myChart,
@@ -240,8 +277,10 @@ const init = () => {
                     lineColorT: 'rgb(66, 66, 66, 0.5)',
                     lineColor: 'rgb(66, 66, 66, 1)',
                 }),
-                myChartList[2].option
+                myChartList[2].option,
+                2
             );
+            // console.log('myChartList', myChartList);
         }
     })
     //请求API
@@ -253,7 +292,7 @@ const init = () => {
 
 
 };
-const setOptionList = (myChart: any, chartRef: any, data: any, option: any) => {
+const setOptionList = (myChart: any, chartRef: any, data: any, option: any, index: number) => {
     //设置颜色
     option.tooltip.backgroundColor = data?.lineColorT;
     option.series[0].areaStyle.color.colorStops[0].color = data?.lineColorT;
@@ -274,27 +313,46 @@ const setOptionList = (myChart: any, chartRef: any, data: any, option: any) => {
 
     myChart = echarts.init(chartRef);
     myChart.setOption(option);
+
     timer = setTimeout(() => {
-        myChart.dispatchAction({
-            type: 'showTip',
-            seriesIndex: 0,
-            dataIndex: data?.seriesData.length - 1 || 0
-        });
+        myChartList[index].mouseInSetTime = true;
     }, 1000);
-    // 默认显示最新数据的tooltip
-    interval.inter2 = setInterval(() => {
-        myChart.dispatchAction({
-            type: 'showTip',
-            seriesIndex: 0,
-            dataIndex: data?.seriesData.length - 1 || 0
-        });
-    }, 5000)
+    // timer = setTimeout(() => {
+    //     myChart.dispatchAction({
+    //         type: 'showTip',
+    //         seriesIndex: 0,
+    //         dataIndex: data?.seriesData.length - 1 || 0
+    //     });
+    // }, 1000);
+    // // 默认显示最新数据的tooltip
+    // interval.inter2 = setInterval(() => {
+    //     myChart.dispatchAction({
+    //         type: 'showTip',
+    //         seriesIndex: 0,
+    //         dataIndex: data?.seriesData.length - 1 || 0
+    //     });
+    // }, 5000)
     myChart.resize();
     // })
 };
 
+
+
+const handleMouseOver = (i: number) => {
+    myChartList[i].mouseIn = true;
+
+}
+const handleMouseLeave = (i: number) => {
+    timer = setTimeout(() => {
+        myChartList[i].mouseIn = false;
+    }, 200);
+}
+
 onBeforeUnmount(() => {
     // console.log('家用电器实时功率关闭');
+    for (let i = 0; i < myChartList.length; i++) {
+        myChartList[i].mouseInSetTime = false;
+    }
     clearTimeout(timer);
     for (const key in interval) {
         if (Object.prototype.hasOwnProperty.call(interval, key)) {
@@ -333,6 +391,18 @@ onBeforeUnmount(() => {
             // background-color: rgb(161, 151, 0);
             width: 100%;
             height: 16rem;
+        }
+
+        .item-tooltip {
+            width: 18rem;
+            // height: 5rem;
+            position: absolute;
+            left: 30%;
+            border-radius: 0.1rem;
+            box-shadow: inset 0 0 5px rgba(0, 0, 0, 0.2);
+            padding: 0.5rem;
+            font-size: 1.1rem;
+            color: #fff;
         }
     }
 }

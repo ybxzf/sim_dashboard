@@ -18,7 +18,7 @@
                         </div>
                         <div class="item-right-bottom">
                             <div class="bottom-data">
-                                <span v-if="String(it.data).length < 5">
+                                <span v-if="String(it.data).length < 9">
                                     {{ it.data }}
                                 </span>
                                 <el-tooltip v-else effect="customized" :content="`${it.data} ${it.unit}`"
@@ -49,7 +49,7 @@ const runningData = ref<any[]>([
         imgName: 'real-time_power_total',
         title: '实时总功率',
         data: 0,
-        unit: 'kW',
+        unit: 'w',
     }, {
         imgName: 'daily_power_total',
         title: '日总电量',
@@ -157,7 +157,7 @@ onBeforeUnmount(() => {
 
                         .bottom-data {
                             flex: 1;
-                            font-size: 1.5rem;
+                            font-size: 1.2rem;
                             font-weight: bolder;
                         }
 
