@@ -49,12 +49,13 @@ import { informStore } from "@/stores/inform";
 const inStore = informStore();
 const baseURL: any = import.meta.env.BASE_URL;
 const runningData = ref<any>([
-    {
-        imgName: 'room_temp',
-        title: '室内温度',
-        data: inStore.runningSummary.indoorTemp,
-        unit: '℃',
-    }, {
+    // {
+    //     imgName: 'room_temp',
+    //     title: '室内温度',
+    //     data: inStore.runningSummary.indoorTemp,
+    //     unit: '℃',
+    // },
+     {
         imgName: 'outdoor_temp',
         title: '室外温度',
         data: inStore.runningSummary.outdoorTemp,
@@ -75,8 +76,8 @@ const runningData = ref<any>([
 let interval: any = {}; //循环器
 watch(() => inStore.runningSummary,
     () => {
-        runningData.value[0].data = inStore.runningSummary.indoorTemp;
-        runningData.value[1].data = inStore.runningSummary.outdoorTemp;
+        // runningData.value[0].data = inStore.runningSummary.indoorTemp;
+        runningData.value[0].data = inStore.runningSummary.outdoorTemp;
     }, {
     deep: true,
 }
@@ -94,7 +95,7 @@ const init = async () => {
         if (res.code === 0) {
             res.data.map((item: any) => {
                 if (item.typeCode == '中央空调') {
-                    runningData.value[2].data = item.quantity;
+                    runningData.value[1].data = item.quantity;
                 }
             })
         }
@@ -103,7 +104,7 @@ const init = async () => {
         if (res.code === 0) {
             res.data.map((item: any) => {
                 if (item.name == '中央空调') {
-                    runningData.value[3].data = item.num;
+                    runningData.value[2].data = item.num;
                 }
             })
         }
@@ -160,7 +161,7 @@ const init = async () => {
                 height: 15rem;
                 display: flex;
                 flex-wrap: wrap;
-                justify-content: center;
+                // justify-content: center;
 
                 .content-cnt-item {
                     // border: 1px solid rgb(199, 239, 255);

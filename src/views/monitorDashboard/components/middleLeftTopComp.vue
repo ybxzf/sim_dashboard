@@ -57,7 +57,7 @@ const runningData = ref<any[]>([
         unit: 'kWh',
     }, {
         imgName: 'month_power_total',
-        title: '总电量',
+        title: '累计电量',
         data: 0,
         unit: 'kWh',
     },

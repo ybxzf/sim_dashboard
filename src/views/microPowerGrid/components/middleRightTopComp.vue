@@ -71,14 +71,14 @@ const contentData = computed(() => {
         cont_data: [
             {
                 iconName: 'real-time_output_volt',
-                dataName: '实时输出电压',
+                dataName: '实时电压',
                 realData: realStore.realTimeData.photovoltaicUa,
                 unit: 'V'
-            }, {
-                iconName: 'output_current',
-                dataName: '输出电流',
-                realData: realStore.realTimeData.photovoltaicIa,
-                unit: 'A'
+            // }, {
+            //     iconName: 'output_current',
+            //     dataName: '输出电流',
+            //     realData: realStore.realTimeData.photovoltaicIa,
+            //     unit: 'A'
             }, {
                 iconName: 'output_power_total',
                 dataName: '累计输出电量',
@@ -86,7 +86,7 @@ const contentData = computed(() => {
                 unit: 'kWh'
             }, {
                 iconName: 'output_power',
-                dataName: '输出功率',
+                dataName: '实时功率',
                 realData: realStore.realTimeData.photovoltaicPz,
                 unit: 'kWh'
             }, {
@@ -174,7 +174,6 @@ const init = async (dateType: string = 'REAL_TIME') => {
 
 const handleMouseOver = () => {
     mouseIn.value = true;
-
 }
 const handleMouseLeave = () => {
     timer = setTimeout(() => {

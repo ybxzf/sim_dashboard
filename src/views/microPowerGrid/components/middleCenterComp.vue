@@ -69,6 +69,7 @@
                         :src="`${baseURL}images/microPowerGrid/${switchObj['k7'] ? 'line_on_new' : 'line_off_new'}.png`">
                 </div>
             </div>
+            <div class="scene-describe">{{ scenarioBackup ? sceneList[Number(scenarioBackup) - 1].describe : '' }}</div>
         </div>
     </div>
     <el-dialog v-model="dialogVisible" width="75rem" :before-close="handleClose">
@@ -77,8 +78,8 @@
         </template>
         <el-radio-group v-model="scenario" class="ml-4">
             <el-radio :value="item.value" size="large" v-for="item in sceneList" :key="item.value">
-                <span style="font-size: 1.2rem !important">{{ item.label }}: ({{
-                    item.describe }})</span>
+                <span class="text" style="border: 1px solid;">{{ item.label }}</span><br />
+                <span class="text">{{ item.describe }}</span>
             </el-radio>
         </el-radio-group>
         <!-- <span>确定执行切换操作？</span> -->
@@ -109,29 +110,29 @@ const switchLoading = ref<boolean>(false);
 
 const sceneList = ref<any[]>([
     {
-        label: '场景一',
+        label: '场景一：光伏给负载供电',
         value: '1',
-        describe: 'K6、K7断开，K1、K3、K4、K5、K8闭合,可实现市电给储能电池充电，同时实现储能电池给负载供电的场景',
+        describe: 'K1、K7断开，K3、K5、K8闭合，实现光伏给负载供电的场景。',
     }, {
-        label: '场景二',
+        label: '场景二：光伏余电入储',
         value: '2',
-        describe: 'K3、K4、K5、K7断开,K1、K6、K8闭合，可实现市电给负载供电的场景',
+        describe: 'K1、K7断开，K3、K5、K8闭合，实现光伏发电剩余电量到储能的场景。',
     }, {
-        label: '场景三',
+        label: '场景三：光伏给负载供电',
         value: '3',
-        describe: 'K8断开,K7闭合，可实现市电给充电桩供电的场景(充电供电常用场景，不涉及光伏系统)',
+        describe: 'K1、K7断开，K3、K5、K8闭合，实现储能给负载供电的场景。',
     }, {
-        label: '场景四',
+        label: '场景四：光伏余电入储',
         value: '4',
-        describe: 'K1、K7断开,K3、K5、K8闭合，可实现光伏给负载供电的场景',
+        describe: 'K6、K7断开，K1、K3、K4、K5、K8闭合，实现市电给储能电池充电，同时实现储能电池给负载供电的场景。',
     }, {
-        label: '场景五',
+        label: '场景五：光伏给负载供电',
         value: '5',
-        describe: 'K1、K7断开,K3、K5、K8闭合,可实现光伏发电剩余电量到储能的场景',
+        describe: 'K3、K4、K5、K7断开，K1、K6、K8闭合:实现市电给负载供电的场景。',
     }, {
-        label: '场景六',
+        label: '场景六：光伏余电入储',
         value: '6',
-        describe: 'K1、K7断开，K3、K5、K8闭合,可实现储能给负载供电的场景',
+        describe: 'K8断开，K7闭合，实现市电给充电桩供电的场景。',
     },
 ]);
 
@@ -249,20 +250,29 @@ const canvasColor = (obj: any) => {
     //第二条线（光伏-充电桩）第一段
     ctx.beginPath();
     ctx.moveTo(17.5, 111.5);
-    ctx.lineTo(17.5, 68.5);
+    ctx.lineTo(17.5, 97);
     ctx.strokeStyle = obj['k2'] ? 'rgba(0, 255, 76, 1)' : 'rgba(170, 170, 170, 1)';  // 设置线的颜色
     ctx.lineWidth = 1; // 设置线的宽度
     ctx.stroke();
     //第二条线（光伏-充电桩）第二段
     ctx.beginPath();
-    ctx.moveTo(17.5, 68.5);
-    ctx.lineTo(110.5, 68.5);
+    ctx.moveTo(17.5, 97.5);
+    ctx.lineTo(100.5, 97.5);
     ctx.strokeStyle = obj['k2'] ? 'rgba(0, 255, 76, 1)' : 'rgba(170, 170, 170, 1)';  // 设置线的颜色
     ctx.lineWidth = 1; // 设置线的宽度
     ctx.stroke();
     //第二条线（光伏-充电桩）第三段
     ctx.beginPath();
     ctx.moveTo(110.5, 68.5);
+    ctx.lineTo(160.5, 68.5);
+    ctx.strokeStyle = (obj['k1'] && (obj['k3'] || obj['k4'])) ||
+        (obj['k8'] && (obj['k3'] || obj['k4']))
+        ? 'rgba(0, 255, 76, 1)' : 'rgba(170, 170, 170, 1)';  // 设置线的颜色
+    ctx.lineWidth = 1; // 设置线的宽度
+    ctx.stroke();
+    //第二条线（光伏-充电桩）第四段
+    ctx.beginPath();
+    ctx.moveTo(160.5, 68.5);
     ctx.lineTo(188.5, 68.5);
     ctx.strokeStyle = obj['k1'] ||
         (obj['k2'] && (obj['k5'] || obj['k6'] || obj['k8'])) ||
@@ -270,14 +280,14 @@ const canvasColor = (obj: any) => {
         ? 'rgba(0, 255, 76, 1)' : 'rgba(170, 170, 170, 1)';  // 设置线的颜色
     ctx.lineWidth = 1; // 设置线的宽度
     ctx.stroke();
-    //第二条线（光伏-充电桩）第四段
+    //第二条线（光伏-充电桩）第五段
     ctx.beginPath();
     ctx.moveTo(188.5, 68.5);
     ctx.lineTo(267.5, 68.5);
     ctx.strokeStyle = obj['k8'] ? 'rgba(0, 255, 76, 1)' : 'rgba(170, 170, 170, 1)';  // 设置线的颜色
     ctx.lineWidth = 1; // 设置线的宽度
     ctx.stroke();
-    //第二条线（光伏-充电桩）第五段
+    //第二条线（光伏-充电桩）第六段
     ctx.beginPath();
     ctx.moveTo(267.5, 68.5);
     ctx.lineTo(267.5, 99.5);
@@ -357,6 +367,39 @@ const handleClose = (done: () => void) => {
 const getSwitchObj = (scenario: string) => {
     if (scenario == '1') {
         switchObj.value = {
+            k1: false,
+            k2: true,
+            k3: true,
+            k4: false,
+            k5: true,
+            k6: false,
+            k7: false,
+            k8: true,
+        }
+    } else if (scenario == '2') {
+        switchObj.value = {
+            k1: false,
+            k2: true,
+            k3: true,
+            k4: false,
+            k5: true,
+            k6: false,
+            k7: false,
+            k8: true,
+        }
+    } else if (scenario == '3') {
+        switchObj.value = {
+            k1: false,
+            k2: true,
+            k3: true,
+            k4: false,
+            k5: true,
+            k6: false,
+            k7: false,
+            k8: true,
+        }
+    } else if (scenario == '4') {
+        switchObj.value = {
             k1: true,
             k2: true,
             k3: true,
@@ -366,7 +409,7 @@ const getSwitchObj = (scenario: string) => {
             k7: false,
             k8: true,
         }
-    } else if (scenario == '2') {
+    } else if (scenario == '5') {
         switchObj.value = {
             k1: true,
             k2: true,
@@ -377,49 +420,16 @@ const getSwitchObj = (scenario: string) => {
             k7: false,
             k8: true,
         }
-    } else if (scenario == '3') {
+    } else if (scenario == '6') {
         switchObj.value = {
             k1: false,
-            k2: false,
+            k2: true,
             k3: false,
             k4: false,
             k5: false,
             k6: false,
             k7: true,
             k8: false,
-        }
-    } else if (scenario == '4') {
-        switchObj.value = {
-            k1: false,
-            k2: true,
-            k3: true,
-            k4: false,
-            k5: true,
-            k6: false,
-            k7: false,
-            k8: true,
-        }
-    } else if (scenario == '5') {
-        switchObj.value = {
-            k1: false,
-            k2: true,
-            k3: true,
-            k4: false,
-            k5: true,
-            k6: false,
-            k7: false,
-            k8: true,
-        }
-    } else if (scenario == '6') {
-        switchObj.value = {
-            k1: false,
-            k2: true,
-            k3: true,
-            k4: false,
-            k5: true,
-            k6: false,
-            k7: false,
-            k8: true,
         }
     }
 }
@@ -428,6 +438,11 @@ const getSwitchObj = (scenario: string) => {
 <style lang="less">
 .el-radio {
     color: #ffffff !important;
+    height: 4.5rem !important;
+
+    .text {
+        font-size: 1.2rem !important;
+    }
 }
 
 .el-dialog {
@@ -561,6 +576,19 @@ const getSwitchObj = (scenario: string) => {
                     // width: 1.4rem;
                 }
             }
+        }
+
+        .scene-describe {
+            position: absolute;
+            color: #fff;
+            border: 1px solid rgba(76, 134, 243, 1);
+            box-shadow: inset 0 0 10px rgba(76, 134, 243, 1);
+            border-radius: 0.8rem;
+            width: 12rem;
+            font-size: 1.3rem;
+            top: 8rem;
+            left: 1rem;
+            padding: 1rem;
         }
 
     }

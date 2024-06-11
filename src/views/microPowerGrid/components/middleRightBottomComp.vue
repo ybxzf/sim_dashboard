@@ -74,16 +74,16 @@ const contentData = computed(() => {
         deviceImg: 'energy_device',
         cont_data: [
             {
-                iconName: 'battery_power',
-                dataName: '电池电量',
-                realData: realStore.realTimeData.energyPower,
-                unit: '%'
-            }, {
-                iconName: 'DC_power',
-                dataName: '直流功率',
-                realData: realStore.realTimeData.energyPz,
-                unit: 'w'
-            }, {
+            //     iconName: 'battery_power',
+            //     dataName: '电池电量',
+            //     realData: realStore.realTimeData.energyPower,
+            //     unit: '%'
+            // }, {
+            //     iconName: 'DC_power',
+            //     dataName: '直流功率',
+            //     realData: realStore.realTimeData.energyPz,
+            //     unit: 'w'
+            // }, {
                 iconName: 'charge_total',
                 dataName: '总充电量',
                 realData: realStore.realTimeData.energyTotalIn,

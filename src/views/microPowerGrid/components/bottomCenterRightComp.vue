@@ -41,9 +41,9 @@ const seriesData = ref<any>([
         nowAllDate: '2014-06-25 00:00:00',  //当前完整年月日时分秒
     },
     {
-        name: '室内温度',
+        name: '室外温度',
         data: [],
-        color: 'rgb(101, 211, 255, 0.5)',
+        color: 'rgb(255, 0, 135, 0.5)',
         yAxisIndex: 1,
         nowDate: '2014-06-25',    //当天年月日
         nowAllDate: '2014-06-25 00:00:00',  //当前完整年月日时分秒
@@ -93,7 +93,7 @@ let option: any = {
         },
     },
     legend: {
-        data: ['总功率', '室内温度',],
+        data: ['总功率', '室外温度',],
         textStyle: {
             color: '#fff',
             fontSize: '0.8rem',

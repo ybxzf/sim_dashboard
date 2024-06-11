@@ -2,7 +2,7 @@
     <div ref="lineChartRef" class="item-chart"></div>
 </template>
 <script setup lang="ts">
-import { ref, reactive, watch, onMounted, onBeforeUnmount } from "vue";
+import { ref, reactive, watch, onMounted, onBeforeUnmount, defineExpose } from "vue";
 import * as echarts from 'echarts';
 import { formatterDate } from "@/utils/base";
 
@@ -52,10 +52,11 @@ let option: any = {
         type: 'category',
         boundaryGap: false,
         axisLabel: {
+            rotate: 30, // 设置文字倾斜的角度
             // interval: 1,//显示x轴标签间隔
             textStyle: {
                 color: '#fff',
-                fontSize: '0.75rem',
+                fontSize: '0.65rem',
             }
         },
         data: [],
@@ -167,12 +168,20 @@ const init = () => {
     }
 }
 
-onBeforeUnmount(() => {
+const clearResource = () => {
     // console.log('关闭');
     myChart.clear();
     clearTimeout(timer);
     clearInterval(interval);
+};
+
+onBeforeUnmount(() => {
+    clearResource();
 })
+
+defineExpose({
+    clearResource,
+});
 </script>
 <style lang="less" scoped>
 .item-chart {

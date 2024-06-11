@@ -31,8 +31,8 @@
             </div>
             <!-- <img style="width: 100%; height : 16rem;" src="../../../assets/images/monitorDashboard/middleLeftMiddle.png"> -->
             <div ref="chart3DRef" class="item-chart"></div>
-            <div v-if="optionsData.length > 0" class="item-chart-title">
-                <div v-for="(it, i) in optionsData" :key="i">
+            <div class="item-chart-title">
+                <div v-for="(it, i) in optionsData.length > 0 ? optionsData : elecBreakDownData" :key="i">
                     <div class="title-icon" :style="{ backgroundColor: it.itemStyle.iconColor }" />
                     {{ it.name }}
                 </div>
@@ -54,7 +54,7 @@ const month = ref<string>(formatterMonth(new Date()));
 const elecBreakDownData = ref<any>([
     {
         name: '洗衣机',
-        value: 2018,
+        value: 1,
         itemStyle: {
             //   opacity: 0.5,
             color: 'rgb(214,60,243, 1)',
@@ -63,7 +63,7 @@ const elecBreakDownData = ref<any>([
     },
     {
         name: '冰箱',
-        value: 2018,
+        value: 1,
         itemStyle: {
             //   opacity: 0.5,
             color: 'RGB(225,200,54,1)',
@@ -72,7 +72,7 @@ const elecBreakDownData = ref<any>([
     },
     {
         name: '微波炉',
-        value: 2018,
+        value: 1,
         itemStyle: {
             //   opacity: 0.5,
             color: 'RGB(87,237,196,1)',
@@ -80,7 +80,7 @@ const elecBreakDownData = ref<any>([
         },
     }, {
         name: '电视机',
-        value: 2018,
+        value: 1,
         itemStyle: {
             //   opacity: 0.5,
             color: 'RGB(102,65,243,1)',
@@ -88,7 +88,7 @@ const elecBreakDownData = ref<any>([
         },
     }, {
         name: '电磁炉',
-        value: 2018,
+        value: 1,
         itemStyle: {
             //   opacity: 0.5,
             color: 'RGB(37,75,243,1)',
@@ -96,7 +96,7 @@ const elecBreakDownData = ref<any>([
         },
     }, {
         name: '室内空调',
-        value: 2018,
+        value: 1,
         itemStyle: {
             //   opacity: 0.5,
             color: 'RGB(109,205,230,1)',
@@ -147,14 +147,14 @@ const init = async (dateType: string = 'DAY') => {
                 res.data.map((item: any) => {
                     for (let i = 0; i < elecBreakDownData.value.length; i++) {
                         if (item.field01 === elecBreakDownData.value[i].name) {
-                            optionsData.value.push(Object.assign(elecBreakDownData.value[i], {
+                            optionsData.value.push(Object.assign({}, elecBreakDownData.value[i], {
                                 value: item.num * 100,
                                 realValue: item.num,
                             }))
                         }
                     }
                 })
-                setChart(optionsData.value);
+                setChart(optionsData.value.length > 0 ? optionsData.value : elecBreakDownData.value);
             }
         })
     } else {
@@ -164,13 +164,13 @@ const init = async (dateType: string = 'DAY') => {
                 res.data.map((item: any) => {
                     for (let i = 0; i < elecBreakDownData.value.length; i++) {
                         if (item.field01 === elecBreakDownData.value[i].name) {
-                            optionsData.value.push(Object.assign(elecBreakDownData.value[i], {
+                            optionsData.value.push(Object.assign({}, elecBreakDownData.value[i], {
                                 value: item.num
                             }))
                         }
                     }
                 })
-                setChart(optionsData.value);
+                setChart(optionsData.value.length > 0 ? optionsData.value : elecBreakDownData.value);
             }
         })
     }
@@ -317,7 +317,7 @@ function setChart(optionsData: any) {
             show: false,
             boxWidth: 50,    //3D图宽
             boxDepth: 50,    //3D图长
-            boxHeight: maxValue > 1 ? (60 / maxValue) : 60,    //3D图高
+            boxHeight: maxValue > 1 ? (60 / maxValue) : 40,    //3D图高
             // top: -15,
             // left: '2%',
             // bottom: '40%',

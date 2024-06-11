@@ -48,8 +48,8 @@ const optionsData = ref<any>([
         value: 10,
         itemStyle: {
             //   opacity: 0.5,
-            color: 'rgb(255, 255, 255, 0.7)',
-            iuconColor: 'rgb(255, 255, 255)',
+            color: 'rgb(0, 221, 255, 0.7)',
+            iuconColor: 'rgb(0, 221, 255)',
         },
     },
 ]);

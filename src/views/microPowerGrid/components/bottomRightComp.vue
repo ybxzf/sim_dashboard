@@ -75,25 +75,25 @@ const contentData = computed(() => {
         deviceImg: 'charge_pile',
         cont_data: [
             {
-                iconName: 'real-time_output_volt',
-                dataName: '实时输出电压',
-                realData: realStore.realTimeData.chargePileUa,
-                unit: 'V'
-            }, {
-                iconName: 'output_current',
-                dataName: '输出电流',
-                realData: realStore.realTimeData.chargePileIa,
-                unit: 'A'
-            }, {
                 iconName: 'output_power_total',
-                dataName: '累计输出电量',
+                dataName: '累计充电量',
                 realData: realStore.realTimeData.chargePileTotal,
                 unit: 'kWh'
             }, {
                 iconName: 'output_power',
-                dataName: '输出功率',
+                dataName: '实时功率',
                 realData: realStore.realTimeData.chargePilePz,
                 unit: 'kWh'
+            }, {
+                iconName: 'real-time_output_volt',
+                dataName: '实时电压',
+                realData: realStore.realTimeData.chargePileUa,
+                unit: 'V'
+            }, {
+                iconName: 'output_current',
+                dataName: '实时电流',
+                realData: realStore.realTimeData.chargePileIa,
+                unit: 'A'
             },
         ],
     }
