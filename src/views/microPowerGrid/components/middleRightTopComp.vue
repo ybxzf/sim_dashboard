@@ -70,29 +70,29 @@ const contentData = computed(() => {
         deviceImg: 'photovoltaic_device',
         cont_data: [
             {
-                iconName: 'real-time_output_volt',
-                dataName: '实时电压',
-                realData: realStore.realTimeData.photovoltaicUa,
-                unit: 'V'
-            // }, {
-            //     iconName: 'output_current',
-            //     dataName: '输出电流',
-            //     realData: realStore.realTimeData.photovoltaicIa,
-            //     unit: 'A'
-            }, {
                 iconName: 'output_power_total',
                 dataName: '累计输出电量',
                 realData: realStore.realTimeData.photovoltaicTotal,
                 unit: 'kWh'
             }, {
-                iconName: 'output_power',
-                dataName: '实时功率',
-                realData: realStore.realTimeData.photovoltaicPz,
-                unit: 'kWh'
-            }, {
                 iconName: 'daily_power_generate',
                 dataName: '日发电量',
                 realData: realStore.realTimeData.photovoltaiDaily,
+                unit: 'kWh'
+            }, {
+                iconName: 'real-time_output_volt',
+                dataName: '实时电压',
+                realData: realStore.realTimeData.photovoltaicUa,
+                unit: 'V'
+                // }, {
+                //     iconName: 'output_current',
+                //     dataName: '输出电流',
+                //     realData: realStore.realTimeData.photovoltaicIa,
+                //     unit: 'A'
+            }, {
+                iconName: 'output_power',
+                dataName: '实时功率',
+                realData: realStore.realTimeData.photovoltaicPz,
                 unit: 'kWh'
             },
         ],
@@ -118,7 +118,7 @@ onMounted(() => {
     interval = setInterval(() => {
         // console.log('更新数据', typeSelected.value);
         init(typeSelected.value);
-    }, 5000)
+    }, 1000 * 30)
 
 });
 

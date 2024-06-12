@@ -331,7 +331,7 @@ const setOptionList = (myChart: any, chartRef: any, data: any, option: any, inde
     //         seriesIndex: 0,
     //         dataIndex: data?.seriesData.length - 1 || 0
     //     });
-    // }, 5000)
+    // }, 1000 * 30)
     myChart.resize();
     // })
 };

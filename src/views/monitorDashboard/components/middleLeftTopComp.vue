@@ -69,7 +69,7 @@ onMounted(() => {
     init();
     interval = setInterval(() => {
         init();
-    }, 5000)
+    }, 1000 * 30)
 });
 const init = async () => {
     //请求API

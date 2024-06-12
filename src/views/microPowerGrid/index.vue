@@ -71,7 +71,7 @@ onMounted(() => {
     interval = setInterval(() => {
         // console.log('更新数据', typeSelected.value);
         init();
-    }, 5000)
+    }, 1000 * 30)
 });
 const init = async () => {
     getAllPzUaIak().then((res: any) => {

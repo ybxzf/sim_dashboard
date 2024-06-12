@@ -127,7 +127,7 @@ onMounted(() => {
     interval = setInterval(() => {
         // console.log('更新数据', typeSelected.value);
         init(typeSelected.value);
-    }, 5000)
+    }, 1000 * 30)
 
 });
 

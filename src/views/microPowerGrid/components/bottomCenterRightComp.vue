@@ -165,7 +165,7 @@ onMounted(() => {
     interval.inter1 = setInterval(() => {
         // console.log('更新数据');
         init();
-    }, 5000)
+    }, 1000 * 30)
     window.addEventListener('resize', () => {
         // console.log('窗口变化')
         init();
@@ -189,8 +189,8 @@ const init = async () => {
                     seriesData.value[0].nowDate = nowDate;
                     seriesData.value[1].nowDate = nowDate;
                     xAxisData.value.push(nowTime);
-                    if (Object.prototype.hasOwnProperty.call(centerTemp[i], 'snTemperature')) {
-                        seriesData.value[1].data.push(centerTemp[i].snTemperature);
+                    if (Object.prototype.hasOwnProperty.call(centerTemp[i], 'swTemperature')) {
+                        seriesData.value[1].data.push(centerTemp[i].swTemperature);
                         seriesData.value[1].nowSecond = centerTemp[i].dataDate;
                         inStore.updateInfo({
                             indoorTemp: centerTemp[i].snTemperature,
@@ -252,7 +252,7 @@ const init = async () => {
                 //         seriesIndex: 0,
                 //         dataIndex: seriesData.value[0]?.data.length - 1 || 0
                 //     });
-                // }, 5000)
+                // }, 1000 * 30)
                 myChart.resize();
             })
         }

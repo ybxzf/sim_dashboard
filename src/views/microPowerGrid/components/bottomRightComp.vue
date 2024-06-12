@@ -83,7 +83,7 @@ const contentData = computed(() => {
                 iconName: 'output_power',
                 dataName: '实时功率',
                 realData: realStore.realTimeData.chargePilePz,
-                unit: 'kWh'
+                unit: 'w'
             }, {
                 iconName: 'real-time_output_volt',
                 dataName: '实时电压',
@@ -118,7 +118,7 @@ onMounted(() => {
     interval = setInterval(() => {
         // console.log('更新数据', typeSelected.value);
         init(typeSelected.value);
-    }, 5000)
+    }, 1000 * 30)
 
 });
 

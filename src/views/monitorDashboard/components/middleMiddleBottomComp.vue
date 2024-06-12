@@ -58,7 +58,7 @@ const seriesData = ref<any>([
     {
         name: '室内温度',
         data: [],
-        color: 'rgb(101, 211, 255, 0.5)',
+        color: 'rgb(255, 0, 135, 0.5)',
         yAxisIndex: 1,
         nowDate: '2014-06-25',    //当天年月日
         nowAllDate: '2014-06-25 00:00:00',  //当前完整年月日时分秒
@@ -82,7 +82,7 @@ let option: any = {
             color: "#fff", // 文字的颜色
             border: 'none',
         },
-        // formatter: '{a} <br/>{b}: {c}W',
+        // formatter: '{a} <br/>{b}: {c}w',
         formatter: (params: any) => {
             // console.log(params);
             if (params.length === 2) {
@@ -182,7 +182,7 @@ onMounted(() => {
     interval.inter1 = setInterval(() => {
         // console.log('更新数据');
         init();
-    }, 5000)
+    }, 1000 * 30)
     window.addEventListener('resize', () => {
         // console.log('窗口变化')
         init();
@@ -267,7 +267,7 @@ const init = async () => {
                     //         seriesIndex: 0,
                     //         dataIndex: seriesData.value[0]?.data.length - 1 || 0
                     //     });
-                    // }, 5000)
+                    // }, 1000 * 30)
                     myChart.resize();
                 }
             })

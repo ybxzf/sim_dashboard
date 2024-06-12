@@ -88,7 +88,7 @@ onMounted(() => {
     interval.inter1 = setInterval(() => {
         // console.log('更新数据');
         init();
-    }, 5000)
+    }, 1000 * 30)
 });
 const init = async () => {
     getNowDltj().then((res: any) => {

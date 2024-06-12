@@ -163,7 +163,7 @@ const init = () => {
         //         seriesIndex: 0,
         //         dataIndex: props.chartData?.seriesData.length - 1 || 1
         //     });
-        // }, 5000)
+        // }, 1000 * 30)
         // })
     }
 }

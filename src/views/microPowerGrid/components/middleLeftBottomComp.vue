@@ -135,7 +135,7 @@ onMounted(() => {
     init();
     interval = setInterval(() => {
         init(typeSelected.value);
-    }, 5000)
+    }, 1000 * 30)
     window.addEventListener('resize', () => {
         myChart.resize();
     });

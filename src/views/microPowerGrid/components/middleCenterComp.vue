@@ -69,7 +69,7 @@
                         :src="`${baseURL}images/microPowerGrid/${switchObj['k7'] ? 'line_on_new' : 'line_off_new'}.png`">
                 </div>
             </div>
-            <div class="scene-describe">{{ scenarioBackup ? sceneList[Number(scenarioBackup) - 1].describe : '' }}</div>
+            <div v-if="typeSelected === 'SIM'" class="scene-describe">{{ scenarioBackup ? sceneList[Number(scenarioBackup) - 1].describe : '' }}</div>
         </div>
     </div>
     <el-dialog v-model="dialogVisible" width="75rem" :before-close="handleClose">
@@ -250,14 +250,14 @@ const canvasColor = (obj: any) => {
     //第二条线（光伏-充电桩）第一段
     ctx.beginPath();
     ctx.moveTo(17.5, 111.5);
-    ctx.lineTo(17.5, 97);
+    ctx.lineTo(17.5, 96);
     ctx.strokeStyle = obj['k2'] ? 'rgba(0, 255, 76, 1)' : 'rgba(170, 170, 170, 1)';  // 设置线的颜色
     ctx.lineWidth = 1; // 设置线的宽度
     ctx.stroke();
     //第二条线（光伏-充电桩）第二段
     ctx.beginPath();
-    ctx.moveTo(17.5, 97.5);
-    ctx.lineTo(100.5, 97.5);
+    ctx.moveTo(17.5, 96.5);
+    ctx.lineTo(100.5, 96.5);
     ctx.strokeStyle = obj['k2'] ? 'rgba(0, 255, 76, 1)' : 'rgba(170, 170, 170, 1)';  // 设置线的颜色
     ctx.lineWidth = 1; // 设置线的宽度
     ctx.stroke();
@@ -446,7 +446,7 @@ const getSwitchObj = (scenario: string) => {
 }
 
 .el-dialog {
-    background-color: rgba(0, 67, 122, 0.7) !important;
+    background-color: rgba(0, 67, 122, 0.8) !important;
     border: 1px solid rgb(0, 67, 122);
     box-shadow: inset 0 0 5px rgba(0, 67, 122, 0.8);
 

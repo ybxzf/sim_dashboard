@@ -96,7 +96,7 @@ onMounted(() => {
     interval = setInterval(() => {
         // console.log('更新数据：昨日电量统计');
         init();
-    }, 5000)
+    }, 1000 * 30)
     window.addEventListener('resize', () => {
         myChart.resize();
     });
