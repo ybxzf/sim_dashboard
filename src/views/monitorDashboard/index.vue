@@ -1,5 +1,6 @@
 <template>
     <div class="pg-ctn">
+        <div class="grid-logo"></div>
         <div class="back-button" @click="backFrontPage">返回首页</div>
         <div class="fridge-button" @click="chartDialog('fridge')"></div>
         <div class="tv-button" @click="chartDialog('tv')"></div>
@@ -222,6 +223,19 @@ onBeforeUnmount(() => {
     background-size: 100% 100%;
     overflow-x: hidden !important;
     position: relative;
+
+    .grid-logo {
+        position: absolute;
+        width: 7rem;
+        height: 2rem;
+        left: 8rem;
+        top: 0.5rem;
+        background-image: url('../../assets/images/base/grid_logo.png');
+        background-size: 100% 100%;
+        background-position: center;
+        /* 防止背景图片重复 */
+        background-repeat: no-repeat;
+    }
 
     .pg-title-ctn {
         height: 5rem;

@@ -69,7 +69,8 @@
                         :src="`${baseURL}images/microPowerGrid/${switchObj['k7'] ? 'line_on_new' : 'line_off_new'}.png`">
                 </div>
             </div>
-            <div v-if="typeSelected === 'SIM'" class="scene-describe">{{ scenarioBackup ? sceneList[Number(scenarioBackup) - 1].describe : '' }}</div>
+            <div v-if="typeSelected === 'SIM'" class="scene-describe">{{ scenarioBackup ?
+                sceneList[Number(scenarioBackup) - 1].describe : '' }}</div>
         </div>
     </div>
     <el-dialog v-model="dialogVisible" width="75rem" :before-close="handleClose">
@@ -500,9 +501,7 @@ const getSwitchObj = (scenario: string) => {
                 // width: 10rem;
                 height: 2rem;
                 margin-right: 5rem;
-
-
-                /* background-color: #fff; */
+                // background-color: #fff;
             }
 
             .button-img-1 {
