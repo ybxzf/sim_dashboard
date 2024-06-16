@@ -119,19 +119,19 @@ const sceneList = ref<any[]>([
         value: '2',
         describe: 'K1、K7断开，K3、K5、K8闭合，实现光伏发电剩余电量到储能的场景。',
     }, {
-        label: '场景三：光伏给负载供电',
+        label: '场景三：储能给负载供电',
         value: '3',
         describe: 'K1、K7断开，K3、K5、K8闭合，实现储能给负载供电的场景。',
     }, {
-        label: '场景四：光伏余电入储',
+        label: '场景四：市电给储能充电且储能给负载供电',
         value: '4',
         describe: 'K6、K7断开，K1、K3、K4、K5、K8闭合，实现市电给储能电池充电，同时实现储能电池给负载供电的场景。',
     }, {
-        label: '场景五：光伏给负载供电',
+        label: '场景五：市电给负载供电',
         value: '5',
         describe: 'K3、K4、K5、K7断开，K1、K6、K8闭合:实现市电给负载供电的场景。',
     }, {
-        label: '场景六：光伏余电入储',
+        label: '场景六：市电给充电桩供电',
         value: '6',
         describe: 'K8断开，K7闭合，实现市电给充电桩供电的场景。',
     },
@@ -166,7 +166,7 @@ watch(() => scenarioBackup.value,
     }
 )
 
-const init = async (dateType: string = 'SIM') => {
+const init = async (dateType: string = 'FLAT') => {
     typeSelected.value = dateType;
     if (!window.localStorage.getItem('scenario')) {
         window.localStorage.setItem('scenario', '1');

@@ -8,7 +8,7 @@ import { BASE_URL } from "@/assets/config";
 export function getYesterdayElectricity() {
   return $axios({
     method: "get",
-    url: BASE_URL+"/api/bigScreen/yesterdayElectricity",
+    url: BASE_URL + "/api/bigScreen/yesterdayElectricity",
   });
   // return new Promise<any>((resolve, reject) => {
   //   resolve({
@@ -44,7 +44,7 @@ export function getYesterdayElectricity() {
 export function getSelectScene(type: string) {
   return $axios({
     method: "get",
-    url:  BASE_URL+`/api/bigScreen/selectScene?type=${type}`,
+    url: BASE_URL + `/api/bigScreen/selectScene?type=${type}`,
   });
   // return new Promise<any>((resolve, reject) => {
   //   setTimeout(() => {
@@ -64,7 +64,7 @@ export function getSelectScene(type: string) {
 export function getSsPhotovoltaicPower() {
   return $axios({
     method: "get",
-    url:  BASE_URL+"/api/bigScreen/ssPhotovoltaicPower",
+    url: BASE_URL + "/api/bigScreen/ssPhotovoltaicPower",
   });
   // return new Promise<any>((resolve, reject) => {
   //   resolve({
@@ -520,7 +520,7 @@ export function getSsPhotovoltaicPower() {
 export function getSsPhotovoltaicPowerWeek() {
   return $axios({
     method: "get",
-    url:  BASE_URL+"/api/bigScreen/ssPhotovoltaicPowerWeek",
+    url: BASE_URL + "/api/bigScreen/ssPhotovoltaicPowerWeek",
   });
   // return new Promise<any>((resolve, reject) => {
   //   resolve({
@@ -581,7 +581,7 @@ export function getSsPhotovoltaicPowerWeek() {
 export function getSelectDlsyqk() {
   return $axios({
     method: "get",
-    url:  BASE_URL+"/api/bigScreen/selectDlsyqk",
+    url: BASE_URL + "/api/bigScreen/selectDlsyqk",
   });
   // return new Promise<any>((resolve, reject) => {
   //   resolve({
@@ -629,7 +629,7 @@ export function getSelectDlsyqk() {
 export function getSsGvTj() {
   return $axios({
     method: "get",
-    url:  BASE_URL+"/api/bigScreen/ssGvTj",
+    url: BASE_URL + "/api/bigScreen/ssGvTj",
   });
   // return new Promise((resolve, reject) => {
   //   const data: any = {
@@ -1151,7 +1151,7 @@ export function getSsGvTj() {
 export function getTemperatureInfo() {
   return $axios({
     method: "get",
-    url:  BASE_URL+`/api/bigScreen/temperatureInfo`,
+    url: BASE_URL + `/api/bigScreen/temperatureInfo`,
   });
   // return new Promise<any>((resolve, reject) => {
   //   // const data: any = [
@@ -1368,7 +1368,7 @@ export function getTemperatureInfo() {
 export function getNowDltj() {
   return $axios({
     method: "get",
-    url:  BASE_URL+"/api/bigScreen/nowDltj",
+    url: BASE_URL + "/api/bigScreen/nowDltj",
   });
   // return new Promise<any>((resolve, reject) => {
   //   resolve({
@@ -1407,7 +1407,7 @@ export function getNowDltj() {
 export function getSelectMonthDlsyqk() {
   return $axios({
     method: "get",
-    url:  BASE_URL+"/api/bigScreen/selectMonthDlsyqk",
+    url: BASE_URL + "/api/bigScreen/selectMonthDlsyqk",
   });
   // return new Promise<any>((resolve, reject) => {
   //   resolve({
@@ -1434,7 +1434,7 @@ export function getSelectMonthDlsyqk() {
 export function getAllPzUaIak() {
   return $axios({
     method: "get",
-    url:  BASE_URL+"/api/bigScreen/getAllPzUaIa",
+    url: BASE_URL + "/api/bigScreen/getAllPzUaIa",
   });
   // return new Promise<any>((resolve, reject) => {
   //   resolve({
@@ -1462,4 +1462,15 @@ export function getAllPzUaIak() {
   //     ],
   //   });
   // });
+}
+
+/**
+ * 获取光伏充电信息数据
+ * @returns 光伏充电信息数据
+ */
+export function getGfFdDataNew() {
+  return $axios({
+    method: "get",
+    url: BASE_URL + "/api/bigScreen/getGfFdDataNew",
+  });
 }

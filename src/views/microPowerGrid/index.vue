@@ -61,7 +61,7 @@ import bottomLeftComp from "./components/bottomLeftComp.vue";
 import bottomCenterLeftComp from "./components/bottomCenterLeftComp.vue";
 import bottomCenterRightComp from "./components/bottomCenterRightComp.vue";
 import bottomRightComp from "./components/bottomRightComp.vue";
-import { getAllPzUaIak, getNowDltj, getSelectDlsyqk } from "@/utils/api/microPowerGridServer";
+import { getAllPzUaIak, getNowDltj, getSelectDlsyqk, getGfFdDataNew } from "@/utils/api/microPowerGridServer";
 import { realTimeDataStore } from "@/stores/realTimeData";
 
 const realStore: any = realTimeDataStore();
@@ -80,9 +80,9 @@ const init = async () => {
             res.data.map((item: any) => {
                 if (item.type_code == '01') {
                     realStore.updateData({
-                        photovoltaicUa: item.ua,
+                        // photovoltaicUa: item.ua,
                         photovoltaicIa: item.ia,
-                        photovoltaicPz: item.pz,
+                        // photovoltaicPz: item.pz,
                     })
                 }
                 if (item.type_code == '02') {
@@ -103,11 +103,11 @@ const init = async () => {
     getNowDltj().then((res: any) => {
         if (res.code === 0) {
             res.data.map((item: any) => {
-                if (item.typeCode == '光伏') {
-                    realStore.updateData({
-                        photovoltaiDaily: item.quantity,
-                    })
-                }
+                // if (item.typeCode == '光伏') {
+                //     realStore.updateData({
+                //         photovoltaiDaily: item.quantity,
+                //     })
+                // }
                 if (item.typeCode == '储能充') {
                     realStore.updateData({
                         energyInPower: item.quantity,
@@ -124,11 +124,11 @@ const init = async () => {
     getSelectDlsyqk().then((res: any) => {
         if (res.code === 0) {
             res.data.map((item: any) => {
-                if (item.name == '光伏') {
-                    realStore.updateData({
-                        photovoltaicTotal: item.num,
-                    })
-                }
+                // if (item.name == '光伏') {
+                //     realStore.updateData({
+                //         photovoltaicTotal: item.num,
+                //     })
+                // }
                 if (item.name == '储能充') {
                     realStore.updateData({
                         energyTotalIn: item.num,
@@ -147,8 +147,16 @@ const init = async () => {
             })
         }
     })
-
-
+    getGfFdDataNew().then((res: any) => {
+        if (res.code === 0) {
+            realStore.updateData({
+                photovoltaicTotal: res.data.pv_total_electric,
+                photovoltaiDaily: res.data.pv_today_electric,
+                photovoltaicUa: res.data.pv_ua,
+                photovoltaicPz: res.data.pv_pz,
+            })
+        }
+    })
 };
 
 onBeforeUnmount(() => {

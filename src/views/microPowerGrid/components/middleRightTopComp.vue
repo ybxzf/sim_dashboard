@@ -93,7 +93,7 @@ const contentData = computed(() => {
                 iconName: 'output_power',
                 dataName: '实时功率',
                 realData: realStore.realTimeData.photovoltaicPz,
-                unit: 'kWh'
+                unit: 'w'
             },
         ],
     }

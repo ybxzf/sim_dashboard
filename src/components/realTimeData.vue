@@ -50,7 +50,7 @@ onMounted(() => {
     init();
 });
 const init = async () => {
-    // console.log(props.content);
+    console.log(props.content);
 
 };
 </script>
