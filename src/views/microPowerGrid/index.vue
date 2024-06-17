@@ -100,27 +100,27 @@ const init = async () => {
             })
         }
     })
-    getNowDltj().then((res: any) => {
-        if (res.code === 0) {
-            res.data.map((item: any) => {
-                // if (item.typeCode == '光伏') {
-                //     realStore.updateData({
-                //         photovoltaiDaily: item.quantity,
-                //     })
-                // }
-                if (item.typeCode == '储能充') {
-                    realStore.updateData({
-                        energyInPower: item.quantity,
-                    })
-                }
-                if (item.typeCode == '储能放') {
-                    realStore.updateData({
-                        energyOutPower: item.quantity,
-                    })
-                }
-            })
-        }
-    })
+    // getNowDltj().then((res: any) => {
+    //     if (res.code === 0) {
+    //         res.data.map((item: any) => {
+    //             // if (item.typeCode == '光伏') {
+    //             //     realStore.updateData({
+    //             //         photovoltaiDaily: item.quantity,
+    //             //     })
+    //             // }
+    //             // if (item.typeCode == '储能充') {
+    //             //     realStore.updateData({
+    //             //         energyInPower: item.quantity,
+    //             //     })
+    //             // }
+    //             // if (item.typeCode == '储能放') {
+    //             //     realStore.updateData({
+    //             //         energyOutPower: item.quantity,
+    //             //     })
+    //             // }
+    //         })
+    //     }
+    // })
     getSelectDlsyqk().then((res: any) => {
         if (res.code === 0) {
             res.data.map((item: any) => {
@@ -129,16 +129,16 @@ const init = async () => {
                 //         photovoltaicTotal: item.num,
                 //     })
                 // }
-                if (item.name == '储能充') {
-                    realStore.updateData({
-                        energyTotalIn: item.num,
-                    })
-                }
-                if (item.name == '储能放') {
-                    realStore.updateData({
-                        energyTotalOut: item.num,
-                    })
-                }
+                // if (item.name == '储能充') {
+                //     realStore.updateData({
+                //         energyTotalIn: item.num,
+                //     })
+                // }
+                // if (item.name == '储能放') {
+                //     realStore.updateData({
+                //         energyTotalOut: item.num,
+                //     })
+                // }
                 if (item.name == '充电桩') {
                     realStore.updateData({
                         chargePileTotal: item.num,
@@ -154,6 +154,11 @@ const init = async () => {
                 photovoltaiDaily: res.data.pv_today_electric,
                 photovoltaicUa: res.data.pv_ua,
                 photovoltaicPz: res.data.pv_pz,
+
+                energyTotalIn: res.data.cn_total_charging_electric,
+                energyTotalOut: res.data.cn_total_discharging_electric,
+                energyInPower: res.data.cn_today_charging_electric,
+                energyOutPower: res.data.cn_today_discharging_electric,
             })
         }
     })
