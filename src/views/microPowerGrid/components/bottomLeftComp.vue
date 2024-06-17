@@ -24,15 +24,15 @@ import 'echarts-gl';
 const chart3DRef = ref<any>();
 // 传入数据生成 option
 const optionsData = ref<any>([
-    {
-        name: '储能',
-        value: 10,
-        itemStyle: {
-            //   opacity: 0.5,
-            color: 'rgb(0, 255, 76, 0.7)',
-            iuconColor: 'rgb(0, 255, 76)',
-        },
-    },
+    // {
+    //     name: '储能',
+    //     value: 10,
+    //     itemStyle: {
+    //         //   opacity: 0.5,
+    //         color: 'rgb(0, 255, 76, 0.7)',
+    //         iuconColor: 'rgb(0, 255, 76)',
+    //     },
+    // },
 
     {
         name: '充电桩',
@@ -74,15 +74,17 @@ const init = () => {
         if (res.code === 0) {
             if (Object.prototype.hasOwnProperty.call(res, 'data')) {
                 res.data.map((item: any) => {
-                    if (item.name === '储能充') {
+                    // if (item.name === '储能充') {
+                    //     optionsData.value[0].value = Number(item.num) * 100;
+                    //     optionsData.value[0].realValue = Number(item.num);
+                    // } 
+                    if (item.name === '充电桩') {
                         optionsData.value[0].value = Number(item.num) * 100;
                         optionsData.value[0].realValue = Number(item.num);
-                    } else if (item.name === '充电桩') {
+                    }
+                    if (item.name === '家用负荷总') {
                         optionsData.value[1].value = Number(item.num) * 100;
                         optionsData.value[1].realValue = Number(item.num);
-                    } else if (item.name === '家用负荷总') {
-                        optionsData.value[2].value = Number(item.num) * 100;
-                        optionsData.value[2].realValue = Number(item.num);
                     }
                 })
                 const maxValue: number = (optionsData.value.reduce((max: any, current: any) => {
