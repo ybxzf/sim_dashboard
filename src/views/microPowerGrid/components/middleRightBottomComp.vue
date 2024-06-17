@@ -27,8 +27,10 @@
             <div v-if="typeSelected === 'REAL_TIME'" class="item-chart">
                 <realTimeData :content="contentData">
                     <div class="item-slot">
-                        <img :src="`${baseURL}images/microPowerGrid/photovoltaic_click.png`">
-                        <img :src="`${baseURL}images/microPowerGrid/city_elec_not_click.png`">
+                        <img
+                            :src="`${baseURL}images/microPowerGrid/${realStore.realTimeData.energyUsePhotovolt === 1 ? 'photovoltaic_click' : 'photovoltaic_not_click'}.png`">
+                        <img
+                            :src="`${baseURL}images/microPowerGrid/${realStore.realTimeData.energyUsePower === 1 ? 'city_elec_click' : 'city_elec_not_click'}.png`">
                     </div>
                 </realTimeData>
             </div>
@@ -74,16 +76,16 @@ const contentData = computed(() => {
         deviceImg: 'energy_device',
         cont_data: [
             {
-            //     iconName: 'battery_power',
-            //     dataName: '电池电量',
-            //     realData: realStore.realTimeData.energyPower,
-            //     unit: '%'
-            // }, {
-            //     iconName: 'DC_power',
-            //     dataName: '直流功率',
-            //     realData: realStore.realTimeData.energyPz,
-            //     unit: 'w'
-            // }, {
+                //     iconName: 'battery_power',
+                //     dataName: '电池电量',
+                //     realData: realStore.realTimeData.energyPower,
+                //     unit: '%'
+                // }, {
+                //     iconName: 'DC_power',
+                //     dataName: '直流功率',
+                //     realData: realStore.realTimeData.energyPz,
+                //     unit: 'w'
+                // }, {
                 iconName: 'charge_total',
                 dataName: '总充电量',
                 realData: realStore.realTimeData.energyTotalIn,

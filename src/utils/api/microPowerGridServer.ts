@@ -1145,7 +1145,7 @@ export function getSsGvTj() {
 }
 
 /**
- * 获取温度曲线接口数据   type  01:中央空调，02室内空调
+ * 获取温度曲线接口数据   type  01:中央空调，02空调
  * @returns 温度曲线接口数据
  */
 export function getTemperatureInfo() {
@@ -1472,5 +1472,16 @@ export function getGfFdDataNew() {
   return $axios({
     method: "get",
     url: BASE_URL + "/api/bigScreen/getGfFdDataNew",
+  });
+}
+
+/**
+ * 获取光伏充电状态数据
+ * @returns 光伏充电状态数据
+ */
+export function getCnCdzStatus() {
+  return $axios({
+    method: "get",
+    url: BASE_URL + "/api/bigScreen/getCnCdzStatus",
   });
 }

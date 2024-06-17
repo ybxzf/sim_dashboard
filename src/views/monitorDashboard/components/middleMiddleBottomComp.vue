@@ -199,7 +199,7 @@ const init = async () => {
                     seriesData.value[0].data.length = 0;
                     seriesData.value[1].data.length = 0;
                     const indoorTemp: any[] = res1.data.filter((item: any) => item.type === '02')
-                    const indoorPower: any[] = res2.data.filter((item: any) => item.field03 === '室内空调')
+                    const indoorPower: any[] = res2.data.filter((item: any) => item.field03 === '空调')
                     for (let i = 0; i < indoorTemp.length; i++) {
                         const data_date: any = indoorTemp[i].dataDate.split(' ');
                         const nowDate: string = data_date[0];

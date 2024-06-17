@@ -23,6 +23,12 @@ export const realTimeDataStore = defineStore(
       chargePileIa: 0,  //电流
       chargePileTotal: 0,  //累计电量
       chargePilePz: 0,  //功率
+      //光伏|市电状态
+      chargeUsePilePhotovolt: 0,//充电桩光伏
+      chargeUsePower: 0,//充电桩市电
+      energyUsePhotovolt: 0,//储能光伏
+      energyUsePower: 0,//储能市电
+
     })
     // const birth = computed(() => new Date().getFullYear() - user.age)
     function updateData(info: any) {

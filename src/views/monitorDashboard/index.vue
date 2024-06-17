@@ -92,7 +92,7 @@ const chartRef = ref<any>(null);
 const deviceName = ref<string>('');
 const deviceObj = ref<any>({
     fridge: '冰箱',
-    tv: '电视机',
+    tv: '电视',
     air: '空调',
     wash: '洗衣机',
     ic: '电磁炉',
@@ -116,7 +116,7 @@ let interval: any = null; //循环器
 
 watch(() => dialogVisible.value,
     (_nv: boolean) => {
-        if (!_nv) {
+        if (!_nv && deviceName.value !== 'air') {
             timer.timer1 = setTimeout(() => {
                 deviceName.value = '';
                 chartData.value = {
@@ -151,11 +151,15 @@ const backFrontPage = () => {
 
 const chartDialog = (device: string) => {
     deviceName.value = device;
-    getDataFromAPI();
-    interval = setInterval(() => {
-        // console.log('更新数据');
+    if (deviceName.value === 'air') {
+        dialogVisible.value = true;
+    } else {
         getDataFromAPI();
-    }, 1000 * 30)
+        interval = setInterval(() => {
+            // console.log('更新数据');
+            getDataFromAPI();
+        }, 1000 * 30)
+    }
 };
 
 const getDataFromAPI = () => {
@@ -217,7 +221,9 @@ const handleClose = (done: () => void) => {
 
 const closeDialog = () => {
     dialogVisible.value = false;
-    chartRef.value.clearResource();
+    if (deviceName.value !== 'air') {
+        chartRef.value.clearResource();
+    }
 };
 
 onBeforeUnmount(() => {

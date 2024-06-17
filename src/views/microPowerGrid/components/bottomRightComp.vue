@@ -27,8 +27,10 @@
             <div v-if="typeSelected === 'REAL_TIME'" class="item-chart">
                 <realTimeData :content="contentData">
                     <div class="item-slot">
-                        <img :src="`${baseURL}images/microPowerGrid/city_elec_click.png`">
-                        <img :src="`${baseURL}images/microPowerGrid/photovoltaic_not_click.png`">
+                        <img
+                            :src="`${baseURL}images/microPowerGrid/${realStore.realTimeData.chargeUsePilePhotovolt === 1 ? 'photovoltaic_click' : 'photovoltaic_not_click'}.png`">
+                        <img
+                            :src="`${baseURL}images/microPowerGrid/${realStore.realTimeData.chargeUsePower === 1 ? 'city_elec_click' : 'city_elec_not_click'}.png`">
                     </div>
                 </realTimeData>
             </div>
@@ -52,7 +54,6 @@ import curveChartData from "@/components/curveChartData.vue";
 import { getSsGvTj } from "@/utils/api/microPowerGridServer";
 import type { PROP_CONT } from "@/assets/interface";
 import { realTimeDataStore } from "@/stores/realTimeData";
-import axios from "axios";
 
 const realStore: any = realTimeDataStore();
 const mouseIn = ref<boolean>(false);

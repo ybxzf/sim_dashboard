@@ -95,7 +95,7 @@ const elecBreakDownData = ref<any>([
             iconColor: 'RGB(37,75,243)',
         },
     }, {
-        name: '室内空调',
+        name: '空调',
         value: 1,
         itemStyle: {
             //   opacity: 0.5,

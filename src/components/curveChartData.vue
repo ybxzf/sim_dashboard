@@ -171,6 +171,8 @@ const init = () => {
 const clearResource = () => {
     // console.log('关闭');
     myChart.clear();
+    myChart.dispose();
+    myChart = null;
     clearTimeout(timer);
     clearInterval(interval);
 };

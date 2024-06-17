@@ -42,7 +42,7 @@ export function getSsJyfhGvTj() {
   //         data_date: "2014-06-22 00:00:00",
   //       },
   //       {
-  //         field03: "室内空调",
+  //         field03: "空调",
   //         data_date: "2014-06-22 00:00:00",
   //         pz: (Math.random() * 1000).toFixed(1),
   //       },
@@ -80,7 +80,7 @@ export function getSsJyfhGvTj() {
   //         ic: 0,
   //       },
   //       {
-  //         field03: "室内空调",
+  //         field03: "空调",
   //         data_date: "2014-06-22 01:00:00",
   //         pz: (Math.random() * 1000).toFixed(1),
   //       },
@@ -118,7 +118,7 @@ export function getSsJyfhGvTj() {
   //         ic: 0,
   //       },
   //       {
-  //         field03: "室内空调",
+  //         field03: "空调",
   //         data_date: "2014-06-22 02:00:00",
   //         pz: (Math.random() * 1000).toFixed(1),
   //       },
@@ -156,7 +156,7 @@ export function getSsJyfhGvTj() {
   //         ic: 0,
   //       },
   //       {
-  //         field03: "室内空调",
+  //         field03: "空调",
   //         data_date: "2014-06-22 03:00:00",
   //         pz: (Math.random() * 1000).toFixed(1),
   //       },
@@ -191,7 +191,7 @@ export function getSsJyfhGvTj() {
   //         ic: 0,
   //       },
   //       {
-  //         field03: "室内空调",
+  //         field03: "空调",
   //         data_date: "2014-06-22 04:00:00",
   //         pz: (Math.random() * 1000).toFixed(1),
   //       },
@@ -226,7 +226,7 @@ export function getSsJyfhGvTj() {
   //         ic: 0,
   //       },
   //       {
-  //         field03: "室内空调",
+  //         field03: "空调",
   //         data_date: "2014-06-22 05:00:00",
   //         pz: (Math.random() * 1000).toFixed(1),
   //       },
@@ -261,7 +261,7 @@ export function getSsJyfhGvTj() {
   //         ic: 0,
   //       },
   //       {
-  //         field03: "室内空调",
+  //         field03: "空调",
   //         data_date: "2014-06-22 06:00:00",
   //         pz: (Math.random() * 1000).toFixed(1),
   //       },
@@ -296,7 +296,7 @@ export function getSsJyfhGvTj() {
   //         ic: 0,
   //       },
   //       {
-  //         field03: "室内空调",
+  //         field03: "空调",
   //         data_date: "2014-06-22 07:00:00",
   //         pz: (Math.random() * 1000).toFixed(1),
   //       },
@@ -331,7 +331,7 @@ export function getSsJyfhGvTj() {
   //         ic: 0,
   //       },
   //       {
-  //         field03: "室内空调",
+  //         field03: "空调",
   //         data_date: "2014-06-22 08:00:00",
   //         pz: (Math.random() * 1000).toFixed(1),
   //       },
@@ -366,7 +366,7 @@ export function getSsJyfhGvTj() {
   //         ic: 0,
   //       },
   //       {
-  //         field03: "室内空调",
+  //         field03: "空调",
   //         data_date: "2014-06-22 09:00:00",
   //         pz: (Math.random() * 1000).toFixed(1),
   //       },
@@ -401,7 +401,7 @@ export function getSsJyfhGvTj() {
   //         ic: 0,
   //       },
   //       {
-  //         field03: "室内空调",
+  //         field03: "空调",
   //         data_date: "2014-06-22 10:00:00",
   //         pz: (Math.random() * 1000).toFixed(1),
   //       },
@@ -436,7 +436,7 @@ export function getSsJyfhGvTj() {
   //         ic: 0,
   //       },
   //       {
-  //         field03: "室内空调",
+  //         field03: "空调",
   //         data_date: "2014-06-22 11:00:00",
   //       },
   //       {
@@ -470,7 +470,7 @@ export function getSsJyfhGvTj() {
   //         ic: 0,
   //       },
   //       {
-  //         field03: "室内空调",
+  //         field03: "空调",
   //         data_date: "2014-06-22 12:00:00",
   //       },
   //       {
@@ -504,7 +504,7 @@ export function getSsJyfhGvTj() {
   //         ic: 0,
   //       },
   //       {
-  //         field03: "室内空调",
+  //         field03: "空调",
   //         data_date: "2014-06-22 13:00:00",
   //       },
   //       {
@@ -538,7 +538,7 @@ export function getSsJyfhGvTj() {
   //         ic: 0,
   //       },
   //       {
-  //         field03: "室内空调",
+  //         field03: "空调",
   //         data_date: "2014-06-22 14:00:00",
   //       },
   //       {
@@ -572,7 +572,7 @@ export function getSsJyfhGvTj() {
   //         ic: 0,
   //       },
   //       {
-  //         field03: "室内空调",
+  //         field03: "空调",
   //         data_date: "2014-06-22 15:00:00",
   //       },
   //       {
@@ -606,7 +606,7 @@ export function getSsJyfhGvTj() {
   //         ic: 0,
   //       },
   //       {
-  //         field03: "室内空调",
+  //         field03: "空调",
   //         data_date: "2014-06-22 16:00:00",
   //       },
   //       {
@@ -640,7 +640,7 @@ export function getSsJyfhGvTj() {
   //         ic: 0,
   //       },
   //       {
-  //         field03: "室内空调",
+  //         field03: "空调",
   //         data_date: "2014-06-22 17:00:00",
   //       },
   //       {
@@ -674,7 +674,7 @@ export function getSsJyfhGvTj() {
   //         ic: 0,
   //       },
   //       {
-  //         field03: "室内空调",
+  //         field03: "空调",
   //         data_date: "2014-06-22 18:00:00",
   //       },
   //       {
@@ -708,7 +708,7 @@ export function getSsJyfhGvTj() {
   //         ic: 0,
   //       },
   //       {
-  //         field03: "室内空调",
+  //         field03: "空调",
   //         data_date: "2014-06-22 19:00:00",
   //       },
   //       {
@@ -742,7 +742,7 @@ export function getSsJyfhGvTj() {
   //         ic: 0,
   //       },
   //       {
-  //         field03: "室内空调",
+  //         field03: "空调",
   //         data_date: "2014-06-22 20:00:00",
   //       },
   //       {
@@ -776,7 +776,7 @@ export function getSsJyfhGvTj() {
   //         ic: 0,
   //       },
   //       {
-  //         field03: "室内空调",
+  //         field03: "空调",
   //         data_date: "2014-06-22 21:00:00",
   //       },
   //       {
@@ -810,7 +810,7 @@ export function getSsJyfhGvTj() {
   //         ic: 0,
   //       },
   //       {
-  //         field03: "室内空调",
+  //         field03: "空调",
   //         data_date: "2014-06-22 22:00:00",
   //       },
   //       {
@@ -844,7 +844,7 @@ export function getSsJyfhGvTj() {
   //         ic: 0,
   //       },
   //       {
-  //         field03: "室内空调",
+  //         field03: "空调",
   //         data_date: "2014-06-22 23:00:00",
   //       },
   //       {
@@ -880,7 +880,7 @@ export function getDlfjMonth(month: string) {
   //     code: 0,
   //     data: [
   //       {
-  //         field01: "室内空调",
+  //         field01: "空调",
   //         num: Number((Math.random() * 100).toFixed(2)),
   //         // num:100,
   //       },
@@ -932,7 +932,7 @@ export function getDlfj(date: string) {
   //         "name": "家用负荷",
   //         "num": Number((Math.random() * 100).toFixed(2)),
   //         "tjDate": "20140620",
-  //         "field01": "室内空调",
+  //         "field01": "空调",
   //         "field02": null,
   //         "field03": null
   //       },
@@ -986,7 +986,7 @@ export function getDayEventInfo() {
 }
 
 /**
- * 获取温度曲线接口数据   type  01:中央空调，02室内空调
+ * 获取温度曲线接口数据   type  01:中央空调，02空调
  * @returns 温度曲线接口数据 
  */
 export function getTemperatureInfo() {

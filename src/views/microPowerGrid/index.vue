@@ -61,7 +61,7 @@ import bottomLeftComp from "./components/bottomLeftComp.vue";
 import bottomCenterLeftComp from "./components/bottomCenterLeftComp.vue";
 import bottomCenterRightComp from "./components/bottomCenterRightComp.vue";
 import bottomRightComp from "./components/bottomRightComp.vue";
-import { getAllPzUaIak, getNowDltj, getSelectDlsyqk, getGfFdDataNew } from "@/utils/api/microPowerGridServer";
+import { getAllPzUaIak, getNowDltj, getSelectDlsyqk, getGfFdDataNew, getCnCdzStatus } from "@/utils/api/microPowerGridServer";
 import { realTimeDataStore } from "@/stores/realTimeData";
 
 const realStore: any = realTimeDataStore();
@@ -150,15 +150,31 @@ const init = async () => {
     getGfFdDataNew().then((res: any) => {
         if (res.code === 0) {
             realStore.updateData({
-                photovoltaicTotal: res.data.pv_total_electric,
-                photovoltaiDaily: res.data.pv_today_electric,
-                photovoltaicUa: res.data.pv_ua,
-                photovoltaicPz: res.data.pv_pz,
+                photovoltaicTotal: res.data.pv_total_electric | 0,
+                photovoltaiDaily: res.data.pv_today_electric | 0,
+                photovoltaicUa: res.data.pv_ua | 0,
+                photovoltaicPz: res.data.pv_pz | 0,
 
-                energyTotalIn: res.data.cn_total_charging_electric,
-                energyTotalOut: res.data.cn_total_discharging_electric,
-                energyInPower: res.data.cn_today_charging_electric,
-                energyOutPower: res.data.cn_today_discharging_electric,
+                energyTotalIn: res.data.cn_total_charging_electric | 0,
+                energyTotalOut: res.data.cn_total_discharging_electric | 0,
+                energyInPower: res.data.cn_today_charging_electric | 0,
+                energyOutPower: res.data.cn_today_discharging_electric | 0,
+            })
+        }
+    })
+    // realStore.updateData({
+    //     chargeUsePilePhotovolt:  1,//充电桩光伏
+    //     chargeUsePower:  1,//充电桩市电
+    //     energyUsePhotovolt: 0,//储能光伏
+    //     energyUsePower:  1,//储能市电
+    // })
+    getCnCdzStatus().then((res: any) => {
+        if (res.code === 0) {
+            realStore.updateData({
+                chargeUsePilePhotovolt: res.data['充电桩']['光伏'] | 0,//充电桩光伏
+                chargeUsePower: res.data['充电桩']['市电'] | 0,//充电桩市电
+                energyUsePhotovolt: res.data['储能']['光伏'] | 0,//储能光伏
+                energyUsePower: res.data['储能']['市电'] | 0,//储能市电
             })
         }
     })

@@ -258,8 +258,9 @@ onBeforeUnmount(() => {
 
             >* {
                 width: 6rem;
+                flex: 1;
                 display: flex;
-                // justify-content: center;
+                justify-content: center;
                 align-items: center;
             }
 
