@@ -4,6 +4,10 @@
         <div class="back-button" @click="backFrontPage">返回首页</div>
         <div class="fridge-button" @click="chartDialog('fridge')"></div>
         <div class="tv-button" @click="chartDialog('tv')"></div>
+        <div class="air-button" @click="chartDialog('air')"></div>
+        <div class="wash-button" @click="chartDialog('wash')"></div>
+        <div class="ic-button" @click="chartDialog('ic')"></div>
+        <div class="mo-button" @click="chartDialog('mo')"></div>
         <el-row class="pg-title-ctn">
             <el-col class="pg-title-col" :span="24">
                 <titleComp />
@@ -43,9 +47,10 @@
         </el-row>
         <el-dialog v-model="dialogVisible" :before-close="handleClose">
             <template #title>
-                <span>{{ deviceName === 'tv' ? '电视' : '冰箱' }}实时功率曲线</span>
+                <span>{{ deviceObj[deviceName] }}实时功率曲线</span>
             </template>
-            <div class="chart-cnt">
+            <middleMiddleBottomComp v-if="deviceName === 'air'" :isDialog="true" />
+            <div v-else class="chart-cnt">
                 <div class="item-tooltip" v-if="!mouseIn && mouseInSetTime" :style="{
                     backgroundColor: chartData.lineColorT,
                 }">
@@ -85,6 +90,14 @@ const router: any = useRouter();
 const dialogVisible = ref<boolean>(false);
 const chartRef = ref<any>(null);
 const deviceName = ref<string>('');
+const deviceObj = ref<any>({
+    fridge: '冰箱',
+    tv: '电视机',
+    air: '空调',
+    wash: '洗衣机',
+    ic: '电磁炉',
+    mo: '微波炉',
+});
 const mouseIn = ref<boolean>(false);
 const mouseInSetTime = ref<boolean>(false);
 const chartData = ref<any>({
@@ -151,11 +164,12 @@ const getDataFromAPI = () => {
             const seriesData: number[] = [];
             const xAxisData: string[] = [];
             const data: any = res.data.filter((item: any) => {
-                if (deviceName.value === 'fridge') {
-                    return item.field03 === '冰箱'
-                } else if (deviceName.value === 'tv') {
-                    return item.field03 === '电视'
-                }
+                return item.field03 === deviceObj.value[`${deviceName.value}`]
+                // if (deviceName.value === 'fridge') {
+                //     return item.field03 === '冰箱'
+                // } else if (deviceName.value === 'tv') {
+                //     return item.field03 === '电视'
+                // }
             })
             console.log(data);
             data.map((item: any) => {
@@ -279,11 +293,55 @@ onBeforeUnmount(() => {
     .tv-button {
         cursor: pointer;
         width: 10rem;
-        height: 8rem;
+        height: 7rem;
         // border: 1px solid;
         position: absolute;
-        top: 26rem;
+        top: 27rem;
         left: 45.2rem;
+        z-index: 1;
+    }
+
+    .air-button {
+        cursor: pointer;
+        width: 10rem;
+        height: 7rem;
+        // border: 1px solid;
+        position: absolute;
+        top: 27rem;
+        right: 43.8rem;
+        z-index: 1;
+    }
+
+    .wash-button {
+        cursor: pointer;
+        width: 10rem;
+        height: 7rem;
+        // border: 1px solid;
+        position: absolute;
+        top: 18rem;
+        right: 37.5rem;
+        z-index: 1;
+    }
+
+    .ic-button {
+        cursor: pointer;
+        width: 10rem;
+        height: 6rem;
+        // border: 1px solid;
+        position: absolute;
+        top: 9rem;
+        right: 43.3rem;
+        z-index: 1;
+    }
+
+    .mo-button {
+        cursor: pointer;
+        width: 10rem;
+        height: 6rem;
+        // border: 1px solid;
+        position: absolute;
+        top: 9rem;
+        left: 45.7rem;
         z-index: 1;
     }
 }
