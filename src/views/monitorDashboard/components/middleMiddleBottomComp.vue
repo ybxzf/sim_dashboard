@@ -1,8 +1,8 @@
 <template>
     <div class="flex-item-ctn">
-        <div class="flex-item">
+        <div class="flex-item" :class="props.isDialog !== true ? 'hasBg' : 'noneBg'">
             <div class="item-title">
-                <span class="title-name">
+                <span v-show="props.isDialog !== true" class="title-name">
                     室内空调监测
                 </span>
             </div>
@@ -38,6 +38,7 @@ import * as echarts from 'echarts';
 import { getTemperatureInfo, getSsJyfhGvTj } from "@/utils/api/monitorDashboardServer";
 import { formatterDate } from "@/utils/base";
 
+const props = defineProps(['isDialog']);
 const mouseIn = ref<boolean>(false);
 const mouseInSetTime = ref<boolean>(false);
 const lineChartRef = ref<any>();
@@ -305,7 +306,7 @@ onBeforeUnmount(() => {
     .flex-item {
         width: 100%;
         height: 26.5rem;
-        background-image: url('../../../assets/images/monitorDashboard/item_border_3.png');
+        // background-image: url('../../../assets/images/monitorDashboard/item_border_3.png');
         // background-color: rgba(255, 116, 116, 0.5);
         background-size: 100% 90%;
         background-position: center;
@@ -370,6 +371,14 @@ onBeforeUnmount(() => {
             font-size: 1.2rem;
             color: #fff;
         }
+    }
+
+    .hasBg {
+        background-image: url('../../../assets/images/monitorDashboard/item_border_3.png');
+    }
+
+    .noneBg {
+        background-image: url('');
     }
 }
 </style>
