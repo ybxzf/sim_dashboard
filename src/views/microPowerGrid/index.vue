@@ -150,15 +150,15 @@ const init = async () => {
     getGfFdDataNew().then((res: any) => {
         if (res.code === 0) {
             realStore.updateData({
-                photovoltaicTotal: res.data.pv_total_electric | 0,
-                photovoltaiDaily: res.data.pv_today_electric | 0,
-                photovoltaicUa: res.data.pv_ua | 0,
-                photovoltaicPz: res.data.pv_pz | 0,
+                photovoltaicTotal: res.data.pv_total_electric || 0,
+                photovoltaiDaily: res.data.pv_today_electric || 0,
+                photovoltaicUa: res.data.pv_ua || 0,
+                photovoltaicPz: res.data.pv_pz || 0,
 
-                energyTotalIn: res.data.cn_total_charging_electric | 0,
-                energyTotalOut: res.data.cn_total_discharging_electric | 0,
-                energyInPower: res.data.cn_today_charging_electric | 0,
-                energyOutPower: res.data.cn_today_discharging_electric | 0,
+                energyTotalIn: res.data.cn_total_charging_electric || 0,
+                energyTotalOut: res.data.cn_total_discharging_electric || 0,
+                energyInPower: res.data.cn_today_charging_electric || 0,
+                energyOutPower: res.data.cn_today_discharging_electric || 0,
             })
         }
     })
@@ -171,10 +171,10 @@ const init = async () => {
     getCnCdzStatus().then((res: any) => {
         if (res.code === 0) {
             realStore.updateData({
-                chargeUsePilePhotovolt: res.data['充电桩']['光伏'] | 0,//充电桩光伏
-                chargeUsePower: res.data['充电桩']['市电'] | 0,//充电桩市电
-                energyUsePhotovolt: res.data['储能']['光伏'] | 0,//储能光伏
-                energyUsePower: res.data['储能']['市电'] | 0,//储能市电
+                chargeUsePilePhotovolt: res.data['充电桩']['光伏'] || 0,//充电桩光伏
+                chargeUsePower: res.data['充电桩']['市电'] || 0,//充电桩市电
+                energyUsePhotovolt: res.data['储能']['光伏'] || 0,//储能光伏
+                energyUsePower: res.data['储能']['市电'] || 0,//储能市电
             })
         }
     })
