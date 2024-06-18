@@ -9,10 +9,11 @@
                     :src="`${baseURL}images/microPowerGrid/${typeSelected === 'SIM' ? 'button_1_click' : 'button_1_not_click'}.png`">
                 <div class="title-button">仿真场景</div>
             </div>
-            <div class="item-ctn" v-loading="switchLoading" element-loading-background="rgba(122, 122, 122, 0.4)" :style="{
-                backgroundImage: `url('${baseURL}images/microPowerGrid/${typeSelected === 'SIM' ? 'sim_scene' : 'roof_flat'}.png')`,
-                backgroundSize: `${typeSelected === 'SIM' ? '100% 100%' : '100% 120%'}`,
-            }">
+            <div class="item-ctn" v-loading="switchLoading" element-loading-background="rgba(122, 122, 122, 0.4)"
+                :style="{
+                    backgroundImage: `url('${baseURL}images/microPowerGrid/${typeSelected === 'SIM' ? 'sim_scene' : 'roof_flat'}.png')`,
+                    backgroundSize: `${typeSelected === 'SIM' ? '100% 100%' : '100% 120%'}`,
+                }">
                 <!-- <el-select class="button-switch-scene" v-if="typeSelected === 'SIM'" v-model="scenario"
                     placeholder="Select">
                     <el-option @click="switchScene(item.value)" v-for="item in sceneList" :key="item.value"
@@ -80,7 +81,7 @@
             </span> -->
         </template>
         <el-radio-group v-model="scenario" class="ml-4">
-            <el-radio :value="item.value" size="large" v-for="item in  sceneList " :key="item.value">
+            <el-radio :value="item.value" size="large" v-for="item in sceneList " :key="item.value">
                 <div class="text-serial" :style="{
                     // border: '1px solid',
                 }
@@ -91,10 +92,15 @@
         <!-- <span>确定执行切换操作？</span> -->
         <template #footer>
             <div class="dialog-footer">
-                <el-button @click="cancel" style="color: black !important;">取消</el-button>
-                <el-button type="primary" @click="confirm" :disabled="scenarioBackup === scenario">
+                <img @click="cancel" :src="`${baseURL}images/microPowerGrid/cancel_button.png`" alt="取消">
+                <img @click="confirm" :style="{
+                    cursor: scenarioBackup === scenario ? 'default' : 'pointer'
+                }" :src="`${baseURL}images/microPowerGrid/${scenarioBackup === scenario ? 'not_switch' : 'is_switch'}.png`"
+                    alt="改变">
+                <!-- <el-button style="color: black !important;">取消</el-button>
+                <el-button type="primary" :disabled="scenarioBackup === scenario">
                     {{ scenarioBackup === scenario ? "未改变" : "切换" }}
-                </el-button>
+                </el-button> -->
             </div>
         </template>
     </el-dialog>
@@ -189,6 +195,9 @@ const switchScene = (_val: string) => {
 }
 
 const confirm = () => {
+    if (scenarioBackup.value === scenario.value) {
+        return
+    }
     switchLoading.value = true;
     dialogVisible.value = false;
     // console.log('_val', _val, scenario.value);
@@ -451,8 +460,10 @@ const getSwitchObj = (scenario: string) => {
 
     .text-serial {
         font-size: 1.3rem !important;
-        padding: 0.3rem;
+        padding: 0.3rem 1rem;
         margin-left: 1rem;
+        width: auto;
+        display: inline-block
     }
 
     .text-explain {
@@ -471,13 +482,34 @@ const getSwitchObj = (scenario: string) => {
 }
 
 .el-dialog {
-    background-color: rgba(0, 67, 122, 0.8) !important;
+    background-color: rgba(0, 48, 87, 0.8) !important;
     border: 1px solid rgb(0, 67, 122);
     box-shadow: inset 0 0 5px rgba(0, 67, 122, 0.8);
+    // overflow-y: scroll;
 
-    // height: 42rem;
+    height: 45rem;
+
     >* {
         color: #ffffff;
+    }
+
+    .el-dialog__body {
+        height: 80%;
+        // border: 1px solid;
+        overflow-y: scroll;
+
+    }
+
+    .el-dialog__body::-webkit-scrollbar {
+        display: none;
+    }
+
+    .dialog-footer {
+        img {
+            width: 8rem;
+            margin: 0 1rem;
+            cursor: pointer;
+        }
     }
 }
 </style>
