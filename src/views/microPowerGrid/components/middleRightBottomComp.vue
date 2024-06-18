@@ -28,9 +28,9 @@
                 <realTimeData :content="contentData">
                     <div class="item-slot">
                         <img
-                            :src="`${baseURL}images/microPowerGrid/${realStore.realTimeData.energyUsePhotovolt === 1 ? 'photovoltaic_click' : 'photovoltaic_not_click'}.png`">
-                        <img
                             :src="`${baseURL}images/microPowerGrid/${realStore.realTimeData.energyUsePower === 1 ? 'city_elec_click' : 'city_elec_not_click'}.png`">
+                        <img
+                            :src="`${baseURL}images/microPowerGrid/${realStore.realTimeData.energyUsePhotovolt === 1 ? 'photovoltaic_click' : 'photovoltaic_not_click'}.png`">
                     </div>
                 </realTimeData>
             </div>
