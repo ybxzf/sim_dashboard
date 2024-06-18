@@ -9,11 +9,10 @@
                     :src="`${baseURL}images/microPowerGrid/${typeSelected === 'SIM' ? 'button_1_click' : 'button_1_not_click'}.png`">
                 <div class="title-button">仿真场景</div>
             </div>
-            <div class="item-ctn" v-loading="switchLoading" element-loading-background="rgba(122, 122, 122, 0.4)"
-                :style="{
-                    backgroundImage: `url('${baseURL}images/microPowerGrid/${typeSelected === 'SIM' ? 'sim_scene' : 'roof_flat'}.png')`,
-                    backgroundSize: `${typeSelected === 'SIM' ? '100% 100%' : '100% 120%'}`,
-                }">
+            <div class="item-ctn" v-loading="switchLoading" element-loading-background="rgba(122, 122, 122, 0.4)" :style="{
+                backgroundImage: `url('${baseURL}images/microPowerGrid/${typeSelected === 'SIM' ? 'sim_scene' : 'roof_flat'}.png')`,
+                backgroundSize: `${typeSelected === 'SIM' ? '100% 100%' : '100% 120%'}`,
+            }">
                 <!-- <el-select class="button-switch-scene" v-if="typeSelected === 'SIM'" v-model="scenario"
                     placeholder="Select">
                     <el-option @click="switchScene(item.value)" v-for="item in sceneList" :key="item.value"
@@ -75,12 +74,18 @@
     </div>
     <el-dialog v-model="dialogVisible" width="75rem" :before-close="handleClose">
         <template #title>
-            <span style="font-size: 2rem">场景切换</span>
+            <img :src="`${baseURL}images/microPowerGrid/scene_switch.png`" alt="场景切换" style="height: 3rem;">
+            <!-- <span style="font-size: 2rem">
+                场景切换
+            </span> -->
         </template>
         <el-radio-group v-model="scenario" class="ml-4">
-            <el-radio :value="item.value" size="large" v-for="item in sceneList" :key="item.value">
-                <span class="text" style="border: 1px solid;">{{ item.label }}</span><br />
-                <span class="text">{{ item.describe }}</span>
+            <el-radio :value="item.value" size="large" v-for="item in  sceneList " :key="item.value">
+                <div class="text-serial" :style="{
+                    // border: '1px solid',
+                }
+                    ">{{ item.label }}</div>
+                <div class="text-explain">{{ item.describe }}</div>
             </el-radio>
         </el-radio-group>
         <!-- <span>确定执行切换操作？</span> -->
@@ -439,10 +444,29 @@ const getSwitchObj = (scenario: string) => {
 <style lang="less">
 .el-radio {
     color: #ffffff !important;
-    height: 4.5rem !important;
+    height: 5rem !important;
+    width: 90%;
+    // border: 1px solid !important;
+    margin-bottom: 1.5rem;
 
-    .text {
-        font-size: 1.2rem !important;
+    .text-serial {
+        font-size: 1.3rem !important;
+        padding: 0.3rem;
+        margin-left: 1rem;
+    }
+
+    .text-explain {
+        font-size: 1rem !important;
+        // border: 1px solid;
+        margin-top: 0.8rem;
+        margin-left: 1rem;
+    }
+
+    .el-radio__input.is-checked+.el-radio__label {
+        .text-serial {
+            border: 1px solid rgb(57, 156, 255);
+            box-shadow: inset 0 0 15px rgba(0, 128, 255, 1);
+        }
     }
 }
 
@@ -451,6 +475,7 @@ const getSwitchObj = (scenario: string) => {
     border: 1px solid rgb(0, 67, 122);
     box-shadow: inset 0 0 5px rgba(0, 67, 122, 0.8);
 
+    // height: 42rem;
     >* {
         color: #ffffff;
     }
