@@ -11,9 +11,13 @@
             </div>
             <div class="item-ctn" v-loading="switchLoading" element-loading-background="rgba(122, 122, 122, 0.4)"
                 :style="{
-                    backgroundImage: `url('${baseURL}images/microPowerGrid/${typeSelected === 'SIM' ? 'sim_scene' : 'roof_flat'}.png')`,
-                    backgroundSize: `${typeSelected === 'SIM' ? '100% 100%' : '100% 120%'}`,
+                    backgroundImage: `url('${baseURL}images/microPowerGrid/${typeSelected === 'SIM' ? 'sim_scene.png' : ''}')`,
+                    backgroundSize: `${typeSelected === 'SIM' ? '100% 100%' : '100% 100%'}`,
+                    // backgroundPosition: `${typeSelected === 'SIM' ? 'center' : '-39rem -5rem'}`,
+                    // border:'1px solid'
                 }">
+                <img class="img-flat" v-if="typeSelected === 'FLAT'"
+                    :src="`${baseURL}images/microPowerGrid/roof_flat.svg`" alt="顶楼平面图">
                 <!-- <el-select class="button-switch-scene" v-if="typeSelected === 'SIM'" v-model="scenario"
                     placeholder="Select">
                     <el-option @click="switchScene(item.value)" v-for="item in sceneList" :key="item.value"
@@ -568,6 +572,7 @@ const getSwitchObj = (scenario: string) => {
                 position: absolute;
                 top: 0.8rem;
                 right: 13rem;
+                z-index: 99;
             }
 
             .button-img-2 {
@@ -577,6 +582,7 @@ const getSwitchObj = (scenario: string) => {
                 position: absolute;
                 top: 0.8rem;
                 right: 3rem;
+                z-index: 99;
             }
 
         }
@@ -590,6 +596,14 @@ const getSwitchObj = (scenario: string) => {
             // background-color: rgba(228, 255, 234, 0.5);
             color: #fff;
             font-size: 1rem;
+
+            .img-flat {
+                border: 1px solid;
+                width: 92rem;
+                position: absolute;
+                right: -5rem;
+                bottom: -4rem;
+            }
 
             .button-switch-scene {
                 background-image: url('../../../assets/images/microPowerGrid/exchange_botton.png');

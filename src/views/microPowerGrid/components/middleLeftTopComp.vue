@@ -114,7 +114,7 @@ const init = () => {
                         seriesData.value[1].value = Number(item.quantity);
                     } else if (item.typeCode === '储能放') {
                         seriesData.value[2].value = Number(item.quantity);
-                    } else {
+                    } else if (item.typeCode === '充电桩'){
                         seriesData.value[3].value = Number(item.quantity);
                     }
                 })
