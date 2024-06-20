@@ -256,11 +256,14 @@ onBeforeUnmount(() => {
     .item-title {
         // border: 1px solid rgb(165, 252, 184);
         position: relative;
+        z-index: 99;
+        
     }
 
     .item-chart {
         width: 100%;
         height: 16rem;
+        z-index: 99;
         // border: 1px solid red;
     }
 }

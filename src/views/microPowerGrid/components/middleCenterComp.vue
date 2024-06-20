@@ -16,8 +16,8 @@
                     // backgroundPosition: `${typeSelected === 'SIM' ? 'center' : '-39rem -5rem'}`,
                     // border:'1px solid'
                 }">
-                <img class="img-flat" v-if="typeSelected === 'FLAT'"
-                    :src="`${baseURL}images/microPowerGrid/roof_flat.svg`" alt="顶楼平面图">
+                <object class="img-flat" v-if="typeSelected === 'FLAT'"
+                    :data="`${baseURL}images/microPowerGrid/roof_flat.svg`" type="image/svg+xml" alt="顶楼平面图"></object>
                 <!-- <el-select class="button-switch-scene" v-if="typeSelected === 'SIM'" v-model="scenario"
                     placeholder="Select">
                     <el-option @click="switchScene(item.value)" v-for="item in sceneList" :key="item.value"
@@ -98,7 +98,7 @@
             <div class="dialog-footer">
                 <img @click="cancel" :src="`${baseURL}images/microPowerGrid/cancel_button.png`" alt="取消">
                 <img @click="confirm" :style="{
-                    cursor: scenarioBackup === scenario ? 'default' : 'pointer'
+                    cursor: scenarioBackup === scenario ? 'not-allowed' : 'pointer'
                 }" :src="`${baseURL}images/microPowerGrid/${scenarioBackup === scenario ? 'not_switch' : 'is_switch'}.png`"
                     alt="改变">
                 <!-- <el-button style="color: black !important;">取消</el-button>
@@ -464,7 +464,7 @@ const getSwitchObj = (scenario: string) => {
 
     .text-serial {
         font-size: 1.3rem !important;
-        padding: 0.3rem 1rem;
+        padding: 0.3rem 1rem 0.3rem 0;
         margin-left: 1rem;
         width: auto;
         display: inline-block
@@ -479,6 +479,7 @@ const getSwitchObj = (scenario: string) => {
 
     .el-radio__input.is-checked+.el-radio__label {
         .text-serial {
+            padding: 0.3rem 1rem;
             border: 1px solid rgb(57, 156, 255);
             box-shadow: inset 0 0 15px rgba(0, 128, 255, 1);
         }
@@ -598,11 +599,12 @@ const getSwitchObj = (scenario: string) => {
             font-size: 1rem;
 
             .img-flat {
-                border: 1px solid;
+                // border: 1px solid;
                 width: 92rem;
                 position: absolute;
                 right: -5rem;
                 bottom: -4rem;
+                // z-index: 98;
             }
 
             .button-switch-scene {

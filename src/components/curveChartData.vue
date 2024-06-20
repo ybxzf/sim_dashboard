@@ -2,7 +2,7 @@
     <div ref="lineChartRef" class="item-chart"></div>
 </template>
 <script setup lang="ts">
-import { ref, reactive, watch, onMounted, onBeforeUnmount, defineExpose } from "vue";
+import { ref, reactive, watch, onMounted, onBeforeUnmount } from "vue";
 import * as echarts from 'echarts';
 import { formatterDate } from "@/utils/base";
 
