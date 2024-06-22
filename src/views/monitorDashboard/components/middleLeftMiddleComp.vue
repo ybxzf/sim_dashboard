@@ -48,7 +48,7 @@ import { getDlfj, getDlfjMonth } from "@/utils/api/monitorDashboardServer";
 import * as echarts from 'echarts';
 import "echarts-gl";
 
-const typeSelected = ref<string>('DAY');
+const typeSelected = ref<string>('');
 const date = ref<string>(formatterDate(new Date()));
 const month = ref<string>(formatterMonth(new Date()));
 const elecBreakDownData = ref<any>([
@@ -91,8 +91,8 @@ const elecBreakDownData = ref<any>([
         value: 1,
         itemStyle: {
             //   opacity: 0.5,
-            color: 'RGB(37,75,243,1)',
-            iconColor: 'RGB(37,75,243)',
+            color: 'RGB(0,128,0,1)',
+            iconColor: 'RGB(0,128,0)',
         },
     }, {
         name: '空调',
@@ -136,6 +136,9 @@ onMounted(() => {
     });
 });
 const init = async (dateType: string = 'DAY') => {
+    if (typeSelected.value === dateType) {
+        return ;
+    }
     // console.log(date.value, month.value);
     typeSelected.value = dateType;
     optionsData.value.length = 0;
@@ -154,7 +157,8 @@ const init = async (dateType: string = 'DAY') => {
                         }
                     }
                 })
-                setChart(optionsData.value.length > 0 ? optionsData.value : elecBreakDownData.value);
+                setChart(optionsData.value);
+                // setChart(optionsData.value.length > 0 ? optionsData.value : elecBreakDownData.value);
             }
         })
     } else {
@@ -170,13 +174,15 @@ const init = async (dateType: string = 'DAY') => {
                         }
                     }
                 })
-                setChart(optionsData.value.length > 0 ? optionsData.value : elecBreakDownData.value);
+                setChart(optionsData.value);
+                // setChart(optionsData.value.length > 0 ? optionsData.value : elecBreakDownData.value);
             }
         })
     }
 };
 
 function setChart(optionsData: any) {
+    myChart.clear();
     const series: any[] = getPie3D(optionsData, 0);
     series.push({
         name: 'pie2d',
@@ -332,7 +338,6 @@ function setChart(optionsData: any) {
         series: series,
     }
     // 使用刚指定的配置项和数据显示图表。
-    // myChart.clear();
     myChart.setOption(option);
 }
 

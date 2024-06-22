@@ -1485,3 +1485,14 @@ export function getCnCdzStatus() {
     url: BASE_URL + "/api/bigScreen/getCnCdzStatus",
   });
 }
+
+/**
+ * 获取光伏充电状态数据
+ * @returns 光伏充电状态数据
+ */
+export function getSceneList() {
+  return $axios({
+    method: "get",
+    url: "/sceneList.JSON",
+  });
+}

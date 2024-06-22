@@ -110,9 +110,9 @@
     </el-dialog>
 </template>
 <script setup lang="ts">
-import { ref, reactive, watch, onMounted, onBeforeUnmount } from "vue";
+import { ref, reactive, computed, watch, onMounted, onBeforeUnmount } from "vue";
 import { useRoute, useRouter } from "vue-router";
-import { getSelectScene } from "@/utils/api/microPowerGridServer";
+import { getSelectScene, getSceneList } from "@/utils/api/microPowerGridServer";
 import { ElMessageBox, ElMessage } from 'element-plus'
 
 const route: any = useRoute();
@@ -123,34 +123,35 @@ const scenario = ref<string>('');
 const scenarioBackup = ref<string>(scenario.value);
 const dialogVisible = ref<boolean>(false);
 const switchLoading = ref<boolean>(false);
+const sceneList = ref<any[]>([]);
 
-const sceneList = ref<any[]>([
-    {
-        label: '场景一：光伏给负载供电',
-        value: '1',
-        describe: 'K1、K7断开，K3、K5、K8闭合，实现光伏给负载供电的场景。',
-    }, {
-        label: '场景二：光伏余电入储',
-        value: '2',
-        describe: 'K1、K7断开，K3、K5、K8闭合，实现光伏发电剩余电量到储能的场景。',
-    }, {
-        label: '场景三：储能给负载供电',
-        value: '3',
-        describe: 'K1、K7断开，K3、K5、K8闭合，实现储能给负载供电的场景。',
-    }, {
-        label: '场景四：市电给储能充电且储能给负载供电',
-        value: '4',
-        describe: 'K6、K7断开，K1、K3、K4、K5、K8闭合，实现市电给储能电池充电，同时实现储能电池给负载供电的场景。',
-    }, {
-        label: '场景五：市电给负载供电',
-        value: '5',
-        describe: 'K3、K4、K5、K7断开，K1、K6、K8闭合:实现市电给负载供电的场景。',
-    }, {
-        label: '场景六：市电给充电桩供电',
-        value: '6',
-        describe: 'K8断开，K7闭合，实现市电给充电桩供电的场景。',
-    },
-]);
+// const sceneList = ref<any[]>([
+//     {
+//         label: '场景一：光伏给负载供电',
+//         value: '1',
+//         describe: 'K1、K7断开，K3、K5、K8闭合，实现光伏给负载供电的场景。',
+//         // }, {
+//         //     label: '场景二：光伏余电入储',
+//         //     value: '2',
+//         //     describe: 'K1、K7断开，K3、K5、K8闭合，实现光伏发电剩余电量到储能的场景。',
+//         // }, {
+//         //     label: '场景三：储能给负载供电',
+//         //     value: '3',
+//         //     describe: 'K1、K7断开，K3、K5、K8闭合，实现储能给负载供电的场景。',
+//     }, {
+//         label: '场景二：市电给储能充电且储能给负载供电',
+//         value: '2',
+//         describe: 'K6、K7断开，K1、K3、K4、K5、K8闭合，实现市电给储能电池充电，同时实现储能电池给负载供电的场景。',
+//     }, {
+//         label: '场景三：市电给负载供电',
+//         value: '3',
+//         describe: 'K3、K4、K5、K7断开，K1、K6、K8闭合:实现市电给负载供电的场景。',
+//     }, {
+//         label: '场景四：市电给充电桩供电',
+//         value: '4',
+//         describe: 'K8断开，K7闭合，实现市电给充电桩供电的场景。',
+//     },
+// ]);
 
 const switchObj = ref<any>({
     k1: false,
@@ -164,6 +165,9 @@ const switchObj = ref<any>({
 });
 
 onMounted(() => {
+    getSceneList().then((res: any) => {
+        sceneList.value = res;
+    })
     init();
 });
 // watch(() => switchObj.value,
@@ -384,73 +388,78 @@ const handleClose = (done: () => void) => {
 }
 
 const getSwitchObj = (scenario: string) => {
-    if (scenario == '1') {
-        switchObj.value = {
-            k1: false,
-            k2: true,
-            k3: true,
-            k4: false,
-            k5: true,
-            k6: false,
-            k7: false,
-            k8: true,
+    sceneList.value.map((item: any) => {
+        if (item.value === scenario) {
+            switchObj.value = item.switchObj;
         }
-    } else if (scenario == '2') {
-        switchObj.value = {
-            k1: false,
-            k2: true,
-            k3: true,
-            k4: false,
-            k5: true,
-            k6: false,
-            k7: false,
-            k8: true,
-        }
-    } else if (scenario == '3') {
-        switchObj.value = {
-            k1: false,
-            k2: true,
-            k3: true,
-            k4: false,
-            k5: true,
-            k6: false,
-            k7: false,
-            k8: true,
-        }
-    } else if (scenario == '4') {
-        switchObj.value = {
-            k1: true,
-            k2: true,
-            k3: true,
-            k4: true,
-            k5: true,
-            k6: false,
-            k7: false,
-            k8: true,
-        }
-    } else if (scenario == '5') {
-        switchObj.value = {
-            k1: true,
-            k2: true,
-            k3: false,
-            k4: false,
-            k5: false,
-            k6: true,
-            k7: false,
-            k8: true,
-        }
-    } else if (scenario == '6') {
-        switchObj.value = {
-            k1: false,
-            k2: true,
-            k3: false,
-            k4: false,
-            k5: false,
-            k6: false,
-            k7: true,
-            k8: false,
-        }
-    }
+    })
+    // if (scenario == '1') {
+    //     switchObj.value = {
+    //         k1: false,
+    //         k2: true,
+    //         k3: true,
+    //         k4: false,
+    //         k5: true,
+    //         k6: false,
+    //         k7: false,
+    //         k8: true,
+    //     }
+    // } else if (scenario == '2') {
+    //     switchObj.value = {
+    //         k1: false,
+    //         k2: true,
+    //         k3: true,
+    //         k4: false,
+    //         k5: true,
+    //         k6: false,
+    //         k7: false,
+    //         k8: true,
+    //     }
+    // } else if (scenario == '3') {
+    //     switchObj.value = {
+    //         k1: false,
+    //         k2: true,
+    //         k3: true,
+    //         k4: false,
+    //         k5: true,
+    //         k6: false,
+    //         k7: false,
+    //         k8: true,
+    //     }
+    // } else if (scenario == '4') {
+    //     switchObj.value = {
+    //         k1: true,
+    //         k2: true,
+    //         k3: true,
+    //         k4: true,
+    //         k5: true,
+    //         k6: false,
+    //         k7: false,
+    //         k8: true,
+    //     }
+    // } else if (scenario == '5') {
+    //     switchObj.value = {
+    //         k1: true,
+    //         k2: true,
+    //         k3: false,
+    //         k4: false,
+    //         k5: false,
+    //         k6: true,
+    //         k7: false,
+    //         k8: true,
+    //     }
+    // } else if (scenario == '6') {
+    //     switchObj.value = {
+    //         k1: false,
+    //         k2: true,
+    //         k3: false,
+    //         k4: false,
+    //         k5: false,
+    //         k6: false,
+    //         k7: true,
+    //         k8: false,
+    //     }
+    // }
 }
 
 </script>

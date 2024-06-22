@@ -3,7 +3,7 @@
         <div class="flex-item">
             <div class="item-title">
                 <span class="title-name">
-                    {{ typeSelected === 'REAL_TIME' ? '光伏发电监测' : '光伏发电功率监测' }}
+                    {{ typeSelected === 'REAL_TIME' ? '光伏发电监测' : '光伏发电监测' }}
                 </span>
                 <div class="chart-button-ctn">
                     <div>
