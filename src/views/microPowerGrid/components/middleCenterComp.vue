@@ -11,13 +11,15 @@
             </div>
             <div class="item-ctn" v-loading="switchLoading" element-loading-background="rgba(122, 122, 122, 0.4)"
                 :style="{
-                    backgroundImage: `url('${baseURL}images/microPowerGrid/${typeSelected === 'SIM' ? 'sim_scene.png' : ''}')`,
-                    backgroundSize: `${typeSelected === 'SIM' ? '100% 100%' : '100% 100%'}`,
+                    backgroundImage: `url('${typeSelected === 'SIM' ? baseURL + 'images/microPowerGrid/sim_scene.png' : ''}')`,
+                    backgroundSize: `${typeSelected === 'SIM' ? '100% 100%' : '100% 120%'}`,
                     // backgroundPosition: `${typeSelected === 'SIM' ? 'center' : '-39rem -5rem'}`,
                     // border:'1px solid'
                 }">
-                <object class="img-flat" v-if="typeSelected === 'FLAT'"
-                    :data="`${baseURL}images/microPowerGrid/roof_flat.svg`" type="image/svg+xml" alt="顶楼平面图"></object>
+                <!-- <object class="img-flat" v-if="typeSelected === 'FLAT'"
+                    :data="`${baseURL}images/microPowerGrid/roof_flat.svg`" type="image/svg+xml" alt="顶楼平面图"></object> -->
+                <img class="img-flat-png" v-if="typeSelected === 'FLAT'"
+                    :src="`${baseURL}images/microPowerGrid/roof_flat.png`" alt="顶楼平面图">
                 <!-- <el-select class="button-switch-scene" v-if="typeSelected === 'SIM'" v-model="scenario"
                     placeholder="Select">
                     <el-option @click="switchScene(item.value)" v-for="item in sceneList" :key="item.value"
@@ -631,6 +633,15 @@ const getSwitchObj = (scenario: string) => {
                 position: absolute;
                 right: -5rem;
                 bottom: -4rem;
+                // z-index: 98;
+            }
+
+            .img-flat-png {
+                // border: 1px solid;
+                width: 64rem;
+                position: absolute;
+                left: -3rem;
+                bottom: -3rem;
                 // z-index: 98;
             }
 

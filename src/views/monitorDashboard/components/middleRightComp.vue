@@ -116,6 +116,7 @@ let option: any = {
         type: 'category',
         boundaryGap: false,
         axisLabel: {
+            rotate: 30, // 设置文字倾斜的角度
             // interval: 1,//显示x轴标签间隔
             textStyle: {
                 color: '#fff',

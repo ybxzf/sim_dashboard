@@ -5,7 +5,7 @@
                 <span style="width: 10rem;">电量分解</span>
                 <div class="chart-button-ctn">
                     <div>
-                        <span class="chart-button-img-1" @click="init('DAY')">
+                        <span class="chart-button-img-1" @click="typeSelected !== 'DAY'?init('DAY'):''">
                             <img v-if="typeSelected === 'DAY'"
                                 src="../../../assets/images/monitorDashboard/button_2_click.png">
                             <img v-else src="../../../assets/images/monitorDashboard/button_2_not_click.png">
@@ -13,7 +13,7 @@
                         <span>日电量</span>
                     </div>
                     <div>
-                        <span class="chart-button-img-2" @click="init('MONTH')">
+                        <span class="chart-button-img-2" @click="typeSelected !== 'MONTH'?init('MONTH'):''">
                             <img v-if="typeSelected === 'MONTH'"
                                 src="../../../assets/images/monitorDashboard/button_2_click.png">
                             <img v-else src="../../../assets/images/monitorDashboard/button_2_not_click.png">
@@ -136,9 +136,6 @@ onMounted(() => {
     });
 });
 const init = async (dateType: string = 'DAY') => {
-    if (typeSelected.value === dateType) {
-        return ;
-    }
     // console.log(date.value, month.value);
     typeSelected.value = dateType;
     optionsData.value.length = 0;

@@ -122,6 +122,7 @@ let option: any = {
         type: 'category',
         boundaryGap: false,
         axisLabel: {
+            rotate: 30, // 设置文字倾斜的角度
             // interval: 0,//显示所有标签
             textStyle: {
                 color: '#fff',
