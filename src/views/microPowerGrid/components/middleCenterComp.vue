@@ -123,7 +123,23 @@ const scenario = ref<string>('');
 const scenarioBackup = ref<string>(scenario.value);
 const dialogVisible = ref<boolean>(false);
 const switchLoading = ref<boolean>(false);
-const sceneList = ref<any[]>([]);
+const sceneList = ref<any[]>([
+    // {
+    //     label: '',
+    //     value: '',
+    //     describe: '',
+    //     switchObj: {
+    //         k1: false,
+    //         k2: true,
+    //         k3: true,
+    //         k4: false,
+    //         k5: true,
+    //         k6: false,
+    //         k7: false,
+    //         k8: true,
+    //     }
+    // }
+]);
 
 // const sceneList = ref<any[]>([
 //     {
@@ -166,7 +182,9 @@ const switchObj = ref<any>({
 
 onMounted(() => {
     getSceneList().then((res: any) => {
-        sceneList.value = res;
+        if (res.code === 0) {
+            sceneList.value = res.data;
+        }
     })
     init();
 });

@@ -1,18 +1,31 @@
 <template>
     <div class="flex-item-ctn">
         <div class="flex-item">
-            <span class="item-title">示范小区光储充微电网</span>
+            <span class="item-title">{{ title }}</span>
         </div>
     </div>
 </template>
 <script setup lang="ts">
 import { ref, reactive, watch, onMounted, onBeforeUnmount } from "vue";
+import { getTitle } from "@/utils/api/microPowerGridServer";
+import { ElMessage } from 'element-plus'
 
-
-const init = async () => { };
+const title = ref<string>("");
 onMounted(() => {
     init();
 });
+const init = async () => {
+    getTitle().then((res: any) => {
+        if (res.code === 0) {
+            title.value = res.msg;
+        }
+    }).catch((_err: any) => {
+        ElMessage({
+            message: `标题请求失败！`,
+            type: 'error',
+        });
+    })
+};
 </script>
 <style lang="less" scoped>
 .flex-item-ctn {

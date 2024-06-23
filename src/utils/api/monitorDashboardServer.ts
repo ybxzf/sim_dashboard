@@ -1201,3 +1201,14 @@ export function getTemperatureInfo() {
   //   })
   // })
 }
+
+/**
+ * 获取首页标题数据
+ * @returns 首页标题数据
+ */
+export function getTitle() {
+  return $axios({
+    method: "get",
+    url: BASE_URL + "/api/bigScreen/bigJyfhScreenInfo",
+  });
+}

@@ -1487,12 +1487,23 @@ export function getCnCdzStatus() {
 }
 
 /**
- * 获取光伏充电状态数据
- * @returns 光伏充电状态数据
+ * 获取场景切换sceneList配置文件数据
+ * @returns 场景切换sceneList配置文件数据
  */
 export function getSceneList() {
   return $axios({
     method: "get",
-    url: "/sceneList.JSON",
+    url: BASE_URL + "/api/bigScreen/bigScreenCjqhQuery",
+  });
+}
+
+/**
+ * 获取首页标题数据
+ * @returns 首页标题数据
+ */
+export function getTitle() {
+  return $axios({
+    method: "get",
+    url: BASE_URL + "/api/bigScreen/bigScreenInfo",
   });
 }
