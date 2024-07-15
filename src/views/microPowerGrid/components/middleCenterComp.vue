@@ -9,42 +9,58 @@
                     :src="`${baseURL}images/microPowerGrid/${typeSelected === 'SIM' ? 'button_1_click' : 'button_1_not_click'}.png`">
                 <div class="title-button">仿真场景</div>
             </div>
-            <div class="item-ctn" v-loading="switchLoading" element-loading-background="rgba(122, 122, 122, 0.4)"
-                :style="{
-                    backgroundImage: `url('${typeSelected === 'SIM' ? baseURL + 'images/microPowerGrid/sim_scene.png' : ''}')`,
-                    backgroundSize: `${typeSelected === 'SIM' ? '100% 100%' : '100% 120%'}`,
-                    // backgroundPosition: `${typeSelected === 'SIM' ? 'center' : '-39rem -5rem'}`,
-                    // border:'1px solid'
-                }">
-                <!-- <object class="img-flat" v-if="typeSelected === 'FLAT'"
-                    :data="`${baseURL}images/microPowerGrid/roof_flat.svg`" type="image/svg+xml" alt="顶楼平面图"></object> -->
+            <div class="item-ctn" v-loading="switchLoading" element-loading-background="rgba(122, 122, 122, 0.4)" :style="{
+                backgroundImage: `url('${typeSelected === 'SIM' ? baseURL + 'images/microPowerGrid/sim_scene.png' : ''}')`,
+                backgroundSize: `${typeSelected === 'SIM' ? '100% 100%' : '100% 120%'}`,
+            }">
                 <img class="img-flat-png" v-if="typeSelected === 'FLAT'"
                     :src="`${baseURL}images/microPowerGrid/roof_flat.png`" alt="顶楼平面图">
-                <!-- <el-select class="button-switch-scene" v-if="typeSelected === 'SIM'" v-model="scenario"
-                    placeholder="Select">
-                    <el-option @click="switchScene(item.value)" v-for="item in sceneList" :key="item.value"
-                        :label="item.label" :value="item.value">
-                        <el-tooltip effect="customized" :content="item.describe" placement="top">
-                            <span>
-                                {{ item.label }}
-                            </span>
-                        </el-tooltip>
-                    </el-option>
-                </el-select> -->
                 <div class="button-switch-scene" v-if="typeSelected === 'SIM'" @click="dialogVisible = true"></div>
                 <div class="button-exchange-home" v-if="typeSelected === 'SIM'" @click="switchHome()"></div>
                 <canvas id="canvas" class="item-canvas-line" v-show="typeSelected === 'SIM'"></canvas>
+                <div class="item-switch" v-if="typeSelected === 'SIM'" style="top: 7rem;right: 3.05rem;">
+                    <span>k7</span>
+                    <img :style="{ width: switchObj['k7'] ? '1.4rem' : '1.45rem' }"
+                        :src="`${baseURL}images/microPowerGrid/${switchObj['k7'] ? 'line_on_new' : 'line_off_new'}.png`">
+                </div>
                 <div class="item-switch" v-if="typeSelected === 'SIM'" style="top: 12rem;left: 29rem;">
                     <span>k1</span>
                     <img :style="{ width: switchObj['k1'] ? '1.4rem' : '1.45rem' }"
-                        :src="`${baseURL}images/microPowerGrid/${switchObj['k1'] ? 'line_on' : 'line_off1'}.png`">
+                        :src="`${baseURL}images/microPowerGrid/${switchObj['k1'] ? 'line_on_new_red' : 'line_off1'}.png`">
                 </div>
-                <!-- <div class="item-switch" v-if="typeSelected === 'SIM'" style="top: 16rem;left: 1.33rem;">
-                    <span>k2</span>
-                    <img :style="{ width: switchObj['k2'] ? '1.4rem' : '1.5rem' }"
-                        :src="`${baseURL}images/microPowerGrid/${switchObj['k2'] ? 'line_on_new' : 'line_off_new'}.png`">
-                </div> -->
-                <div class="item-switch" v-if="typeSelected === 'SIM'" style="top: 18.1rem;left: 17.37rem;">
+                <div class="item-switch" v-if="typeSelected === 'SIM'" style="top: 15.95rem;left: 18.52rem;">
+                    <span>k4</span>
+                    <img :style="{ width: switchObj['k4'] ? '1.4rem' : '1.5rem' }"
+                        :src="`${baseURL}images/microPowerGrid/${switchObj['k4'] ? 'line_on_new_red' : 'line_off_new'}.png`">
+                </div>
+                <div class="item-switch" v-if="typeSelected === 'SIM'" style="top: 15.95rem;left: 37.68rem;">
+                    <img :style="{ width: switchObj['k6'] ? '1.4rem' : '1.45rem' }"
+                        :src="`${baseURL}images/microPowerGrid/${switchObj['k6'] ? 'line_on_new_red' : 'line_off_new'}.png`">
+                    <span>k6</span>
+                </div>
+                <div class="item-switch" v-if="typeSelected === 'SIM'" style="top: 17.54rem;left: 21.81rem;">
+                    <img :style="{ width: switchObj['k3'] ? '1.4rem' : '1.5rem' }"
+                        :src="`${baseURL}images/microPowerGrid/${switchObj['k3'] ? 'line_on_new' : 'line_off_new'}.png`">
+                    <span>k3</span>
+                </div>
+                <div class="item-switch" v-if="typeSelected === 'SIM'" style="top: 17.55rem;left: 31.25rem;">
+                    <span>k5</span>
+                    <img :style="{
+                        width: switchObj['k5'] ? '1.4rem' : '1.5rem',
+                        transform: 'scaleX(-1)'
+                    }"
+                        :src="`${baseURL}images/microPowerGrid/${switchObj['k5'] ? 'line_on_new' : 'line_off_new'}.png`">
+                </div>
+                <div class="item-switch" v-if="typeSelected === 'SIM'"
+                    style="top: 19.375rem;left: 48.45rem; flex-direction: column;">
+                    <d>k8</d>
+                    <img :style="{
+                        width: switchObj['k8'] ? '1.4rem' : '1.45rem',
+                        transform: 'rotate(-90deg)'
+                    }"
+                        :src="`${baseURL}images/microPowerGrid/${switchObj['k8'] ? 'line_on_new' : 'line_off_new'}.png`">
+                </div>
+                <!-- <div class="item-switch" v-if="typeSelected === 'SIM'" style="top: 18.1rem;left: 17.37rem;">
                     <span>k3</span>
                     <img :style="{ width: switchObj['k3'] ? '1.4rem' : '1.5rem' }"
                         :src="`${baseURL}images/microPowerGrid/${switchObj['k3'] ? 'line_on_new' : 'line_off_new'}.png`">
@@ -73,7 +89,8 @@
                     <span>k7</span>
                     <img :style="{ width: switchObj['k7'] ? '1.4rem' : '1.45rem' }"
                         :src="`${baseURL}images/microPowerGrid/${switchObj['k7'] ? 'line_on_new' : 'line_off_new'}.png`">
-                </div>
+                </div> -->
+
             </div>
             <div v-if="typeSelected === 'SIM'" class="scene-describe">{{ scenarioBackup ?
                 sceneList[Number(scenarioBackup) - 1].describe : '' }}</div>
@@ -82,9 +99,6 @@
     <el-dialog v-model="dialogVisible" width="75rem" :before-close="handleClose">
         <template #title>
             <img :src="`${baseURL}images/microPowerGrid/scene_switch.png`" alt="场景切换" style="height: 3rem;">
-            <!-- <span style="font-size: 2rem">
-                场景切换
-            </span> -->
         </template>
         <el-radio-group v-model="scenario" class="ml-4">
             <el-radio :value="item.value" size="large" v-for="item in sceneList " :key="item.value">
@@ -95,18 +109,14 @@
                 <div class="text-explain">{{ item.describe }}</div>
             </el-radio>
         </el-radio-group>
-        <!-- <span>确定执行切换操作？</span> -->
         <template #footer>
             <div class="dialog-footer">
                 <img @click="cancel" :src="`${baseURL}images/microPowerGrid/cancel_button.png`" alt="取消">
                 <img @click="confirm" :style="{
                     cursor: scenarioBackup === scenario ? 'not-allowed' : 'pointer'
-                }" :src="`${baseURL}images/microPowerGrid/${scenarioBackup === scenario ? 'not_switch' : 'is_switch'}.png`"
+                }"
+                    :src="`${baseURL}images/microPowerGrid/${scenarioBackup === scenario ? 'not_switch' : 'is_switch'}.png`"
                     alt="改变">
-                <!-- <el-button style="color: black !important;">取消</el-button>
-                <el-button type="primary" :disabled="scenarioBackup === scenario">
-                    {{ scenarioBackup === scenario ? "未改变" : "切换" }}
-                </el-button> -->
             </div>
         </template>
     </el-dialog>
@@ -120,7 +130,7 @@ import { ElMessageBox, ElMessage } from 'element-plus'
 const route: any = useRoute();
 const router: any = useRouter();
 const baseURL: any = import.meta.env.BASE_URL;
-const typeSelected = ref<string>('FLAT');
+const typeSelected = ref<string>('SIM');
 const scenario = ref<string>('');
 const scenarioBackup = ref<string>(scenario.value);
 const dialogVisible = ref<boolean>(false);
@@ -172,14 +182,14 @@ const sceneList = ref<any[]>([
 // ]);
 
 const switchObj = ref<any>({
-    k1: false,
+    k1: true,
     k2: true,
-    k3: true,
+    k3: false,
     k4: false,
-    k5: true,
+    k5: false,
     k6: false,
     k7: false,
-    k8: true,
+    k8: false,
 });
 
 onMounted(() => {
@@ -205,7 +215,7 @@ watch(() => scenarioBackup.value,
     }
 )
 
-const init = async (dateType: string = 'FLAT') => {
+const init = async (dateType: string = 'SIM') => {
     typeSelected.value = dateType;
     if (!window.localStorage.getItem('scenario')) {
         window.localStorage.setItem('scenario', '1');
@@ -281,114 +291,70 @@ const switchHome = () => {
 
 const canvasColor = (obj: any) => {
     const canvas: any = document.getElementById('canvas');
-    const ctx = canvas.getContext('2d');
+    const ctx: any = canvas.getContext('2d');
+    const greenLine: string = "rgba(0, 255, 76, 1)";
+    const greyLine: string = "rgba(170, 170, 170, 1)";
+    const redLine: string = "rgba(255, 30, 16, 1)";
     // 第一条线（市电-充电桩）
     ctx.beginPath();
     ctx.moveTo(234.5, 30.5);
     ctx.lineTo(280.5, 30.5);
     ctx.lineTo(280.5, 97.5);
-    ctx.strokeStyle = obj['k7'] ? 'rgba(0, 255, 76, 1)' : 'rgba(170, 170, 170, 1)';  // 设置线的颜色
+    ctx.strokeStyle = obj['k7'] ? redLine : greyLine;  // 设置线的颜色
     ctx.lineWidth = 1; // 设置线的宽度
     ctx.stroke();
-    //第二条线（光伏-充电桩）第一段
+    //第二条线（光伏-储能设备）
     ctx.beginPath();
     ctx.moveTo(17.5, 111.5);
-    ctx.lineTo(17.5, 96);
-    ctx.strokeStyle = obj['k2'] ? 'rgba(0, 255, 76, 1)' : 'rgba(170, 170, 170, 1)';  // 设置线的颜色
+    ctx.lineTo(17.5, 99.5);
+    ctx.lineTo(99.5, 99.5);
+    ctx.strokeStyle = greenLine;  // 设置线的颜色
     ctx.lineWidth = 1; // 设置线的宽度
     ctx.stroke();
-    //第二条线（光伏-充电桩）第二段
+    //第三条线（储能设备k4-k1分叉）
     ctx.beginPath();
-    ctx.moveTo(17.5, 96.5);
-    ctx.lineTo(100.5, 96.5);
-    ctx.strokeStyle = obj['k2'] ? 'rgba(0, 255, 76, 1)' : 'rgba(170, 170, 170, 1)';  // 设置线的颜色
-    ctx.lineWidth = 1; // 设置线的宽度
-    ctx.stroke();
-    //第二条线（光伏-充电桩）第三段
-    ctx.beginPath();
-    ctx.moveTo(110.5, 68.5);
+    ctx.moveTo(106.5, 97);
+    ctx.lineTo(106.5, 68.5);
     ctx.lineTo(160.5, 68.5);
-    ctx.strokeStyle = (obj['k1'] && (obj['k3'] || obj['k4'])) ||
-        (obj['k8'] && (obj['k3'] || obj['k4']))
-        ? 'rgba(0, 255, 76, 1)' : 'rgba(170, 170, 170, 1)';  // 设置线的颜色
+    ctx.strokeStyle = 'rgba(255, 30, 16, 1)';  // 设置线的颜色
     ctx.lineWidth = 1; // 设置线的宽度
     ctx.stroke();
-    //第二条线（光伏-充电桩）第四段
+    //第四条线（k1分叉-k6）
     ctx.beginPath();
     ctx.moveTo(160.5, 68.5);
-    ctx.lineTo(188.5, 68.5);
-    ctx.strokeStyle = obj['k1'] ||
-        (obj['k2'] && (obj['k5'] || obj['k6'] || obj['k8'])) ||
-        (obj['k8'] && (obj['k3'] || obj['k4'] || obj['k2']))
-        ? 'rgba(0, 255, 76, 1)' : 'rgba(170, 170, 170, 1)';  // 设置线的颜色
+    ctx.lineTo(198.5, 68.5);
+    ctx.lineTo(198.5, 93.5);
+    ctx.lineTo(185.5, 93.5);
+    ctx.strokeStyle = 'rgba(0, 255, 76, 1)';  // 设置线的颜色
     ctx.lineWidth = 1; // 设置线的宽度
     ctx.stroke();
-    //第二条线（光伏-充电桩）第五段
+    //第5条线（k3-k5-家用负荷的第一个分叉）
     ctx.beginPath();
-    ctx.moveTo(188.5, 68.5);
-    ctx.lineTo(267.5, 68.5);
-    ctx.strokeStyle = obj['k8'] ? 'rgba(0, 255, 76, 1)' : 'rgba(170, 170, 170, 1)';  // 设置线的颜色
+    ctx.moveTo(116.5, 97);
+    ctx.lineTo(116.5, 75.5);
+    ctx.lineTo(172.5, 75.5);
+    ctx.lineTo(172.5, 93.5);
+    ctx.lineTo(185.5, 93.5);
+    ctx.lineTo(185.5, 97.5);
+    ctx.strokeStyle = 'rgba(0, 255, 76, 1)';  // 设置线的颜色
     ctx.lineWidth = 1; // 设置线的宽度
     ctx.stroke();
-    //第二条线（光伏-充电桩）第六段
+    //第6条线（公共线，家用负荷-家用负荷的第一个分叉）
     ctx.beginPath();
-    ctx.moveTo(267.5, 68.5);
-    ctx.lineTo(267.5, 99.5);
-    ctx.strokeStyle = obj['k8'] ? 'rgba(0, 255, 76, 1)' : 'rgba(170, 170, 170, 1)';  // 设置线的颜色
+    ctx.moveTo(185.5, 97.5);
+    ctx.lineTo(185.5, 104.5);
+    ctx.strokeStyle = 'rgba(0, 255, 76, 1)';  // 设置线的颜色
     ctx.lineWidth = 1; // 设置线的宽度
     ctx.stroke();
-    //第三、四条线（储能设备）及公共线
+    //第7条线（家用负荷的第一个分叉-充电桩）
     ctx.beginPath();
-    // ctx.moveTo(110.5, 68.5);
-    // ctx.lineTo(110.5, 77.5);
-    ctx.moveTo(110.5, 77.5);
-    ctx.lineTo(100.5, 77.5);
-    ctx.lineTo(100.5, 97.5);
-    ctx.strokeStyle = obj['k3'] ? 'rgba(0, 255, 76, 1)' : 'rgba(170, 170, 170, 1)';  // 设置线的颜色
+    ctx.moveTo(185.5, 97.5);
+    ctx.lineTo(265.5, 97.5);
+    ctx.lineTo(265.5, 100.5);
+    ctx.strokeStyle = 'rgba(0, 255, 76, 1)';  // 设置线的颜色
     ctx.lineWidth = 1; // 设置线的宽度
     ctx.stroke();
-    ctx.beginPath();
-    // ctx.moveTo(110.5, 68.5);
-    // ctx.lineTo(110.5, 77.5);
-    ctx.moveTo(110.5, 77.5);
-    ctx.lineTo(120.5, 77.5);
-    ctx.lineTo(120.5, 97.5);
-    ctx.strokeStyle = obj['k4'] ? 'rgba(0, 255, 76, 1)' : 'rgba(170, 170, 170, 1)';  // 设置线的颜色
-    ctx.lineWidth = 1; // 设置线的宽度
-    ctx.stroke();
-    //公共线
-    ctx.beginPath();
-    ctx.moveTo(110.5, 68.5);
-    ctx.lineTo(110.5, 77.5);
-    ctx.strokeStyle = obj['k3'] || obj['k4'] ? 'rgba(0, 255, 76, 1)' : 'rgba(170, 170, 170, 1)';  // 设置线的颜色
-    ctx.lineWidth = 1; // 设置线的宽度
-    ctx.stroke();
-    //第五、六条线（储能设备）及公共线
-    ctx.beginPath();
-    // ctx.moveTo(188.5, 68.5);
-    // ctx.lineTo(188.5, 77.5);
-    ctx.moveTo(188.5, 77.5);
-    ctx.lineTo(178.5, 77.5);
-    ctx.lineTo(178.5, 104.5);
-    ctx.strokeStyle = obj['k5'] ? 'rgba(0, 255, 76, 1)' : 'rgba(170, 170, 170, 1)';  // 设置线的颜色
-    ctx.lineWidth = 1; // 设置线的宽度
-    ctx.stroke();
-    ctx.beginPath();
-    // ctx.moveTo(188.5, 68.5);
-    // ctx.lineTo(188.5, 77.5);
-    ctx.moveTo(188.5, 77.5);
-    ctx.lineTo(198.5, 77.5);
-    ctx.lineTo(198.5, 103.5);
-    ctx.strokeStyle = obj['k6'] ? 'rgba(0, 255, 76, 1)' : 'rgba(170, 170, 170, 1)';  // 设置线的颜色
-    ctx.lineWidth = 1; // 设置线的宽度
-    ctx.stroke();
-    //公共线
-    ctx.beginPath();
-    ctx.moveTo(188.5, 68.5);
-    ctx.lineTo(188.5, 77.5);
-    ctx.strokeStyle = obj['k5'] || obj['k6'] ? 'rgba(0, 255, 76, 1)' : 'rgba(170, 170, 170, 1)';  // 设置线的颜色
-    ctx.lineWidth = 1; // 设置线的宽度
-    ctx.stroke();
+
 }
 
 const switchOnOff = (serial: string) => {
