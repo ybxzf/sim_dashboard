@@ -9,26 +9,27 @@
                     :src="`${baseURL}images/microPowerGrid/${typeSelected === 'SIM' ? 'button_1_click' : 'button_1_not_click'}.png`">
                 <div class="title-button">仿真场景</div>
             </div>
-            <div class="item-ctn" v-loading="switchLoading" element-loading-background="rgba(122, 122, 122, 0.4)" :style="{
-                backgroundImage: `url('${typeSelected === 'SIM' ? baseURL + 'images/microPowerGrid/sim_scene.png' : ''}')`,
-                backgroundSize: `${typeSelected === 'SIM' ? '100% 100%' : '100% 120%'}`,
-            }">
+            <div class="item-ctn" v-loading="switchLoading" element-loading-background="rgba(122, 122, 122, 0.4)"
+                :style="{
+                    backgroundImage: `url('${typeSelected === 'SIM' ? baseURL + 'images/microPowerGrid/sim_scene.png' : ''}')`,
+                    backgroundSize: `${typeSelected === 'SIM' ? '100% 100%' : '100% 120%'}`,
+                }">
                 <img class="img-flat-png" v-if="typeSelected === 'FLAT'"
                     :src="`${baseURL}images/microPowerGrid/roof_flat.png`" alt="顶楼平面图">
                 <div class="button-switch-scene" v-if="typeSelected === 'SIM'" @click="dialogVisible = true"></div>
                 <div class="button-exchange-home" v-if="typeSelected === 'SIM'" @click="switchHome()"></div>
                 <canvas id="canvas" class="item-canvas-line" v-show="typeSelected === 'SIM'"></canvas>
-                <div class="item-switch" v-if="typeSelected === 'SIM'" style="top: 7rem;right: 3.05rem;">
+                <div class="item-switch" v-if="typeSelected === 'SIM'" style="top: 7.05rem;right: 3.05rem;">
                     <span>k7</span>
                     <img :style="{ width: switchObj['k7'] ? '1.4rem' : '1.45rem' }"
-                        :src="`${baseURL}images/microPowerGrid/${switchObj['k7'] ? 'line_on_new' : 'line_off_new'}.png`">
+                        :src="`${baseURL}images/microPowerGrid/${switchObj['k7'] ? 'line_on_new_red' : 'line_off_new'}.png`">
                 </div>
-                <div class="item-switch" v-if="typeSelected === 'SIM'" style="top: 12rem;left: 29rem;">
+                <div class="item-switch" v-if="typeSelected === 'SIM'" style="top: 11.95rem;left: 29rem;">
                     <span>k1</span>
                     <img :style="{ width: switchObj['k1'] ? '1.4rem' : '1.45rem' }"
-                        :src="`${baseURL}images/microPowerGrid/${switchObj['k1'] ? 'line_on_new_red' : 'line_off1'}.png`">
+                        :src="`${baseURL}images/microPowerGrid/${switchObj['k1'] ? 'line_on_red' : 'line_off1'}.png`">
                 </div>
-                <div class="item-switch" v-if="typeSelected === 'SIM'" style="top: 15.95rem;left: 18.52rem;">
+                <div class="item-switch" v-if="typeSelected === 'SIM'" style="top: 15.95rem;left: 18.53rem;">
                     <span>k4</span>
                     <img :style="{ width: switchObj['k4'] ? '1.4rem' : '1.5rem' }"
                         :src="`${baseURL}images/microPowerGrid/${switchObj['k4'] ? 'line_on_new_red' : 'line_off_new'}.png`">
@@ -114,8 +115,7 @@
                 <img @click="cancel" :src="`${baseURL}images/microPowerGrid/cancel_button.png`" alt="取消">
                 <img @click="confirm" :style="{
                     cursor: scenarioBackup === scenario ? 'not-allowed' : 'pointer'
-                }"
-                    :src="`${baseURL}images/microPowerGrid/${scenarioBackup === scenario ? 'not_switch' : 'is_switch'}.png`"
+                }" :src="`${baseURL}images/microPowerGrid/${scenarioBackup === scenario ? 'not_switch' : 'is_switch'}.png`"
                     alt="改变">
             </div>
         </template>
@@ -184,12 +184,12 @@ const sceneList = ref<any[]>([
 const switchObj = ref<any>({
     k1: true,
     k2: true,
-    k3: false,
-    k4: false,
-    k5: false,
-    k6: false,
-    k7: false,
-    k8: false,
+    k3: true,
+    k4: true,
+    k5: true,
+    k6: true,
+    k7: true,
+    k8: true,
 });
 
 onMounted(() => {
@@ -294,7 +294,7 @@ const canvasColor = (obj: any) => {
     const ctx: any = canvas.getContext('2d');
     const greenLine: string = "rgba(0, 255, 76, 1)";
     const greyLine: string = "rgba(170, 170, 170, 1)";
-    const redLine: string = "rgba(255, 30, 16, 1)";
+    const redLine: string = "rgba(255, 0, 0, 1)";
     // 第一条线（市电-充电桩）
     ctx.beginPath();
     ctx.moveTo(234.5, 30.5);
@@ -316,16 +316,16 @@ const canvasColor = (obj: any) => {
     ctx.moveTo(106.5, 97);
     ctx.lineTo(106.5, 68.5);
     ctx.lineTo(160.5, 68.5);
-    ctx.strokeStyle = 'rgba(255, 30, 16, 1)';  // 设置线的颜色
+    ctx.strokeStyle = obj['k4'] ? redLine : greyLine;  // 设置线的颜色
     ctx.lineWidth = 1; // 设置线的宽度
     ctx.stroke();
     //第四条线（k1分叉-k6）
     ctx.beginPath();
-    ctx.moveTo(160.5, 68.5);
+    ctx.moveTo(160, 68.5);
     ctx.lineTo(198.5, 68.5);
     ctx.lineTo(198.5, 93.5);
     ctx.lineTo(185.5, 93.5);
-    ctx.strokeStyle = 'rgba(0, 255, 76, 1)';  // 设置线的颜色
+    ctx.strokeStyle = obj['k6'] ? redLine : greyLine;  // 设置线的颜色
     ctx.lineWidth = 1; // 设置线的宽度
     ctx.stroke();
     //第5条线（k3-k5-家用负荷的第一个分叉）
@@ -336,14 +336,14 @@ const canvasColor = (obj: any) => {
     ctx.lineTo(172.5, 93.5);
     ctx.lineTo(185.5, 93.5);
     ctx.lineTo(185.5, 97.5);
-    ctx.strokeStyle = 'rgba(0, 255, 76, 1)';  // 设置线的颜色
+    ctx.strokeStyle = (obj['k3'] && obj['k5']) ? greenLine : greyLine;  // 设置线的颜色
     ctx.lineWidth = 1; // 设置线的宽度
     ctx.stroke();
     //第6条线（公共线，家用负荷-家用负荷的第一个分叉）
     ctx.beginPath();
     ctx.moveTo(185.5, 97.5);
     ctx.lineTo(185.5, 104.5);
-    ctx.strokeStyle = 'rgba(0, 255, 76, 1)';  // 设置线的颜色
+    ctx.strokeStyle = (obj['k3'] && obj['k5']) || obj['k8'] ? greenLine : greyLine;  // 设置线的颜色
     ctx.lineWidth = 1; // 设置线的宽度
     ctx.stroke();
     //第7条线（家用负荷的第一个分叉-充电桩）
@@ -351,7 +351,7 @@ const canvasColor = (obj: any) => {
     ctx.moveTo(185.5, 97.5);
     ctx.lineTo(265.5, 97.5);
     ctx.lineTo(265.5, 100.5);
-    ctx.strokeStyle = 'rgba(0, 255, 76, 1)';  // 设置线的颜色
+    ctx.strokeStyle = obj['k8'] ? greenLine : greyLine;  // 设置线的颜色
     ctx.lineWidth = 1; // 设置线的宽度
     ctx.stroke();
 
