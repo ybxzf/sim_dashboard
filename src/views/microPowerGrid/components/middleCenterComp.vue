@@ -130,7 +130,7 @@ import { ElMessageBox, ElMessage } from 'element-plus'
 const route: any = useRoute();
 const router: any = useRouter();
 const baseURL: any = import.meta.env.BASE_URL;
-const typeSelected = ref<string>('SIM');
+const typeSelected = ref<string>('FLAT');
 const scenario = ref<string>('');
 const scenarioBackup = ref<string>(scenario.value);
 const dialogVisible = ref<boolean>(false);
@@ -192,13 +192,18 @@ const switchObj = ref<any>({
     k8: true,
 });
 
-onMounted(() => {
-    getSceneList().then((res: any) => {
-        if (res.code === 0) {
-            sceneList.value = res.data;
-        }
-    })
+onMounted(async () => {
+    // getSceneList().then((res: any) => {
+    //     if (res.code === 0) {
+    //         sceneList.value = res.data;
+    //     }
+    // })
+    const res: any = await getSceneList();
+    if (res.code === 0) {
+        sceneList.value = res.data;
+    }
     init();
+    // init(String(window.localStorage.getItem('typeSelected')));
 });
 // watch(() => switchObj.value,
 //     (_nv: any) => {
@@ -215,8 +220,9 @@ watch(() => scenarioBackup.value,
     }
 )
 
-const init = async (dateType: string = 'SIM') => {
+const init = async (dateType: string = 'FLAT') => {
     typeSelected.value = dateType;
+    // window.localStorage.setItem('typeSelected', dateType);
     if (!window.localStorage.getItem('scenario')) {
         window.localStorage.setItem('scenario', '1');
         scenario.value = '1';

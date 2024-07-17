@@ -1,17 +1,51 @@
 <template>
-  <div id="app">
+  <div id="app" @mousemove="resetTimer" @mousedown="resetTimer" @keypress="resetTimer" @touchstart="resetTimer">
     <router-view />
   </div>
 </template>
 <script setup lang="ts">
 import { RouterLink, RouterView } from 'vue-router'
-import { onMounted } from "vue";
+import { ref, onMounted, onBeforeUnmount } from "vue";
+
+const timer = ref<any>(null);
 
 onMounted(() => {
-  //10分钟刷新一次页面
-  setInterval(() => {
-    window.location.reload();
-  }, 1000 * 60 * 10)
+  startTimer();
+  //监听鼠标键盘所有事件，触发时重置刷新时间
+  window.addEventListener('mousemove', resetTimer);
+  window.addEventListener('mousedown', resetTimer);
+  window.addEventListener('keypress', resetTimer);
+  window.addEventListener('touchstart', resetTimer);
+});
+
+const startTimer = () => {
+  clearTimer();
+  timer.value = setTimeout(() => {
+    handleInactivity();
+  }, 1000 * 60 * 15);
+};
+
+const clearTimer = () => {
+  if (timer.value) {
+    clearTimeout(timer.value);
+  }
+};
+
+const resetTimer = () => {
+  startTimer();
+};
+
+const handleInactivity = () => {
+  //设置超时刷新
+  window.location.reload();
+};
+
+onBeforeUnmount(() => {
+  clearTimer();
+  window.removeEventListener('mousemove', resetTimer);
+  window.removeEventListener('mousedown', resetTimer);
+  window.removeEventListener('keypress', resetTimer);
+  window.removeEventListener('touchstart', resetTimer);
 });
 </script>
 
