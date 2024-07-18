@@ -59,7 +59,7 @@
                         width: switchObj['k8'] ? '1.4rem' : '1.45rem',
                         transform: 'rotate(-90deg)'
                     }"
-                        :src="`${baseURL}images/microPowerGrid/${switchObj['k8'] ? 'line_on_new' : 'line_off_new'}.png`">
+                        :src="`${baseURL}images/microPowerGrid/${switchObj['k8'] ? Number(scenarioBackup) === 3 ? 'line_on_new_red' : 'line_on_new' : 'line_off_new'}.png`">
                 </div>
                 <!-- <div class="item-switch" v-if="typeSelected === 'SIM'" style="top: 18.1rem;left: 17.37rem;">
                     <span>k3</span>
@@ -331,6 +331,7 @@ const canvasColor = (obj: any) => {
     ctx.lineTo(198.5, 68.5);
     ctx.lineTo(198.5, 93.5);
     ctx.lineTo(185.5, 93.5);
+    ctx.lineTo(185.5, 97.5);
     ctx.strokeStyle = obj['k6'] ? redLine : greyLine;  // 设置线的颜色
     ctx.lineWidth = 1; // 设置线的宽度
     ctx.stroke();
@@ -341,7 +342,9 @@ const canvasColor = (obj: any) => {
     ctx.lineTo(172.5, 75.5);
     ctx.lineTo(172.5, 93.5);
     ctx.lineTo(185.5, 93.5);
-    ctx.lineTo(185.5, 97.5);
+    if (Number(scenarioBackup.value) === 1 || Number(scenarioBackup.value) === 2) {
+        ctx.lineTo(185.5, 97.5);
+    }
     ctx.strokeStyle = (obj['k3'] && obj['k5']) ? greenLine : greyLine;  // 设置线的颜色
     ctx.lineWidth = 1; // 设置线的宽度
     ctx.stroke();
@@ -349,15 +352,15 @@ const canvasColor = (obj: any) => {
     ctx.beginPath();
     ctx.moveTo(185.5, 97.5);
     ctx.lineTo(185.5, 104.5);
-    ctx.strokeStyle = (obj['k3'] && obj['k5']) || obj['k8'] ? greenLine : greyLine;  // 设置线的颜色
+    ctx.strokeStyle = (obj['k3'] && obj['k5']) || obj['k8'] ? (Number(scenarioBackup.value) === 3 ? redLine : greenLine) : greyLine;  // 设置线的颜色
     ctx.lineWidth = 1; // 设置线的宽度
     ctx.stroke();
-    //第7条线（家用负荷的第一个分叉-充电桩）
+    //第7条线k8（家用负荷的第一个分叉-充电桩）
     ctx.beginPath();
     ctx.moveTo(185.5, 97.5);
     ctx.lineTo(265.5, 97.5);
     ctx.lineTo(265.5, 100.5);
-    ctx.strokeStyle = obj['k8'] ? greenLine : greyLine;  // 设置线的颜色
+    ctx.strokeStyle = obj['k8'] ? (Number(scenarioBackup.value) === 3 ? redLine : greenLine) : greyLine;  // 设置线的颜色
     ctx.lineWidth = 1; // 设置线的宽度
     ctx.stroke();
 
