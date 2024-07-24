@@ -2,7 +2,7 @@
     <div class="flex-item-ctn">
         <div class="flex-item">
             <div class="item-title">
-                <span>昨日电量统计</span>
+                <span>电量统计</span>
             </div>
             <!-- <img style="width: 100%; height : 16rem;" src="../../../assets/images/monitorDashboard/middleLeftTop.png"> -->
             <div class="content-cnt">
@@ -52,12 +52,12 @@ const runningData = ref<any[]>([
         unit: 'w',
     }, {
         imgName: 'daily_power_total',
-        title: '日总电量',
+        title: '昨日总电量',
         data: 0,
         unit: 'kWh',
     }, {
         imgName: 'month_power_total',
-        title: '累计电量',
+        title: '昨日累计电量',
         data: 0,
         unit: 'kWh',
     },

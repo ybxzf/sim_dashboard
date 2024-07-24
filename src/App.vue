@@ -10,6 +10,9 @@ import { ref, onMounted, onBeforeUnmount } from "vue";
 const timer = ref<any>(null);
 
 onMounted(() => {
+  if (String(window.sessionStorage.getItem('typeSelected')) == 'null') {
+    window.sessionStorage.setItem('typeSelected', 'FLAT');
+  }
   startTimer();
   //监听鼠标键盘所有事件，触发时重置刷新时间
   window.addEventListener('mousemove', resetTimer);

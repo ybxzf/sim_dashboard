@@ -10,7 +10,7 @@ export const realTimeDataStore = defineStore(
       photovoltaicIa: 0,  //电流
       photovoltaicTotal: 0,  //累计电量
       photovoltaicPz: 0,  //功率
-      photovoltaiDaily: 0, //日发电量
+      photovoltaiDaily: 0, //今日发电量
       //储能
       energyPower: 80, //电量
       energyPz: 0, //功率

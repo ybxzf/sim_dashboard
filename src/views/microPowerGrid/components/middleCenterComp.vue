@@ -130,7 +130,7 @@ import { ElMessageBox, ElMessage } from 'element-plus'
 const route: any = useRoute();
 const router: any = useRouter();
 const baseURL: any = import.meta.env.BASE_URL;
-const typeSelected = ref<string>('FLAT');
+const typeSelected = ref<string>(String(window.sessionStorage.getItem('typeSelected')));
 const scenario = ref<string>('');
 const scenarioBackup = ref<string>(scenario.value);
 const dialogVisible = ref<boolean>(false);
@@ -220,9 +220,9 @@ watch(() => scenarioBackup.value,
     }
 )
 
-const init = async (dateType: string = 'FLAT') => {
+const init = async (dateType: string = String(window.sessionStorage.getItem('typeSelected'))) => {
     typeSelected.value = dateType;
-    // window.localStorage.setItem('typeSelected', dateType);
+    window.sessionStorage.setItem('typeSelected', dateType);
     if (!window.localStorage.getItem('scenario')) {
         window.localStorage.setItem('scenario', '1');
         scenario.value = '1';

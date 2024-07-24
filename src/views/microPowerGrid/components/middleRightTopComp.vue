@@ -76,7 +76,7 @@ const contentData = computed(() => {
                 unit: 'kWh'
             }, {
                 iconName: 'daily_power_generate',
-                dataName: '日发电量',
+                dataName: '今日发电量',
                 realData: realStore.realTimeData.photovoltaiDaily,
                 unit: 'kWh'
             }, {

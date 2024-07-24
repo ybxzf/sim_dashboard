@@ -10,7 +10,7 @@
                                 src="../../../assets/images/microPowerGrid/button_2_click.png">
                             <img v-else src="../../../assets/images/microPowerGrid/button_2_not_click.png">
                         </span>
-                        <span>日发电量</span>
+                        <span>今日发电量</span>
                     </div>
                     <div>
                         <span class="chart-button-img-2" @click="init('WEEK')">

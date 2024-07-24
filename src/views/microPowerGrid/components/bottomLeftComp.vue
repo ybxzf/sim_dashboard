@@ -2,7 +2,7 @@
     <div class="flex-item-ctn">
         <div class="flex-item">
             <div class="item-title">
-                <span>光伏使用情况</span>
+                <span>累计光伏使用情况</span>
             </div>
             <div ref="chart3DRef" class="item-chart"></div>
             <div class="item-chart-title">
